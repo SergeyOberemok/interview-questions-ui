@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
+import { useAppStore } from '@/stores/app';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,14 @@ const router = createRouter({
       component: LoginView
     }
   ]
+});
+
+router.beforeEach(async (to, from) => {
+  const app = useAppStore();
+
+  if (!app.isAuth && to.name !== 'login') {
+    return { name: 'login' };
+  }
 });
 
 export default router;
