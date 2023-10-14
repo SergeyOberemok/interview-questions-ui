@@ -13,5 +13,9 @@ module.exports = {
   },
   rules: {
     'no-unused-vars': 'off'
+  },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   }
 };

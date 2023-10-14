@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
+import AddEditQuestionView from '@/views/AddEditQuestionView.vue';
 import { useAppStore } from '@/stores/app';
 
 const router = createRouter({
@@ -10,6 +11,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/add-question',
+      name: 'addQuestion',
+      component: AddEditQuestionView
     },
     {
       path: '/about',

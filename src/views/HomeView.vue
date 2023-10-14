@@ -1,5 +1,17 @@
-<script setup></script>
+<script setup>
+import QuestionsList from '@/components/QuestionsList.vue';
+</script>
 
 <template>
-  <main>Main</main>
+  <Suspense>
+    <template #default>
+      <div class="container mx-auto mt-20">
+        <QuestionsList />
+      </div>
+    </template>
+
+    <template #fallback>
+      <div class="container mx-auto self-center">Loading</div>
+    </template>
+  </Suspense>
 </template>
