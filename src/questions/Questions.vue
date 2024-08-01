@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, shallowRef } from 'vue'
+import AddQuestion from './components/AddQuestion.vue'
 import QuestionsList from './components/QuestionsList.vue'
 import { Question } from './shared/question.model'
 
@@ -23,14 +24,20 @@ async function fetchQuestions() {
     loading.value = false
   }
 }
+
+async function refreshQuestions() {
+  fetchQuestions()
+}
 </script>
 
 <template>
   <div class="container mx-auto">
-    <h1>Questions</h1>
+    <h1 class="mb-1 text-xl">Questions</h1>
 
     <div v-if="loading">Loading...</div>
 
-    <div v-if="questions.length"><QuestionsList :questions="questions" /></div>
+    <QuestionsList :questions="questions" class="mb-3" />
+
+    <AddQuestion @added="refreshQuestions" />
   </div>
 </template>

@@ -1,16 +1,20 @@
 <script setup>
+import QuestionItem from './QuestionItem.vue'
+
 const props = defineProps({
   questions: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 })
-
-const questions = props.questions
 </script>
 
 <template>
   <div class="wrapper">
-    <div v-for="question in questions" :key="question.id">{{ question.description }}</div>
+    <div v-if="!questions.length">Empty</div>
+
+    <div v-for="question in questions" :key="question.id">
+      <QuestionItem :question="question" />
+    </div>
   </div>
 </template>
