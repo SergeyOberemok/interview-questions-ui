@@ -3,6 +3,7 @@ import { ref } from 'vue'
 
 const description = ref('')
 const answer = ref('')
+const notes = ref('')
 const label = ref('')
 
 const emit = defineEmits(['added'])
@@ -11,13 +12,14 @@ async function formSubmit(event) {
   const body = {
     description: description.value,
     answers: [answer.value],
-    labels: [label.value]
+    notes: notes.value,
+    labels: [label.value],
   }
 
   const options = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   }
 
   const response = await fetch('/api/questions', options)
@@ -50,6 +52,17 @@ async function formSubmit(event) {
           placeholder="Answer"
           class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
           v-model.trim="answer"
+        ></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="notes">Notes</label>
+        <textarea
+          name="notes"
+          id="notes"
+          placeholder="Notes"
+          class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+          v-model.trim="notes"
         ></textarea>
       </div>
 
