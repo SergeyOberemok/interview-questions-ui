@@ -1,4 +1,6 @@
 <script setup>
+import CodeSnippet from '@/components/CodeSnippet.vue'
+
 const props = defineProps({
   question: Object,
   required: true,
@@ -10,10 +12,10 @@ const props = defineProps({
     <h3 class="mb-1">{{ question.description }}</h3>
 
     <div v-for="(answer, index) in question.answers" :key="index" class="mb-3">
-      <pre class="whitespace-pre text-sm">{{ answer }}</pre>
+      <CodeSnippet :text="answer.answer" :lang="answer.type" />
     </div>
 
-    <div class="mb-3">{{ question.notes }}</div>
+    <div v-if="question.notes" class="mb-3">{{ question.notes }}</div>
 
     <div class="flex">
       <div v-for="(label, index) in question.labels" :key="index" class="me-1">
