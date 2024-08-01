@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue'
 
+import { languages } from '@/core/shared/constants'
+
 const description = ref('')
 const answer = ref('')
+const answerType = ref('plain')
 const notes = ref('')
 const label = ref('')
 
@@ -11,7 +14,12 @@ const emit = defineEmits(['added'])
 async function formSubmit(event) {
   const body = {
     description: description.value,
-    answers: [answer.value],
+    answers: [
+      {
+        answer: answer.value,
+        type: answerType.value,
+      },
+    ],
     notes: notes.value,
     labels: [label.value],
   }
@@ -50,9 +58,20 @@ async function formSubmit(event) {
           name="answer"
           id="answer"
           placeholder="Answer"
-          class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+          class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200 mb-1"
           v-model.trim="answer"
         ></textarea>
+        <select
+          name="type"
+          id="type"
+          class="form-select rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+          v-model="answerType"
+        >
+          <option value="plain" selected>Text</option>
+          <option :value="type" v-for="[type, language] in Object.entries(languages)">
+            {{ language }}
+          </option>
+        </select>
       </div>
 
       <div class="mb-3">
