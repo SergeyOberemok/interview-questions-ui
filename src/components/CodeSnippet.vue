@@ -5,7 +5,7 @@ import 'prismjs/components/prism-sass'
 
 import { onMounted } from 'vue'
 
-import { languages } from '@/core/shared/constants'
+import { LANGUAGES } from '@/core/shared/constants'
 
 const props = defineProps({
   text: {
@@ -24,7 +24,7 @@ onMounted(() => {
 })
 
 function selectedLanguage() {
-  return languages[props.lang] || 'plain'
+  return LANGUAGES[props.lang] || 'plain'
 }
 </script>
 

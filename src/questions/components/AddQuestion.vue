@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 
-import { languages } from '@/core/shared/constants'
+import { LANGUAGES } from '@/core/shared/constants'
 
 const description = ref('')
 const answer = ref('')
@@ -68,7 +68,7 @@ async function formSubmit(event) {
           v-model="answerType"
         >
           <option value="plain" selected>Text</option>
-          <option :value="type" v-for="[type, language] in Object.entries(languages)">
+          <option :value="type" v-for="[type, language] in Object.entries(LANGUAGES)">
             {{ language }}
           </option>
         </select>
