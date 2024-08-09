@@ -1,4 +1,5 @@
 <script setup>
+import Search from '@/components/Search.vue'
 import { PAGINATION } from '@/core/shared/constants'
 import { onMounted, ref, shallowRef } from 'vue'
 import AddQuestion from './components/AddQuestion.vue'
@@ -8,18 +9,21 @@ import { Question } from './shared/question.model'
 const loading = ref(false)
 const questions = shallowRef([])
 const totalQuestionsCount = ref(0)
+const search = ref('')
+const page = ref(1)
 
 onMounted(async () => fetchQuestions())
 
-async function fetchQuestions(page = 1) {
+async function fetchQuestions() {
   loading.value = true
 
   try {
     const response = await fetch(
       '/api/questions?' +
         new URLSearchParams({
-          page,
+          page: page.value,
           size: PAGINATION.perPage,
+          search: search.value,
         }).toString(),
     )
     const { questions: data, total } = await response.json()
@@ -33,10 +37,6 @@ async function fetchQuestions(page = 1) {
     loading.value = false
   }
 }
-
-async function refreshQuestions(page) {
-  fetchQuestions(page)
-}
 </script>
 
 <template>
@@ -45,13 +45,16 @@ async function refreshQuestions(page) {
 
     <div v-if="loading">Loading...</div>
 
+    <Search v-model="search" @changed="fetchQuestions" class="mb-3" />
+
     <QuestionsList
       :questions="questions"
       :total="totalQuestionsCount"
-      @page-changed="refreshQuestions"
+      v-model="page"
+      @page-changed="fetchQuestions"
       class="mb-3"
     />
 
-    <AddQuestion @added="refreshQuestions" />
+    <AddQuestion @added="fetchQuestions" />
   </div>
 </template>
