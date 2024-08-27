@@ -2,7 +2,7 @@
 import { FwbPagination } from 'flowbite-vue'
 import { watch } from 'vue'
 
-import { PAGINATION } from '@/core/shared/constants'
+import { PAGINATION } from '@/core/constants'
 import QuestionItem from './QuestionItem.vue'
 
 const props = defineProps({
@@ -16,7 +16,7 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['pageChanged'])
-const currentPage = defineModel(1)
+const currentPage = defineModel({ default: 1 })
 
 watch(currentPage, (page) => emit('pageChanged', page))
 </script>
@@ -26,16 +26,16 @@ watch(currentPage, (page) => emit('pageChanged', page))
     <div v-if="!questions.length">Empty</div>
 
     <div v-for="question in questions" :key="question.id">
-      <QuestionItem :question="question" class="mb-3" />
+      <question-item :question="question" class="mb-3"></question-item>
     </div>
 
     <div class="flex justify-center">
-      <FwbPagination
+      <fwb-pagination
         v-if="total"
         v-model="currentPage"
         :total-items="total"
         :per-page="PAGINATION.perPage"
-      />
+      ></fwb-pagination>
     </div>
   </div>
 </template>

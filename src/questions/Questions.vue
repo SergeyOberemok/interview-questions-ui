@@ -1,8 +1,7 @@
 <script setup>
 import Search from '@/components/Search.vue'
-import { PAGINATION } from '@/core/shared/constants'
+import { PAGINATION } from '@/core/constants'
 import { onMounted, ref, shallowRef } from 'vue'
-import AddQuestion from './components/AddQuestion.vue'
 import QuestionsList from './components/QuestionsList.vue'
 import { Question } from './shared/question.model'
 
@@ -45,16 +44,14 @@ async function fetchQuestions() {
 
     <div v-if="loading">Loading...</div>
 
-    <Search v-model="search" @changed="fetchQuestions" class="mb-3" />
+    <search v-model="search" @changed="fetchQuestions" class="mb-3"></search>
 
-    <QuestionsList
+    <questions-list
       :questions="questions"
       :total="totalQuestionsCount"
       v-model="page"
       @page-changed="fetchQuestions"
       class="mb-3"
-    />
-
-    <AddQuestion @added="fetchQuestions" />
+    ></questions-list>
   </div>
 </template>
