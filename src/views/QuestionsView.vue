@@ -4,6 +4,6 @@ import Questions from '@/questions/Questions.vue'
 
 <template>
   <div class="wrapper">
-    <Questions />
+    <questions></questions>
   </div>
 </template>

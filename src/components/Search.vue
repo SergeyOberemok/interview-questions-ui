@@ -1,8 +1,8 @@
 <script setup>
 import { debounce } from 'lodash-es'
 
-const search = defineModel()
-const emit = defineEmits('changed')
+const search = defineModel({ default: '' })
+const emit = defineEmits(['changed'])
 
 const searchTypeahead = debounce(() => {
   emit('changed', search.value)

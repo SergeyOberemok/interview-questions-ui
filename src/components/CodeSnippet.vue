@@ -2,10 +2,12 @@
 import Prism from 'prismjs'
 import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-sass'
+import 'prismjs/components/prism-bash'
+import 'prismjs/components/prism-markup'
 
 import { onMounted } from 'vue'
 
-import { LANGUAGES } from '@/core/shared/constants'
+import { LANGUAGES } from '@/core/constants'
 
 const props = defineProps({
   text: {
