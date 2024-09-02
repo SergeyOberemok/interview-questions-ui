@@ -1,7 +1,8 @@
 <script setup>
 import { debounce } from 'lodash-es'
+import { ref } from 'vue'
 
-const search = defineModel({ default: '' })
+const search = ref('')
 const emit = defineEmits(['changed'])
 
 const searchTypeahead = debounce(() => {
@@ -11,7 +12,6 @@ const searchTypeahead = debounce(() => {
 
 <template>
   <div class="wrapper">
-    <label for="search">Search</label>
     <input
       type="text"
       id="search"

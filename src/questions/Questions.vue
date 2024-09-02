@@ -1,15 +1,19 @@
 <script setup>
 import Search from '@/components/Search.vue'
 import { PAGINATION } from '@/core/constants'
-import { onMounted, ref, shallowRef } from 'vue'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref, shallowRef, watch } from 'vue'
 import QuestionsList from './components/QuestionsList.vue'
 import { Question } from './shared/question.model'
+import { usePageStore } from './stores/paging'
+import { useSearchStore } from './stores/searching'
 
 const loading = ref(false)
 const questions = shallowRef([])
 const totalQuestionsCount = ref(0)
-const search = ref('')
-const page = ref(1)
+const pageStore = usePageStore()
+const { page } = storeToRefs(pageStore)
+const searchStore = useSearchStore()
 
 onMounted(async () => fetchQuestions())
 
@@ -20,9 +24,9 @@ async function fetchQuestions() {
     const response = await fetch(
       '/api/questions?' +
         new URLSearchParams({
-          page: page.value,
+          page: pageStore.page,
           size: PAGINATION.perPage,
-          search: search.value,
+          search: searchStore.search,
         }).toString(),
     )
     const { questions: data, total } = await response.json()
@@ -36,6 +40,14 @@ async function fetchQuestions() {
     loading.value = false
   }
 }
+
+pageStore.$subscribe(fetchQuestions)
+
+function updateSearchAndPaging(newSearch) {
+  pageStore.$reset()
+  searchStore.set(newSearch)
+}
+searchStore.$subscribe(fetchQuestions)
 </script>
 
 <template>
@@ -44,13 +56,12 @@ async function fetchQuestions() {
 
     <div v-if="loading">Loading...</div>
 
-    <search v-model="search" @changed="fetchQuestions" class="mb-3"></search>
+    <search @changed="updateSearchAndPaging" class="mb-3"></search>
 
     <questions-list
       :questions="questions"
       :total="totalQuestionsCount"
       v-model="page"
-      @page-changed="fetchQuestions"
       class="mb-3"
     ></questions-list>
   </div>

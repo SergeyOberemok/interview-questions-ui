@@ -1,6 +1,5 @@
 <script setup>
 import { FwbPagination } from 'flowbite-vue'
-import { watch } from 'vue'
 
 import { PAGINATION } from '@/core/constants'
 import QuestionItem from './QuestionItem.vue'
@@ -15,10 +14,7 @@ const props = defineProps({
     required: true,
   },
 })
-const emit = defineEmits(['pageChanged'])
 const currentPage = defineModel({ default: 1 })
-
-watch(currentPage, (page) => emit('pageChanged', page))
 </script>
 
 <template>
