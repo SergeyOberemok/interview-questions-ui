@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="wrapper flex flex-column">
+  <div class="wrapper flex">
     <fwb-badge v-for="(label, index) in labels" :key="index" class="me-1">{{ label }}</fwb-badge>
   </div>
 </template>

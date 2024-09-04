@@ -30,10 +30,10 @@ function submitForm() {
 
 <template>
   <div class="wrapper">
-    <h3 class="mb-1">Add answer</h3>
+    <h5 class="mb-3">Add answer</h5>
 
     <form @submit.prevent="submitForm">
-      <div class="mb-1">
+      <div class="mb-3">
         <label for="title">Title</label>
         <input
           type="text"
@@ -43,7 +43,7 @@ function submitForm() {
         />
       </div>
 
-      <div class="flex flex-col mb-1">
+      <div class="flex flex-col mb-3">
         <label for="answer">Answers</label>
         <textarea
           name="answer"
