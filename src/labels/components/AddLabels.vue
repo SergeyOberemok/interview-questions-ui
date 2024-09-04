@@ -14,7 +14,7 @@ function addLabel(event) {
 </script>
 
 <template>
-  <div class="wrapper flex flex-column items-center">
+  <div class="wrapper flex justify-between items-center">
     <labels-list :labels="labels"></labels-list>
 
     <input
