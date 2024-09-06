@@ -1,19 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 
-import { LANGUAGES } from '@/core/constants'
+import { LANGUAGES, LANGUAGE_DEFAULT } from '@/core/constants'
 import { removeFalsyItems } from '@/core/utils'
 
 const title = ref('')
 const description = ref('')
-const type = ref('plain')
+const type = ref(LANGUAGE_DEFAULT)
 
 const emit = defineEmits(['added'])
 
 function reset() {
   title.value = ''
   description.value = ''
-  type.value = 'plain'
+  type.value = LANGUAGE_DEFAULT
 }
 
 function submitForm() {
@@ -63,12 +63,13 @@ function submitForm() {
             class="form-select w-32 rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
             v-model="type"
           >
-            <option value="plain" selected>text</option>
+            <option value="plain" selected>Text</option>
             <option :value="type" v-for="[type, language] in Object.entries(LANGUAGES)">
               {{ language }}
             </option>
           </select>
         </div>
+
         <button
           type="submit"
           class="w-16 rounded-md bg-blue-500 p-1 shadow-sm text-white hover:bg-blue-400"

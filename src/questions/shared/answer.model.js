@@ -1,7 +1,11 @@
 import { faker } from '@faker-js/faker'
 
 export class Answer {
-  constructor({ title, answer, type }) {
+  constructor(params) {
+    this.assign(params)
+  }
+
+  assign({ title = '', answer = '', type = '' } = {}) {
     this.title = title
     this.answer = answer
     this.type = type

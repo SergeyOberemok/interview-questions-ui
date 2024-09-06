@@ -15,8 +15,13 @@ const props = defineProps({
     <span v-else>Answers are empty</span>
 
     <div v-for="(answer, index) in answers" :key="index" class="mb-3">
-      <div>{{ answer.title }}</div>
-      <code-snippet :text="answer.answer" :lang="answer.type"></code-snippet>
+      <div class="flex justify-between">
+        <div>{{ answer.title }}</div>
+
+        <slot :index="index"></slot>
+      </div>
+
+      <code-snippet :lang="answer.type">{{ answer.answer }}</code-snippet>
     </div>
   </div>
 </template>

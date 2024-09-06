@@ -1,7 +1,10 @@
 export const LANGUAGES = {
-  js: 'javascript',
-  sass: 'sass',
-  py: 'python',
-  sh: 'bash',
-  html: 'markup',
+  js: 'JavaScript',
+  sass: 'Sass',
+  py: 'Python',
+  sh: 'Bash',
+  html: 'Markup',
+  json: 'JSON',
 }
+
+export const LANGUAGE_DEFAULT = 'plain'

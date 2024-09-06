@@ -1,21 +1,24 @@
 <script setup>
 import { ref } from 'vue'
 
-import LabelsList from './LabelsList.vue'
+import { splitIntoParts } from '@/core/utils'
+import EditableLabelsList from './EditableLabelsList.vue'
 
 const labels = defineModel({ default: [] })
-
 const label = ref('')
 
 function addLabel(event) {
-  labels.value = [...labels.value, label.value]
+  labels.value = [...labels.value, ...splitIntoParts(label.value)]
   label.value = ''
+}
+function removeLabel(index) {
+  labels.value = labels.value.filter((_, i) => i !== index)
 }
 </script>
 
 <template>
   <div class="wrapper flex justify-between items-center">
-    <labels-list :labels="labels"></labels-list>
+    <editable-labels-list :labels="labels" @edited="removeLabel"></editable-labels-list>
 
     <input
       type="text"
