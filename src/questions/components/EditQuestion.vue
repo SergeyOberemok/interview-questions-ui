@@ -1,32 +1,35 @@
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 import { Question } from '../shared'
 import { useQuestionsStore } from '../stores'
 import QuestionForm from './QuestionForm.vue'
 
 const router = useRouter()
-const question = ref(new Question())
+const route = useRoute()
 const questionsStore = useQuestionsStore()
+const question = ref(new Question())
 
-async function addQuestion(question) {
-  await postQuestion(question)
+onMounted(() => (question.value = questionsStore.find(route.params.id)))
+
+async function updateQuestion(question) {
+  await putQuestion(question)
   router.push('/questions')
 }
 
-async function postQuestion(question) {
+async function putQuestion(question) {
   const options = {
-    method: 'POST',
+    method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(question),
   }
 
   try {
-    const response = await fetch('/api/questions', options)
+    const response = await fetch(`/api/questions/${question.id}`, options)
     const data = await response.json()
 
-    questionsStore.add(new Question(data))
+    questionsStore.update(new Question(data))
   } catch (error) {
     console.error(error)
     questionsStore.$reset()
@@ -36,6 +39,6 @@ async function postQuestion(question) {
 
 <template>
   <div class="wrapper">
-    <question-form v-model="question" @edited="addQuestion"></question-form>
+    <question-form v-model="question" @edited="updateQuestion"></question-form>
   </div>
 </template>

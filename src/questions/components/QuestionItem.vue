@@ -1,39 +1,48 @@
 <script setup>
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline'
+import { ChevronDownIcon, ChevronUpIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-import Answers from './AnswersList.vue'
+import LabelsList from '@/labels/components/LabelsList.vue'
+import AnswersList from './AnswersList.vue'
 
 const props = defineProps({
   question: Object,
   required: true,
 })
 
+const router = useRouter()
 let isOpened = ref(false)
+
+function navigateToEditQuestion() {
+  router.push({ name: 'edit-question', params: { id: props.question.id } })
+}
 </script>
 
 <template>
   <div class="wrapper">
     <div class="header flex justify-between items-center">
-      <h3 class="mb-1">{{ question.description }}</h3>
-      <div class="icon cursor-pointer" @click="isOpened = !isOpened">
-        <ChevronDownIcon class="size-5 mx-1" v-if="!isOpened" />
-        <ChevronUpIcon class="size-5 mx-1" v-else="isOpened" />
+      <div class="flex">
+        <h3 class="me-3">{{ question.description }}</h3>
+
+        <labels-list :labels="question.labels"></labels-list>
+      </div>
+
+      <div class="flex">
+        <div class="icon cursor-pointer" @click="navigateToEditQuestion">
+          <PencilSquareIcon class="size-5 mx-1" />
+        </div>
+        <div class="icon cursor-pointer" @click="isOpened = !isOpened">
+          <ChevronDownIcon class="size-5 mx-1" v-if="!isOpened" />
+          <ChevronUpIcon class="size-5 mx-1" v-else="isOpened" />
+        </div>
       </div>
     </div>
 
-    <div class="content" v-show="isOpened">
-      <answers :answers="question.answers"></answers>
+    <div class="content pt-2" v-show="isOpened">
+      <answers-list :answers="question.answers"></answers-list>
 
       <div v-if="question.notes" class="mb-3">{{ question.notes }}</div>
-
-      <div class="flex">
-        <div v-for="(label, index) in question.labels" :key="index" class="me-1">
-          <span class="text-sm font-medium text-white bg-blue-400 rounded-md px-2 py-1">{{
-            label
-          }}</span>
-        </div>
-      </div>
     </div>
   </div>
 </template>

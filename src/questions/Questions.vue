@@ -1,23 +1,26 @@
 <script setup>
+import { storeToRefs } from 'pinia'
+import { onMounted, ref } from 'vue'
+
 import Search from '@/components/Search.vue'
 import { PAGINATION } from '@/core/constants'
-import { storeToRefs } from 'pinia'
-import { onMounted, ref, shallowRef, watch } from 'vue'
 import QuestionsList from './components/QuestionsList.vue'
 import { Question } from './shared/question.model'
-import { usePageStore } from './stores/paging'
-import { useSearchStore } from './stores/searching'
+import { usePageStore, useQuestionsStore, useSearchStore } from './stores'
 
 const loading = ref(false)
-const questions = shallowRef([])
-const totalQuestionsCount = ref(0)
 const pageStore = usePageStore()
 const { page } = storeToRefs(pageStore)
 const searchStore = useSearchStore()
+const questionsStore = useQuestionsStore()
 
 onMounted(async () => fetchQuestions())
 
 async function fetchQuestions() {
+  if (questionsStore.isLoaded) {
+    return
+  }
+
   loading.value = true
 
   try {
@@ -29,25 +32,24 @@ async function fetchQuestions() {
           search: searchStore.search,
         }).toString(),
     )
-    const { questions: data, total } = await response.json()
+    const { questions, total } = await response.json()
 
-    questions.value = data.map((question) => new Question(question))
-    totalQuestionsCount.value = total
+    questionsStore.setQuestions(questions.map((question) => new Question(question)))
+    questionsStore.setTotalCount(total)
   } catch (error) {
     console.error(error)
-    questions.value = []
+    questionsStore.$reset()
   } finally {
     loading.value = false
   }
 }
 
-pageStore.$subscribe(fetchQuestions)
+pageStore.$subscribe(() => (questionsStore.$reset(), fetchQuestions()))
+searchStore.$subscribe(() => (questionsStore.$reset(), pageStore.$reset(), fetchQuestions()))
 
-function updateSearchAndPaging(newSearch) {
-  pageStore.$reset()
+function updateSearch(newSearch) {
   searchStore.set(newSearch)
 }
-searchStore.$subscribe(fetchQuestions)
 </script>
 
 <template>
@@ -56,11 +58,11 @@ searchStore.$subscribe(fetchQuestions)
 
     <div v-if="loading">Loading...</div>
 
-    <search @changed="updateSearchAndPaging" class="mb-3"></search>
+    <search @changed="updateSearch" class="mb-3"></search>
 
     <questions-list
-      :questions="questions"
-      :total="totalQuestionsCount"
+      :questions="questionsStore.questions"
+      :total="questionsStore.totalCount"
       v-model="page"
       class="mb-3"
     ></questions-list>

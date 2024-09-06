@@ -1,14 +1,22 @@
 import { faker } from '@faker-js/faker'
-import { AnswerFactory } from './answer.model'
+import { Answer, AnswerFactory } from './answer.model'
 import { uniq } from 'lodash-es'
 
 export class Question {
-  constructor({ id, description, answers, labels, notes }) {
+  constructor(params) {
+    this.assign(params)
+  }
+
+  assign({ id = '', description = '', answers = [], labels = [], notes = '' } = {}) {
     this.id = id
     this.description = description
-    this.answers = answers
+    this.answers = answers?.map((answer) => new Answer(answer))
     this.labels = labels
     this.notes = notes
+  }
+
+  reset() {
+    this.assign()
   }
 }
 

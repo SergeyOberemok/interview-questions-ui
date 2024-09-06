@@ -28,6 +28,11 @@ const router = createRouter({
       name: 'add-question',
       component: () => import('@/questions/components/AddQuestion.vue'),
     },
+    {
+      path: '/edit-question/:id',
+      name: 'edit-question',
+      component: () => import('@/questions/components/EditQuestion.vue'),
+    },
   ],
 })
 
