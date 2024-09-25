@@ -5,6 +5,7 @@ export const LANGUAGES = {
   sh: 'Bash',
   html: 'Markup',
   json: 'JSON',
+  cs: 'C#',
 }
 
 export const LANGUAGE_DEFAULT = 'plain'
