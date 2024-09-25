@@ -5,6 +5,7 @@ import 'prismjs/components/prism-json'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-sass'
+import 'prismjs/components/prism-csharp'
 import { onMounted, onUpdated } from 'vue'
 
 import { LANGUAGE_DEFAULT } from '@/core/constants'
