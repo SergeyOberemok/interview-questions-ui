@@ -1,3 +1,5 @@
+import AddQuestion from '@/questions/components/AddQuestion.vue'
+import EditQuestion from '@/questions/components/EditQuestion.vue'
 import QuestionsView from '@/views/QuestionsView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -26,12 +28,17 @@ const router = createRouter({
     {
       path: '/add-question',
       name: 'add-question',
-      component: () => import('@/questions/components/AddQuestion.vue'),
+      component: AddQuestion,
     },
     {
       path: '/edit-question/:id',
       name: 'edit-question',
-      component: () => import('@/questions/components/EditQuestion.vue'),
+      component: EditQuestion,
+    },
+    {
+      path: '/dev',
+      name: 'dev',
+      component: () => import('@/views/DevView.vue'),
     },
   ],
 })

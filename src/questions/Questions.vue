@@ -2,8 +2,9 @@
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 
-import Search from '@/components/Search.vue'
+import Search from '@/core/components/Search.vue'
 import { PAGINATION } from '@/core/constants'
+import { identity, pickBy } from 'lodash-es'
 import QuestionsList from './components/QuestionsList.vue'
 import { Question } from './shared/question.model'
 import { usePageStore, useQuestionsStore, useSearchStore } from './stores'
@@ -26,11 +27,16 @@ async function fetchQuestions() {
   try {
     const response = await fetch(
       '/api/questions?' +
-        new URLSearchParams({
-          page: pageStore.page,
-          size: PAGINATION.perPage,
-          search: searchStore.search,
-        }).toString(),
+        new URLSearchParams(
+          pickBy(
+            {
+              page: pageStore.page,
+              size: PAGINATION.perPage,
+              search: searchStore.search,
+            },
+            identity,
+          ),
+        ).toString(),
     )
     const { questions, total } = await response.json()
 

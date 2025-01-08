@@ -1,8 +1,4 @@
-<script setup>
-function log(event) {
-  console.log(event)
-}
-</script>
+<script setup></script>
 
 <template>
   <div class="container mx-auto mb-3">

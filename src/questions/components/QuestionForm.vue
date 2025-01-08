@@ -25,7 +25,6 @@ async function submitForm() {
             <input
               type="text"
               id="description"
-              placeholder="Description"
               class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-200"
               v-model.trim="question.description"
             />
@@ -47,7 +46,6 @@ async function submitForm() {
             <textarea
               name="notes"
               id="notes"
-              placeholder="Notes"
               class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
               v-model.trim="question.notes"
             ></textarea>

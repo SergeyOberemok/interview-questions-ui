@@ -1,5 +1,5 @@
 <script setup>
-import CodeSnippet from '@/components/CodeSnippet.vue'
+import Answer from './Answer.vue'
 
 const props = defineProps({
   answers: {
@@ -14,14 +14,8 @@ const props = defineProps({
     <h3 class="mb-1" v-if="answers.length > 0">Answers</h3>
     <span v-else>Answers are empty</span>
 
-    <div v-for="(answer, index) in answers" :key="index" class="mb-3">
-      <div class="flex justify-between">
-        <div>{{ answer.title }}</div>
-
-        <slot :index="index"></slot>
-      </div>
-
-      <code-snippet :lang="answer.type">{{ answer.answer }}</code-snippet>
-    </div>
+    <template v-for="(answer, index) in answers" :key="`${answer.title}_${index}`" class="mb-3">
+      <answer :answer="answer"></answer>
+    </template>
   </div>
 </template>

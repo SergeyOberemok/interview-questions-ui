@@ -44,11 +44,10 @@ function submitForm() {
       </div>
 
       <div class="flex flex-col mb-3">
-        <label for="answer">Answers</label>
+        <label for="answer">Answer</label>
         <textarea
           name="answer"
           id="answer"
-          placeholder="Answer"
           class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
           v-model.trim="description"
         ></textarea>
