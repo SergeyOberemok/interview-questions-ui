@@ -1,6 +1,4 @@
 <script setup>
-import { ref } from 'vue'
-
 import { splitIntoParts } from '@/core/utils'
 import EditableLabelsList from './EditableLabelsList.vue'
 import AddLabel from './AddLabel.vue'
@@ -19,6 +17,6 @@ function removeLabelFromList(index) {
   <div class="wrapper flex justify-between items-center">
     <editable-labels-list :labels="labels" @edited="removeLabelFromList"></editable-labels-list>
 
-    <add-label v-model="label" @created="addLabelToList"></add-label>
+    <add-label @created="addLabelToList"></add-label>
   </div>
 </template>

@@ -19,13 +19,13 @@ async function submitForm() {
   <div class="wrapper">
     <form class="flex flex-col" @submit.prevent="submitForm">
       <div class="wrapper container mx-auto mb-3">
-        <div class="columns-2 mb-3">
+        <div class="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label for="description">Description</label>
             <input
               type="text"
               id="description"
-              class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-200"
+              class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
               v-model.trim="question.description"
             />
           </div>
@@ -46,7 +46,7 @@ async function submitForm() {
             <textarea
               name="notes"
               id="notes"
-              class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+              class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-100"
               v-model.trim="question.notes"
             ></textarea>
           </div>

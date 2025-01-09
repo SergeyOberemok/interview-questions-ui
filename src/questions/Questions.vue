@@ -1,15 +1,16 @@
 <script setup>
+import { ArrowPathIcon } from '@heroicons/vue/16/solid'
+import { identity, pickBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 
 import Search from '@/core/components/Search.vue'
 import { PAGINATION } from '@/core/constants'
-import { identity, pickBy } from 'lodash-es'
 import QuestionsList from './components/QuestionsList.vue'
 import { Question } from './shared/question.model'
 import { usePageStore, useQuestionsStore, useSearchStore } from './stores'
 
-const loading = ref(false)
+const isLoading = ref(false)
 const pageStore = usePageStore()
 const { page } = storeToRefs(pageStore)
 const searchStore = useSearchStore()
@@ -22,7 +23,7 @@ async function fetchQuestions() {
     return
   }
 
-  loading.value = true
+  isLoading.value = true
 
   try {
     const response = await fetch(
@@ -46,7 +47,7 @@ async function fetchQuestions() {
     console.error(error)
     questionsStore.$reset()
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
@@ -62,9 +63,11 @@ function updateSearch(newSearch) {
   <div class="container mx-auto">
     <h1 class="mb-3 text-xl">Questions</h1>
 
-    <div v-if="loading">Loading...</div>
-
-    <search @changed="updateSearch" class="mb-3"></search>
+    <search @changed="updateSearch" class="mb-3">
+      <template v-if="isLoading" v-slot:right-icon>
+        <arrow-path-icon class="size-3 animate-spin"></arrow-path-icon>
+      </template>
+    </search>
 
     <questions-list
       :questions="questionsStore.questions"
@@ -72,5 +75,7 @@ function updateSearch(newSearch) {
       v-model="page"
       class="mb-3"
     ></questions-list>
+
+    <div v-if="isLoading">Loading...</div>
   </div>
 </template>

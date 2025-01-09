@@ -38,7 +38,7 @@ function submitForm() {
         <input
           type="text"
           id="title"
-          class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-200"
+          class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
           v-model.trim="title"
         />
       </div>
@@ -48,7 +48,7 @@ function submitForm() {
         <textarea
           name="answer"
           id="answer"
-          class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+          class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-100"
           v-model.trim="description"
         ></textarea>
       </div>
@@ -59,7 +59,7 @@ function submitForm() {
           <select
             name="type"
             id="type"
-            class="form-select w-32 rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-200"
+            class="form-select w-32 rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-100"
             v-model="type"
           >
             <option value="plain" selected>Text</option>

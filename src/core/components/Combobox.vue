@@ -1,6 +1,7 @@
 <script setup>
 import { debounce } from 'lodash-es'
 import { computed, ref } from 'vue'
+import { XMarkIcon } from '@heroicons/vue/16/solid'
 
 const model = defineModel({ type: String })
 const { items } = defineProps({
@@ -33,7 +34,15 @@ function emitSelected(item) {
         v-on:keydown.enter.prevent="emitSelected(model)"
       />
 
-      <div class="absolute top-1/2 end-3 -translate-y-1/2 hidden">sign</div>
+      <div class="absolute top-1/2 end-3 -translate-y-1/2 flex">
+        <slot name="right-icon"></slot>
+
+        <x-mark-icon
+          v-if="model?.length > 0"
+          class="size-4 text-gray-500 cursor-pointer ms-1"
+          @click="model = ''"
+        ></x-mark-icon>
+      </div>
     </div>
 
     <div
