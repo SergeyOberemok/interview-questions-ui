@@ -19,6 +19,7 @@
     "@vueuse/integrations": "^12.3.0",
     "flowbite": "^2.5.1",
     "flowbite-vue": "^0.1.5",
+    "js-beautify": "^1.15.1",
     "lodash-es": "^4.17.21",
     "pinia": "^2.1.7",
     "prismjs": "^1.29.0",

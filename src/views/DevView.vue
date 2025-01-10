@@ -1,32 +1,14 @@
 <script setup>
-import AnswerForm from '@/questions/components/AnswerForm.vue'
-import { ref } from 'vue'
-import { faker } from '@faker-js/faker'
+import BeautifyArea from '@/core/components/BeautifyArea.vue'
+import { ref, watchEffect } from 'vue'
 
-const answer = ref()
+const model = ref('')
 
-function refresh() {
-  answer.value = {
-    title: faker.company.name(),
-    answer: faker.company.catchPhrase(),
-    type: faker.helpers.arrayElement(['plain', 'js']),
-  }
-}
+watchEffect(() => console.log(model.value))
 </script>
 
 <template>
   <div class="wrapper container mx-auto">
-    <answer-form :answer="answer" @submitted="console.log($event)" class="mb-3">
-      <template v-slot:title>Add</template>
-      <template v-slot:button>Add</template>
-    </answer-form>
-
-    <button
-      type="button"
-      @click="refresh"
-      class="border border-gray-300 rounded-md shadow-sm px-2 py-1"
-    >
-      Refresh
-    </button>
+    <beautify-area v-model="model"></beautify-area>
   </div>
 </template>

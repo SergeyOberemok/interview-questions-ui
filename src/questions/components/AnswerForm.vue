@@ -1,6 +1,8 @@
 <script setup>
-import { LANGUAGES, LANGUAGE_DEFAULT } from '@/core/constants'
 import { ref, watchEffect } from 'vue'
+
+import { LANGUAGES, LANGUAGE_DEFAULT } from '@/core/constants'
+import BeautifyArea from '@/core/components/BeautifyArea.vue'
 
 const { answer } = defineProps({
   answer: {
@@ -56,12 +58,7 @@ watchEffect(() => {
 
       <div class="flex flex-col mb-3">
         <label for="answer">Answer</label>
-        <textarea
-          name="answer"
-          id="answer"
-          class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-100"
-          v-model.trim="model.answer"
-        ></textarea>
+        <beautify-area v-model="model.answer" :type="model.type"></beautify-area>
       </div>
 
       <div class="flex justify-between items-end">

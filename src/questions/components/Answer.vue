@@ -8,8 +8,8 @@ const { answer } = defineProps({
 
 <template>
   <div class="wrapper">
-    <div class="flex justify-between">
-      <div class="mb-1">{{ answer.title }}</div>
+    <div class="flex justify-between mb-1">
+      <div>{{ answer.title }}</div>
 
       <div class="flex">
         <slot></slot>

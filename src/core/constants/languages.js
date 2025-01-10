@@ -9,3 +9,5 @@ export const LANGUAGES = {
 }
 
 export const LANGUAGE_DEFAULT = 'plain'
+
+export const BEAUTIFY_LANGUAGES = ['js', 'sass', 'html', 'json']
