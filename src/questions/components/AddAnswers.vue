@@ -1,18 +1,42 @@
 <script setup>
+import { ref } from 'vue'
 import AddAnswer from './AddAnswer.vue'
+import UpdateAnswer from './UpdateAnswer.vue'
 import EditableAnswersList from './EditableAnswersList.vue'
+import { omit } from 'lodash-es'
 
-const answers = defineModel({ default: [] })
+const answers = defineModel({ type: Array, default: [] })
+
+const selectedAnswer = ref()
 
 function pushAnswer(answer) {
   answers.value = [...answers.value, answer]
+}
+
+function selectAnswer(answer) {
+  selectedAnswer.value = { ...answer, data: answer }
+}
+
+function updateUnswers(answer) {
+  const index = answers.value.findIndex((item) => item === answer.data)
+  const newAnswers = [...answers.value]
+
+  newAnswers.splice(index, 1, omit(answer, ['data']))
+
+  answers.value = newAnswers
+  selectedAnswer.value = null
 }
 </script>
 
 <template>
   <div class="wrapper grid grid-cols-2 gap-3">
-    <editable-answers-list v-model="answers" class="w-full"></editable-answers-list>
+    <editable-answers-list v-model="answers" @selected="selectAnswer"></editable-answers-list>
 
-    <add-answer @added="pushAnswer" class="w-full"></add-answer>
+    <template v-if="!selectedAnswer">
+      <add-answer @added="pushAnswer"></add-answer>
+    </template>
+    <template v-else>
+      <update-answer :answer="selectedAnswer" @updated="updateUnswers"></update-answer>
+    </template>
   </div>
 </template>

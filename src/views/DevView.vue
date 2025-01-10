@@ -1,30 +1,32 @@
 <script setup>
-import Combobox from '@/core/components/Combobox.vue'
+import AnswerForm from '@/questions/components/AnswerForm.vue'
 import { ref } from 'vue'
+import { faker } from '@faker-js/faker'
 
-const model = ref('')
-const items = ref(Array.from(Array(5), (_, i) => i + 1))
+const answer = ref()
 
-function search(text) {
-  if (!text) {
-    items.value = []
-    return
+function refresh() {
+  answer.value = {
+    title: faker.company.name(),
+    answer: faker.company.catchPhrase(),
+    type: faker.helpers.arrayElement(['plain', 'js']),
   }
-
-  items.value = Array.from(Array(5), (_, i) => `${text}_${i}`)
 }
-
-function selected(text) {}
 </script>
 
 <template>
   <div class="wrapper container mx-auto">
-    <combobox
-      v-model="model"
-      :items="items"
-      @search="search"
-      @selected="selected"
-      placeholder="Select"
-    ></combobox>
+    <answer-form :answer="answer" @submitted="console.log($event)" class="mb-3">
+      <template v-slot:title>Add</template>
+      <template v-slot:button>Add</template>
+    </answer-form>
+
+    <button
+      type="button"
+      @click="refresh"
+      class="border border-gray-300 rounded-md shadow-sm px-2 py-1"
+    >
+      Refresh
+    </button>
   </div>
 </template>

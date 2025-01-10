@@ -1,6 +1,7 @@
 <script setup>
 import { Bars2Icon, XMarkIcon } from '@heroicons/vue/24/solid'
 import { useSortable } from '@vueuse/integrations/useSortable'
+import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 import Answer from './Answer.vue'
 
 const answers = defineModel({
@@ -8,6 +9,7 @@ const answers = defineModel({
   default: [],
   type: Array,
 })
+const emit = defineEmits(['selected'])
 
 useSortable('.answers-container', answers, {
   handle: '.sortable-handle',
@@ -27,6 +29,10 @@ function remove(index) {
     <div class="answers-container">
       <template v-for="(answer, index) in answers" :key="`${answer.title}_${index}`" class="mb-3">
         <answer :answer="answer" class="mb-3">
+          <pencil-square-icon
+            class="size-4 cursor-pointer me-1"
+            @click="emit('selected', answer)"
+          ></pencil-square-icon>
           <bars2-icon class="size-4 cursor-pointer sortable-handle me-1"></bars2-icon>
           <x-mark-icon class="size-4 cursor-pointer" @click="remove(index)"></x-mark-icon>
         </answer>

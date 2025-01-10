@@ -15,7 +15,7 @@ const props = defineProps({
     <span v-else>Answers are empty</span>
 
     <template v-for="(answer, index) in answers" :key="`${answer.title}_${index}`" class="mb-3">
-      <answer :answer="answer"></answer>
+      <answer :answer="answer" class="mb-1"></answer>
     </template>
   </div>
 </template>

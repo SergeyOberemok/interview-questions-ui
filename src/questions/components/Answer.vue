@@ -9,13 +9,13 @@ const { answer } = defineProps({
 <template>
   <div class="wrapper">
     <div class="flex justify-between">
-      <div>{{ answer.title }}</div>
+      <div class="mb-1">{{ answer.title }}</div>
 
       <div class="flex">
         <slot></slot>
       </div>
     </div>
 
-    <code-snippet :lang="answer.type">{{ answer.answer }}</code-snippet>
+    <code-snippet :lang="answer.type" class>{{ answer.answer }}</code-snippet>
   </div>
 </template>

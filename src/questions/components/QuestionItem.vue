@@ -40,7 +40,7 @@ function navigateToEditQuestion() {
     </div>
 
     <div class="content pt-2" v-show="isOpened">
-      <answers-list :answers="question.answers"></answers-list>
+      <answers-list :answers="question.answers" class="mb-1"></answers-list>
 
       <div v-if="question.notes" class="mb-3">{{ question.notes }}</div>
     </div>
