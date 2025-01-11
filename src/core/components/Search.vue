@@ -28,7 +28,7 @@ const searchTypeahead = debounce(() => {
       <x-mark-icon
         v-if="search?.length > 0"
         class="size-4 text-gray-500 cursor-pointer ms-1"
-        @click="search = ''"
+        @click="(search = '', emit('changed', ''))"
       ></x-mark-icon>
     </div>
   </div>
