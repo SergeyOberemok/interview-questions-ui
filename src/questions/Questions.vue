@@ -1,8 +1,8 @@
 <script setup>
-import { ArrowPathIcon } from '@heroicons/vue/16/solid'
 import { identity, pickBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import Search from '@/core/components/Search.vue'
 import { PAGINATION } from '@/core/constants'
@@ -14,7 +14,9 @@ const isLoading = ref(false)
 const pageStore = usePageStore()
 const { page } = storeToRefs(pageStore)
 const searchStore = useSearchStore()
+const { search } = storeToRefs(searchStore)
 const questionsStore = useQuestionsStore()
+const router = useRouter()
 
 onMounted(async () => fetchQuestions())
 
@@ -33,7 +35,7 @@ async function fetchQuestions() {
             {
               page: pageStore.page,
               size: PAGINATION.perPage,
-              search: searchStore.search,
+              search: search.value,
             },
             identity,
           ),
@@ -52,10 +54,13 @@ async function fetchQuestions() {
 }
 
 pageStore.$subscribe(() => (questionsStore.$reset(), fetchQuestions()))
-searchStore.$subscribe(() => (questionsStore.$reset(), pageStore.$reset(), fetchQuestions()))
 
-function updateSearch(newSearch) {
-  searchStore.set(newSearch)
+function updateSearch() {
+  questionsStore.$reset(), pageStore.$reset(), fetchQuestions()
+}
+
+function navigateToEditQuestion(id) {
+  router.push({ name: 'edit-question', params: { id } })
 }
 </script>
 
@@ -63,17 +68,14 @@ function updateSearch(newSearch) {
   <div class="container mx-auto">
     <h1 class="mb-3 text-xl">Questions</h1>
 
-    <search @changed="updateSearch" class="mb-3">
-      <template v-if="isLoading" v-slot:right-icon>
-        <arrow-path-icon class="size-3 animate-spin"></arrow-path-icon>
-      </template>
-    </search>
+    <search v-model="search" :is-loading="isLoading" @changed="updateSearch" class="mb-3"></search>
 
     <questions-list
       :questions="questionsStore.questions"
       :total="questionsStore.totalCount"
       v-model="page"
       class="mb-3"
+      @selected-to-edit="navigateToEditQuestion"
     ></questions-list>
 
     <div v-if="isLoading">Loading...</div>

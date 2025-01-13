@@ -32,10 +32,18 @@ async function postQuestion(question) {
     questionsStore.$reset()
   }
 }
+
+function navigateHome() {
+  router.push({ path: '/' })
+}
 </script>
 
 <template>
   <div class="wrapper">
-    <question-form v-model="question" @edited="addQuestion"></question-form>
+    <question-form
+      v-model="question"
+      @edited="addQuestion"
+      @cancelled="navigateHome"
+    ></question-form>
   </div>
 </template>

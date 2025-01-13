@@ -7,7 +7,7 @@ import { Question } from '../shared'
 import AddAnswers from './AddAnswers.vue'
 
 const question = defineModel({ default: new Question() })
-const emit = defineEmits(['edited'])
+const emit = defineEmits(['edited', 'cancelled'])
 
 async function submitForm() {
   emit('edited', removeFalsyItems(toRaw(question.value)))
@@ -54,9 +54,17 @@ async function submitForm() {
           <div class="flex justify-end items-end">
             <button
               type="submit"
-              class="w-24 rounded-md bg-blue-500 p-1 shadow-sm text-white hover:bg-blue-400"
+              class="w-24 p-1 rounded-md bg-blue-500 shadow-sm text-white hover:bg-blue-600 me-2"
             >
               Submit
+            </button>
+
+            <button
+              type="button"
+              class="w-24 p-1 rounded-md bg-gray-300 shadow-sm hover:bg-gray-200"
+              @click="emit('cancelled')"
+            >
+              Cancel
             </button>
           </div>
         </div>

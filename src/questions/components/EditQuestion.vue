@@ -11,7 +11,7 @@ const route = useRoute()
 const questionsStore = useQuestionsStore()
 const question = ref(new Question())
 
-onMounted(() => (question.value = questionsStore.find(route.params.id)))
+onMounted(() => (question.value = new Question(questionsStore.find(route.params.id))))
 
 async function updateQuestion(question) {
   await putQuestion(question)
@@ -35,10 +35,18 @@ async function putQuestion(question) {
     questionsStore.$reset()
   }
 }
+
+function navigateHome() {
+  router.push({ path: '/' })
+}
 </script>
 
 <template>
   <div class="wrapper">
-    <question-form v-model="question" @edited="updateQuestion"></question-form>
+    <question-form
+      v-model="question"
+      @edited="updateQuestion"
+      @cancelled="navigateHome"
+    ></question-form>
   </div>
 </template>

@@ -1,22 +1,15 @@
 <script setup>
-import { ChevronDownIcon, ChevronUpIcon, PencilSquareIcon } from '@heroicons/vue/24/outline'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 
 import LabelsList from '@/labels/components/LabelsList.vue'
 import AnswersList from './AnswersList.vue'
 
-const props = defineProps({
-  question: Object,
-  required: true,
+defineProps({
+  question: { type: Object, required: true },
 })
 
-const router = useRouter()
 let isOpened = ref(false)
-
-function navigateToEditQuestion() {
-  router.push({ name: 'edit-question', params: { id: props.question.id } })
-}
 </script>
 
 <template>
@@ -29,12 +22,12 @@ function navigateToEditQuestion() {
       </div>
 
       <div class="flex">
-        <div class="icon cursor-pointer" @click="navigateToEditQuestion">
-          <PencilSquareIcon class="size-5 mx-1" />
+        <div class="me-1">
+          <slot name="icons"></slot>
         </div>
-        <div class="icon cursor-pointer" @click="isOpened = !isOpened">
-          <ChevronDownIcon class="size-5 mx-1" v-if="!isOpened" />
-          <ChevronUpIcon class="size-5 mx-1" v-else="isOpened" />
+        <div @click="isOpened = !isOpened">
+          <ChevronDownIcon class="size-5 mx-1 cursor-pointer" v-if="!isOpened" />
+          <ChevronUpIcon class="size-5 mx-1 cursor-pointer" v-else="isOpened" />
         </div>
       </div>
     </div>

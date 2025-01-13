@@ -1,10 +1,12 @@
 <script setup>
 import { FwbPagination } from 'flowbite-vue'
+import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 
 import { PAGINATION } from '@/core/constants'
 import QuestionItem from './QuestionItem.vue'
 
-const props = defineProps({
+const currentPage = defineModel({ default: 1 })
+defineProps({
   questions: {
     type: Array,
     required: true,
@@ -14,7 +16,7 @@ const props = defineProps({
     required: true,
   },
 })
-const currentPage = defineModel({ default: 1 })
+const emit = defineEmits(['selectedToEdit'])
 </script>
 
 <template>
@@ -22,7 +24,14 @@ const currentPage = defineModel({ default: 1 })
     <div v-if="!questions.length">Empty</div>
 
     <div v-for="question in questions" :key="question.id">
-      <question-item :question="question" class="mb-3"></question-item>
+      <question-item :question="question" class="mb-3">
+        <template v-slot:icons>
+          <PencilSquareIcon
+            class="size-5 cursor-pointer"
+            @click="emit('selectedToEdit', question.id)"
+          ></PencilSquareIcon>
+        </template>
+      </question-item>
     </div>
 
     <div class="flex justify-center">
