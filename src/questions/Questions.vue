@@ -1,5 +1,4 @@
 <script setup>
-import { identity, pickBy } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -7,6 +6,7 @@ import { useRouter } from 'vue-router'
 import Search from '@/core/components/Search.vue'
 import { PAGINATION } from '@/core/constants'
 import QuestionsList from './components/QuestionsList.vue'
+import { QuestionsService } from './services/questions.service'
 import { Question } from './shared/question.model'
 import { usePageStore, useQuestionsStore, useSearchStore } from './stores'
 
@@ -17,8 +17,10 @@ const searchStore = useSearchStore()
 const { search } = storeToRefs(searchStore)
 const questionsStore = useQuestionsStore()
 const router = useRouter()
+const questionsService = new QuestionsService()
 
 onMounted(async () => fetchQuestions())
+pageStore.$subscribe(() => (questionsStore.$reset(), fetchQuestions()))
 
 async function fetchQuestions() {
   if (questionsStore.isLoaded) {
@@ -28,32 +30,29 @@ async function fetchQuestions() {
   isLoading.value = true
 
   try {
-    const response = await fetch(
-      '/api/questions?' +
-        new URLSearchParams(
-          pickBy(
-            {
-              page: pageStore.page,
-              size: PAGINATION.perPage,
-              search: search.value,
-            },
-            identity,
-          ),
-        ).toString(),
+    const { questions, total } = await questionsService.fetchQuestions(
+      page.value,
+      PAGINATION.perPage,
+      search.value,
     )
-    const { questions, total } = await response.json()
 
-    questionsStore.setQuestions(questions.map((question) => new Question(question)))
+    questionsStore.addQuestions(questions.map((question) => new Question(question)))
     questionsStore.setTotalCount(total)
   } catch (error) {
-    console.error(error)
     questionsStore.$reset()
   } finally {
     isLoading.value = false
   }
 }
 
-pageStore.$subscribe(() => (questionsStore.$reset(), fetchQuestions()))
+async function removeQuestion(id) {
+  try {
+    const quantity = await questionsService.removeQuestion(id)
+
+    questionsStore.remove(id)
+    questionsStore.setTotalCount(questionsStore.totalCount - quantity)
+  } catch (error) {}
+}
 
 function updateSearch() {
   questionsStore.$reset(), pageStore.$reset(), fetchQuestions()
@@ -75,7 +74,8 @@ function navigateToEditQuestion(id) {
       :total="questionsStore.totalCount"
       v-model="page"
       class="mb-3"
-      @selected-to-edit="navigateToEditQuestion"
+      @on-edit="navigateToEditQuestion"
+      @on-delete="removeQuestion"
     ></questions-list>
 
     <div v-if="isLoading">Loading...</div>

@@ -22,7 +22,7 @@ let isOpened = ref(false)
       </div>
 
       <div class="flex">
-        <div class="me-1">
+        <div class="flex">
           <slot name="icons"></slot>
         </div>
         <div @click="isOpened = !isOpened">

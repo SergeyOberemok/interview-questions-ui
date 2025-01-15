@@ -6,31 +6,20 @@ export const useQuestionsStore = defineStore('questions', () => {
   const totalCount = ref(0)
   const isLoaded = ref(false)
 
-  function setQuestions(value) {
-    questions.value = [...value]
-    isLoaded.value = true
-  }
-  function add(question) {
-    questions.value = [...questions.value, question]
-    totalCount.value++
-  }
-  function update(question) {
-    const index = questions.value.findIndex((q) => q.id === question.id)
-    const newQuestions = [...questions.value]
-
-    newQuestions.splice(index, 1, question)
-
-    questions.value = newQuestions
-  }
-
-  function setTotalCount(value) {
-    totalCount.value = value
-  }
-
   function find(id) {
     return questions.value.find((question) => question.id === id)
   }
 
+  function addQuestions(value) {
+    questions.value = [...value]
+    isLoaded.value = true
+  }
+
+  function add(question) {
+    questions.value = [...questions.value, question]
+    totalCount.value++
+  }
+
   function update(question) {
     const index = questions.value.findIndex((q) => q.id === question.id)
     const newQuestions = [...questions.value]
@@ -38,6 +27,14 @@ export const useQuestionsStore = defineStore('questions', () => {
     newQuestions.splice(index, 1, question)
 
     questions.value = newQuestions
+  }
+
+  function remove(id) {
+    questions.value = questions.value.filter((q) => q.id !== id)
+  }
+
+  function setTotalCount(value) {
+    totalCount.value = value
   }
 
   function $reset() {
@@ -50,12 +47,12 @@ export const useQuestionsStore = defineStore('questions', () => {
     questions,
     totalCount,
     isLoaded,
-    setQuestions,
+    find,
+    addQuestions,
     add,
     update,
+    remove,
     setTotalCount,
-    find,
-    update,
     $reset,
   }
 })

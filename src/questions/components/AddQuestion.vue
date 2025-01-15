@@ -5,10 +5,12 @@ import { useRouter } from 'vue-router'
 import { Question } from '../shared'
 import { useQuestionsStore } from '../stores'
 import QuestionForm from './QuestionForm.vue'
+import { QuestionsService } from '../services/questions.service'
 
 const router = useRouter()
 const question = ref(new Question())
 const questionsStore = useQuestionsStore()
+const questionsService = new QuestionsService()
 
 async function addQuestion(question) {
   await postQuestion(question)
@@ -16,17 +18,10 @@ async function addQuestion(question) {
 }
 
 async function postQuestion(question) {
-  const options = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(question),
-  }
-
   try {
-    const response = await fetch('/api/questions', options)
-    const data = await response.json()
+    const params = await questionsService.postQuestion(question)
 
-    questionsStore.add(new Question(data))
+    questionsStore.add(new Question(params))
   } catch (error) {
     console.error(error)
     questionsStore.$reset()

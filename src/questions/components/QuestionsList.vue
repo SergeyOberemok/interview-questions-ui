@@ -1,6 +1,6 @@
 <script setup>
 import { FwbPagination } from 'flowbite-vue'
-import { PencilSquareIcon } from '@heroicons/vue/24/outline'
+import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
 
 import { PAGINATION } from '@/core/constants'
 import QuestionItem from './QuestionItem.vue'
@@ -16,7 +16,7 @@ defineProps({
     required: true,
   },
 })
-const emit = defineEmits(['selectedToEdit'])
+const emit = defineEmits(['onEdit'])
 </script>
 
 <template>
@@ -26,10 +26,14 @@ const emit = defineEmits(['selectedToEdit'])
     <div v-for="question in questions" :key="question.id">
       <question-item :question="question" class="mb-3">
         <template v-slot:icons>
-          <PencilSquareIcon
+          <trash-icon
+            class="size-5 cursor-pointer me-2"
+            @click="emit('onDelete', question.id)"
+          ></trash-icon>
+          <pencil-square-icon
             class="size-5 cursor-pointer"
-            @click="emit('selectedToEdit', question.id)"
-          ></PencilSquareIcon>
+            @click="emit('onEdit', question.id)"
+          ></pencil-square-icon>
         </template>
       </question-item>
     </div>
