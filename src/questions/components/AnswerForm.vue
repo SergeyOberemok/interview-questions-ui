@@ -1,32 +1,25 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 
-import { LANGUAGES, LANGUAGE_DEFAULT } from '@/core/constants'
 import BeautifyArea from '@/core/components/BeautifyArea.vue'
+import { LANGUAGES, LANGUAGE_DEFAULT } from '@/core/constants'
+import { Answer } from '../shared'
 
 const { answer } = defineProps({
   answer: {
-    type: [Object, null],
+    type: [Answer, null],
   },
 })
 const emit = defineEmits(['submitted'])
 
-const model = ref(getInitialState())
-
-function getInitialState() {
-  return {
-    title: '',
-    answer: '',
-    type: LANGUAGE_DEFAULT,
-  }
-}
+const model = ref(new Answer({ type: LANGUAGE_DEFAULT }))
 
 function reset() {
-  model.value = getInitialState()
+  model.value = new Answer({ type: LANGUAGE_DEFAULT })
 }
 
 function submitForm() {
-  emit('submitted', { ...model.value })
+  emit('submitted', new Answer(model.value))
   reset()
 }
 
@@ -35,7 +28,7 @@ watchEffect(() => {
     return
   }
 
-  model.value = { ...answer }
+  model.value = new Answer(answer)
 })
 </script>
 
@@ -77,12 +70,16 @@ watchEffect(() => {
           </select>
         </div>
 
-        <button
-          type="submit"
-          class="rounded-md bg-blue-500 px-3 py-1 shadow-sm text-white hover:bg-blue-400"
-        >
-          <slot name="button"></slot>
-        </button>
+        <div class="buttons">
+          <slot name="buttons">
+            <button
+              type="submit"
+              class="rounded-md bg-blue-500 px-3 py-1 shadow-sm text-white hover:bg-blue-400"
+            >
+              <slot name="button">Submit</slot>
+            </button>
+          </slot>
+        </div>
       </div>
     </form>
   </div>

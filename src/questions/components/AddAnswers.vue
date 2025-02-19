@@ -4,6 +4,7 @@ import AddAnswer from './AddAnswer.vue'
 import UpdateAnswer from './UpdateAnswer.vue'
 import EditableAnswersList from './EditableAnswersList.vue'
 import { omit } from 'lodash-es'
+import { Answer } from '../shared'
 
 const answers = defineModel({ type: Array, default: [] })
 
@@ -14,16 +15,20 @@ function pushAnswer(answer) {
 }
 
 function selectAnswer(answer) {
-  selectedAnswer.value = { ...answer, data: answer }
+  selectedAnswer.value = Object.assign(new Answer(answer), { data: answer })
 }
 
 function updateUnswers(answer) {
   const index = answers.value.findIndex((item) => item === answer.data)
   const newAnswers = [...answers.value]
 
-  newAnswers.splice(index, 1, omit(answer, ['data']))
+  newAnswers.splice(index, 1, new Answer(answer))
 
   answers.value = newAnswers
+  reset()
+}
+
+function reset() {
   selectedAnswer.value = null
 }
 </script>
@@ -36,7 +41,11 @@ function updateUnswers(answer) {
       <add-answer @added="pushAnswer"></add-answer>
     </template>
     <template v-else>
-      <update-answer :answer="selectedAnswer" @updated="updateUnswers"></update-answer>
+      <update-answer
+        :answer="selectedAnswer"
+        @updated="updateUnswers"
+        @cancelled="reset"
+      ></update-answer>
     </template>
   </div>
 </template>

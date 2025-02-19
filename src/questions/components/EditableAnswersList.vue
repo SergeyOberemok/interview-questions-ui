@@ -27,7 +27,7 @@ function remove(index) {
     <span v-else>Answers are empty</span>
 
     <div class="answers-container">
-      <template v-for="(answer, index) in answers" :key="`${answer.title}_${index}`" class="mb-3">
+      <template v-for="(answer, index) in answers" :key="answer.hash()" class="mb-3">
         <answer :answer="answer" class="mb-3">
           <pencil-square-icon
             class="size-4 cursor-pointer me-1"

@@ -16,6 +16,6 @@ const { answer } = defineProps({
       </div>
     </div>
 
-    <code-snippet :lang="answer.type" class>{{ answer.answer }}</code-snippet>
+    <code-snippet :lang="answer.type" :value="answer.answer">{{ answer.answer }}</code-snippet>
   </div>
 </template>

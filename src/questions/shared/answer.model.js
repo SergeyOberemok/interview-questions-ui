@@ -1,3 +1,4 @@
+import { hashCode } from '@/core/utils'
 import { faker } from '@faker-js/faker'
 
 export class Answer {
@@ -5,10 +6,15 @@ export class Answer {
     this.assign(params)
   }
 
-  assign({ title = '', answer = '', type = '' } = {}) {
+  assign({ id = '', title = '', answer = '', type = '' } = {}) {
+    this.id = id
     this.title = title
     this.answer = answer
     this.type = type
+  }
+
+  hash() {
+    return Object.values(this).map(hashCode).join('')
   }
 }
 

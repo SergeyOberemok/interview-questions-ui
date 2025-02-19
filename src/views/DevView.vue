@@ -1,14 +1,9 @@
 <script setup>
-import BeautifyArea from '@/core/components/BeautifyArea.vue'
-import { ref, watchEffect } from 'vue'
-
-const model = ref('')
-
-watchEffect(() => console.log(model.value))
+import CanvasPainter from '@/core/components/CanvasPainter.vue'
 </script>
 
 <template>
   <div class="wrapper container mx-auto">
-    <beautify-area v-model="model"></beautify-area>
+    <canvas-painter></canvas-painter>
   </div>
 </template>
