@@ -3,20 +3,20 @@ import { debounce } from 'lodash-es'
 import { computed, ref } from 'vue'
 import { XMarkIcon } from '@heroicons/vue/16/solid'
 
+const isSearching = ref(false)
+const isActive = computed(() => items?.length > 0 && isSearching.value === true)
+const typeahead = debounce(() => ((isSearching.value = true), emit('search', model.value)), 500)
+const remappedItems = computed(() => items.map(mapper))
+
 const model = defineModel({ type: String })
-const { items } = defineProps({
+const { items, mapper } = defineProps({
   items: { type: Array },
   placeholder: { type: String },
+  mapper: { type: Function, default: (item) => item },
 })
 const emit = defineEmits(['search', 'selected'])
 
-const isSearching = ref(false)
-const isActive = computed(() => items?.length > 0 && isSearching.value === true)
-
-const typeahead = debounce(() => ((isSearching.value = true), emit('search', model.value)), 500)
-
 function emitSelected(item) {
-  model.value = item
   isSearching.value = false
   emit('selected', item)
 }
@@ -26,7 +26,7 @@ function emitSelected(item) {
   <div class="wrapper relative">
     <div class="relative">
       <input
-        class="form-input w-full pe-9 border-gray-300 rounded-md shadow-sm text-sm focus:border-gray-400 focus:ring-gray-100"
+        class="form-input w-full pe-9 border border-gray-300 rounded-md shadow-sm text-sm focus:border-gray-400 focus:ring-gray-100"
         type="text"
         v-model.trim="model"
         :placeholder="placeholder"
@@ -50,13 +50,15 @@ function emitSelected(item) {
       :class="{ block: isActive, hidden: !isActive }"
     >
       <div
-        v-for="(item, index) in items"
+        v-for="(item, index) in remappedItems"
         :key="item"
         class="w-full py-2 px-3 text-sm text-gray-800 hover:bg-gray-50 rounded-md focus:outline-none focus:bg-gray-100 cursor-pointer"
         :tabindex="index"
         @click="emitSelected(item)"
       >
-        <span>{{ item }}</span>
+        <slot :item="item">
+          <span>{{ item }}</span>
+        </slot>
       </div>
     </div>
   </div>

@@ -1,10 +1,10 @@
 <script setup>
 import { toRaw } from 'vue'
-
 import { removeFalsyItems } from '@/core/utils'
 import AddLabels from '@/labels/components/AddLabels.vue'
 import { Question } from '../shared'
 import AddAnswers from './AddAnswers.vue'
+import CanvasPainter from '@/core/components/CanvasPainter.vue'
 
 const question = defineModel({ default: new Question() })
 const emit = defineEmits(['edited', 'cancelled'])
@@ -22,12 +22,14 @@ async function submitForm() {
         <div class="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label for="description">Description</label>
-            <input
-              type="text"
-              id="description"
-              class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
-              v-model.trim="question.description"
-            />
+            <slot :question="question">
+              <input
+                type="text"
+                id="description"
+                class="form-input w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
+                v-model.trim="question.description"
+              />
+            </slot>
           </div>
 
           <div>
@@ -40,13 +42,17 @@ async function submitForm() {
           <add-answers v-model="question.answers" class="w-full"></add-answers>
         </div>
 
+        <div class="mb-3">
+          <canvas-painter v-model="question.image"></canvas-painter>
+        </div>
+
         <div class="grid grid-cols-2 gap-3">
           <div class="flex flex-col">
             <label for="notes">Notes</label>
             <textarea
               name="notes"
               id="notes"
-              class="form-textarea w-full rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-100"
+              class="form-textarea w-full rounded-md border border-gray-300 focus:border-gray-400 focus:ring-gray-100"
               v-model.trim="question.notes"
             ></textarea>
           </div>

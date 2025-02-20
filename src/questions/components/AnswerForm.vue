@@ -44,7 +44,7 @@ watchEffect(() => {
         <input
           type="text"
           id="title"
-          class="form-input w-full rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
+          class="form-input w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
           v-model.trim="model.title"
         />
       </div>
@@ -54,13 +54,23 @@ watchEffect(() => {
         <beautify-area v-model="model.answer" :type="model.type"></beautify-area>
       </div>
 
+      <div class="flex flex-col mb-3">
+        <label for="note">Note</label>
+        <textarea
+          name="note"
+          id="note"
+          v-model="model.note"
+          class="form-textarea rounded-md border border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
+        ></textarea>
+      </div>
+
       <div class="flex justify-between items-end">
         <div class="flex flex-col">
           <label for="type">Type</label>
           <select
             name="type"
             id="type"
-            class="form-select w-32 rounded-md border-gray-300 focus:border-gray-400 focus:ring-gray-100"
+            class="form-select w-32 rounded-md border border-gray-300 focus:border-gray-400 focus:ring-gray-100"
             v-model="model.type"
           >
             <option value="plain" selected>Text</option>

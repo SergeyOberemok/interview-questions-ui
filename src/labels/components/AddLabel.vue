@@ -1,21 +1,21 @@
 <script setup>
 import Combobox from '@/core/components/Combobox.vue'
 import { ArrowPathIcon } from '@heroicons/vue/16/solid'
-import { ref } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
+
+const label = ref('')
+const items = shallowRef([])
+const isLoading = ref(false)
 
 const emit = defineEmits(['created'])
 
-const label = ref('')
-const items = ref([])
-const isLoading = ref(false)
-
 async function search(text) {
+  items.value = []
+
   if (!text) {
-    items.value = []
     return
   }
 
-  items.value = []
   isLoading.value = true
 
   try {
@@ -29,6 +29,8 @@ async function search(text) {
     isLoading.value = false
   }
 }
+
+watch(label, (label) => !label && (items.value = []))
 </script>
 
 <template>

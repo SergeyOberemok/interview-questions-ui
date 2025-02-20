@@ -16,6 +16,10 @@ const { answer } = defineProps({
       </div>
     </div>
 
-    <code-snippet :lang="answer.type" :value="answer.answer">{{ answer.answer }}</code-snippet>
+    <code-snippet :lang="answer.type" :value="answer.answer" class="mb-1">{{
+      answer.answer
+    }}</code-snippet>
+
+    <div v-if="answer.note" class="text-xs">Note: {{ answer.note }}</div>
   </div>
 </template>

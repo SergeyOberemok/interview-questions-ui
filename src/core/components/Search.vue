@@ -22,7 +22,7 @@ const searchTypeahead = debounce(() => {
       type="text"
       id="search"
       placeholder="Search"
-      class="form-input w-full pe-9 rounded-md border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
+      class="form-input w-full pe-9 rounded-md border border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
       v-model.trim="search"
       @input="searchTypeahead"
     />

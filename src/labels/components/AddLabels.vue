@@ -2,11 +2,13 @@
 import { splitIntoParts } from '@/core/utils'
 import EditableLabelsList from './EditableLabelsList.vue'
 import AddLabel from './AddLabel.vue'
+import { Label } from '../shared'
 
 const labels = defineModel({ default: [] })
 
 function addLabelToList(newlabel) {
-  labels.value = [...labels.value, ...splitIntoParts(newlabel)]
+  const newLabels = splitIntoParts(newlabel).map((label) => new Label({ name: label }))
+  labels.value = [...labels.value, ...newLabels]
 }
 function removeLabelFromList(index) {
   labels.value = labels.value.filter((_, i) => i !== index)

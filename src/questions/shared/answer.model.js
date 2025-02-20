@@ -6,11 +6,12 @@ export class Answer {
     this.assign(params)
   }
 
-  assign({ id = '', title = '', answer = '', type = '' } = {}) {
+  assign({ id = '', title = '', answer = '', type = '', note = '' } = {}) {
     this.id = id
     this.title = title
     this.answer = answer
     this.type = type
+    this.note = note
   }
 
   hash() {
@@ -23,7 +24,8 @@ export class AnswerFactory {
     const title = faker.person.jobTitle()
     const answer = faker.lorem.sentence()
     const type = 'text'
+    const note = faker.lorem.words()
 
-    return new Answer({ title, answer, type })
+    return new Answer({ title, answer, type, note })
   }
 }

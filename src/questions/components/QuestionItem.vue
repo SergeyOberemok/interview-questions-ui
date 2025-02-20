@@ -35,6 +35,10 @@ let isOpened = ref(false)
     <div class="content pt-2" v-show="isOpened">
       <answers-list :answers="question.answers" class="mb-1"></answers-list>
 
+      <div v-if="question.image">
+        <img :src="question.image" />
+      </div>
+
       <div v-if="question.notes" class="mb-3">{{ question.notes }}</div>
     </div>
   </div>
