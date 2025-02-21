@@ -8,7 +8,6 @@ import LabelsList from '@/labels/components/LabelsList.vue'
 const model = defineModel({ type: String, required: true })
 const emit = defineEmits(['selected'])
 
-const title = ref('')
 const questions = shallowRef([])
 const isLoading = ref(false)
 const questionsService = new QuestionsService()
@@ -40,13 +39,13 @@ function mapper(question) {
   }
 }
 
-watch(title, (title) => !title && (questions.value = []))
+watch(model, (title) => !title && (questions.value = []))
 </script>
 
 <template>
   <div class="question-typeahead-wrapper">
     <combobox
-      v-model="title"
+      v-model="model"
       :items="questions"
       :mapper="mapper"
       @search="search"
