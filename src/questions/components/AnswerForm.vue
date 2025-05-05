@@ -19,7 +19,7 @@ function reset() {
 }
 
 function submitForm() {
-  emit('submitted', new Answer(model.value))
+  emit('submitted', model.value)
   reset()
 }
 

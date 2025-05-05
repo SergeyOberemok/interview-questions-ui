@@ -15,11 +15,11 @@ function pushAnswer(answer) {
 }
 
 function selectAnswer(answer) {
-  selectedAnswer.value = Object.assign(new Answer(answer), { data: answer })
+  selectedAnswer.value = answer
 }
 
 function updateUnswers(answer) {
-  const index = answers.value.findIndex((item) => item === answer.data)
+  const index = answers.value.findIndex((item) => item === selectedAnswer.value)
   const newAnswers = [...answers.value]
 
   newAnswers.splice(index, 1, new Answer(answer))
