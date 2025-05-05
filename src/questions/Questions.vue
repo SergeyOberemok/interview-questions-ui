@@ -1,13 +1,11 @@
 <script setup>
-import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-
 import Search from '@/core/components/Search.vue'
-import { PAGINATION } from '@/core/constants'
+import { debounce } from 'lodash-es'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import QuestionsList from './components/QuestionsList.vue'
 import { QuestionsService } from './services/questions.service'
-import { Question } from './shared/question.model'
 import { usePageStore, useQuestionsStore, useSearchStore } from './stores'
 
 const isLoading = ref(false)
@@ -16,42 +14,28 @@ const { page } = storeToRefs(pageStore)
 const searchStore = useSearchStore()
 const { search } = storeToRefs(searchStore)
 const questionsStore = useQuestionsStore()
+const { totalCount } = storeToRefs(questionsStore)
 const router = useRouter()
 const questionsService = new QuestionsService()
+const fetchQuestionsDebounce = debounce(() => fetchQuestions(), 1000, {
+  leading: true,
+  trailing: false,
+})
 
-onMounted(async () => fetchQuestions())
-pageStore.$subscribe(() => (questionsStore.$reset(), fetchQuestions()))
+onMounted(fetchQuestionsDebounce)
+pageStore.$subscribe(fetchQuestionsDebounce)
+watch(totalCount, fetchQuestionsDebounce)
 
 async function fetchQuestions() {
-  if (questionsStore.isLoaded) {
-    return
-  }
-
   isLoading.value = true
 
-  try {
-    const { questions, total } = await questionsService.fetchQuestions(
-      page.value,
-      PAGINATION.perPage,
-      search.value,
-    )
+  await questionsService.fetchQuestions()
 
-    questionsStore.addQuestions(questions.map((question) => new Question(question)))
-    questionsStore.setTotalCount(total)
-  } catch (error) {
-    questionsStore.$reset()
-  } finally {
-    isLoading.value = false
-  }
+  isLoading.value = false
 }
 
 async function removeQuestion(id) {
-  try {
-    const quantity = await questionsService.removeQuestion(id)
-
-    questionsStore.remove(id)
-    questionsStore.setTotalCount(questionsStore.totalCount - quantity)
-  } catch (error) {}
+  await questionsService.removeQuestion(id)
 }
 
 function updateSearch() {

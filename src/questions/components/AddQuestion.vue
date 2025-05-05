@@ -3,29 +3,16 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { QuestionsService } from '../services/questions.service'
 import { Question } from '../shared'
-import { useQuestionsStore } from '../stores'
 import QuestionForm from './QuestionForm.vue'
 import QuestionTypeahead from './QuestionTypeahead.vue'
 
 const router = useRouter()
 const question = ref(new Question())
-const questionsStore = useQuestionsStore()
 const questionsService = new QuestionsService()
 
 async function addQuestion(question) {
-  await postQuestion(question)
+  await questionsService.createQuestion(question)
   router.push('/questions')
-}
-
-async function postQuestion(question) {
-  try {
-    const params = await questionsService.postQuestion(question)
-
-    questionsStore.add(new Question(params))
-  } catch (error) {
-    console.error(error)
-    questionsStore.$reset()
-  }
 }
 
 function navigateHome() {

@@ -1,64 +1,49 @@
-import { applicationJsonHeader } from '@/core/constants'
-import { identity, pickBy } from 'lodash-es'
-
-const QUESTIONS_API = '/api/questions'
+import { PAGINATION } from '@/core/constants'
+import { QuestionsRepository } from '@/questions/repositories/questions.repository'
+import { usePageStore, useQuestionsStore, useSearchStore } from '@/questions/stores'
 
 export class QuestionsService {
-  constructor() {}
+  constructor() {
+    this.questionsRepository = new QuestionsRepository()
+    this.questionsStore = useQuestionsStore()
+    this.pageStore = usePageStore()
+    this.searchStore = useSearchStore()
+  }
 
-  async fetchQuestions(page, size, search) {
+  async fetchQuestions() {
     try {
-      const response = await fetch(
-        `${QUESTIONS_API}?` +
-          new URLSearchParams(
-            pickBy(
-              {
-                page,
-                size,
-                search,
-              },
-              identity,
-            ),
-          ).toString(),
+      const { questions, total } = await this.questionsRepository.fetchQuestions(
+        this.pageStore.page,
+        PAGINATION.perPage,
+        this.searchStore.search,
       )
 
-      return await response.json()
+      this.questionsStore.addQuestions(questions)
+      this.questionsStore.setTotalCount(total)
+
+      return { questions, total }
     } catch (error) {
-      console.error(error)
-      throw error
+      this.questionsStore.$reset()
     }
   }
 
-  async postQuestion(question) {
-    const options = {
-      method: 'POST',
-      headers: { ...applicationJsonHeader },
-      body: JSON.stringify(question),
-    }
+  async createQuestion(question) {
+    await this.questionsRepository.postQuestion(question)
+    this.questionsStore.incrementQuestions()
+    this.pageStore.$reset()
+    this.searchStore.$reset()
+  }
 
-    try {
-      const response = await fetch(QUESTIONS_API, options)
+  async updateQuestion(question) {
+    await this.questionsRepository.putQuestion(question)
 
-      return await response.json()
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
+    this.questionsStore.update(question)
   }
 
   async removeQuestion(id) {
-    const options = {
-      method: 'DELETE',
-      headers: { ...applicationJsonHeader },
-    }
+    await this.questionsRepository.deleteQuestion(id)
 
-    try {
-      const response = await fetch(`${QUESTIONS_API}/${id}`, options)
-
-      return await response.json()
-    } catch (error) {
-      console.error(error)
-      throw error
-    }
+    this.questionsStore.remove(id)
+    this.questionsStore.decrementQuestions()
   }
 }

@@ -4,7 +4,6 @@ import { ref, shallowRef } from 'vue'
 export const useQuestionsStore = defineStore('questions', () => {
   const questions = shallowRef([])
   const totalCount = ref(0)
-  const isLoaded = ref(false)
 
   function find(id) {
     return questions.value.find((question) => question.id === id)
@@ -12,12 +11,6 @@ export const useQuestionsStore = defineStore('questions', () => {
 
   function addQuestions(value) {
     questions.value = [...value]
-    isLoaded.value = true
-  }
-
-  function add(question) {
-    questions.value = [...questions.value, question]
-    totalCount.value++
   }
 
   function update(question) {
@@ -37,22 +30,29 @@ export const useQuestionsStore = defineStore('questions', () => {
     totalCount.value = value
   }
 
+  function incrementQuestions() {
+    totalCount.value++
+  }
+
+  function decrementQuestions() {
+    totalCount.value--
+  }
+
   function $reset() {
     questions.value = []
     totalCount.value = 0
-    isLoaded.value = false
   }
 
   return {
     questions,
     totalCount,
-    isLoaded,
     find,
     addQuestions,
-    add,
     update,
     remove,
     setTotalCount,
+    incrementQuestions,
+    decrementQuestions,
     $reset,
   }
 })
