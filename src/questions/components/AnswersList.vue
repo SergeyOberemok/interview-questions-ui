@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="answers-list-wrapper">
     <h3 class="mb-1" v-if="answers.length > 0">Answers</h3>
     <span v-else>Answers are empty</span>
 

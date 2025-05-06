@@ -34,7 +34,7 @@ watch(label, (label) => !label && (items.value = []))
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="add-label-wrapper">
     <combobox
       v-model="label"
       :items="items"

@@ -7,7 +7,7 @@ const { answer } = defineProps({
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="answer-wrapper">
     <div class="flex justify-between mb-1">
       <div>{{ answer.title }}</div>
 

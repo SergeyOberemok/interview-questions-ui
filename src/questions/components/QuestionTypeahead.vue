@@ -2,15 +2,15 @@
 import Combobox from '@/core/components/Combobox.vue'
 import { ArrowPathIcon } from '@heroicons/vue/16/solid'
 import { ref, shallowRef, watch } from 'vue'
-import { QuestionsService } from '../services/questions.service'
 import LabelsList from '@/labels/components/LabelsList.vue'
+import { QuestionsRepository } from '@/questions/repositories/questions.repository'
 
 const model = defineModel({ type: String, required: true })
 const emit = defineEmits(['selected'])
 
 const questions = shallowRef([])
 const isLoading = ref(false)
-const questionsService = new QuestionsService()
+const questionsRepository = new QuestionsRepository()
 
 async function search(text) {
   questions.value = []
@@ -22,7 +22,7 @@ async function search(text) {
   isLoading.value = true
 
   try {
-    const { questions: fetchedQuestions } = await questionsService.fetchQuestions(1, 5, text)
+    const { questions: fetchedQuestions } = await questionsRepository.fetchQuestions(1, 5, text)
     questions.value = fetchedQuestions
   } catch (error) {
     console.error(error)
@@ -51,8 +51,8 @@ watch(model, (title) => !title && (questions.value = []))
       @search="search"
       @selected="emit('selected', $event)"
     >
-      <template v-if="isLoading" #right-icon>
-        <arrow-path-icon class="size-3 animate-spi"></arrow-path-icon>
+      <template #right-icon>
+        <arrow-path-icon v-if="isLoading" class="size-3 animate-spi"></arrow-path-icon>
       </template>
 
       <template v-slot="slotProps">

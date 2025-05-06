@@ -16,7 +16,7 @@ function removeLabelFromList(index) {
 </script>
 
 <template>
-  <div class="wrapper flex justify-between items-center">
+  <div class="add-labels-wrapper flex justify-between items-center">
     <editable-labels-list :labels="labels" @edited="removeLabelFromList"></editable-labels-list>
 
     <add-label @created="addLabelToList"></add-label>

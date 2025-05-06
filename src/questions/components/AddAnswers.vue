@@ -34,7 +34,7 @@ function reset() {
 </script>
 
 <template>
-  <div class="wrapper grid grid-cols-2 gap-3">
+  <div class="add-answers-wrapper grid grid-cols-2 gap-3">
     <editable-answers-list v-model="answers" @selected="selectAnswer"></editable-answers-list>
 
     <template v-if="!selectedAnswer">

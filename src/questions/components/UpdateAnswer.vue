@@ -7,7 +7,7 @@ const emit = defineEmits(['updated', 'cancelled'])
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="update-answer-wrapper">
     <answer-form :answer="answer" @submitted="emit('updated', $event)">
       <template v-slot:title>Update answer</template>
       <template v-slot:buttons>

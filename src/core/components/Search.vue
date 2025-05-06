@@ -17,7 +17,7 @@ const searchTypeahead = debounce(() => {
 </script>
 
 <template>
-  <div class="wrapper relative">
+  <div class="search-wrapper relative">
     <input
       type="text"
       id="search"

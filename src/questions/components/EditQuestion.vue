@@ -25,7 +25,7 @@ function navigateHome() {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="edit-question-wrapper">
     <question-form
       v-model="question"
       @edited="updateQuestion"

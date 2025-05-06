@@ -31,7 +31,7 @@ watch(() => props.value, highlight)
 </script>
 
 <template>
-  <div class="wrapper rounded-lg overflow-hidden drop-shadow relative">
+  <div class="code-snippet-wrapper rounded-lg overflow-hidden drop-shadow relative">
     <pre><code :class="`language-${lang}`"><slot>{{ value }}</slot></code></pre>
   </div>
 </template>

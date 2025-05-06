@@ -16,9 +16,9 @@ async function submitForm() {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="question-form-wrapper">
     <form class="flex flex-col" @submit.prevent="submitForm">
-      <div class="wrapper container mx-auto mb-3">
+      <div class="container mx-auto mb-3">
         <div class="grid grid-cols-2 gap-3 mb-3">
           <div>
             <label for="description">Description</label>

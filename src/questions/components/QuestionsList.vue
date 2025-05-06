@@ -20,7 +20,7 @@ const emit = defineEmits(['onEdit'])
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="questions-list-wrapper">
     <div v-if="!questions.length">Empty</div>
 
     <div v-for="question in questions" :key="question.id">

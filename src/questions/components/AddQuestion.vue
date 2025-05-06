@@ -25,7 +25,7 @@ function navigateEdit(question) {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="add-question-wrapper">
     <question-form v-model="question" @edited="addQuestion" @cancelled="navigateHome">
       <template v-slot="slotProps">
         <question-typeahead

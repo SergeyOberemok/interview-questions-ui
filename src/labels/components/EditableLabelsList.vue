@@ -13,7 +13,7 @@ const emit = defineEmits(['edited'])
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="editable-labels-wrapper">
     <labels-list :labels="labels" v-slot="{ index }">
       <x-mark-icon class="size-3 ml-1 cursor-pointer" @click="emit('edited', index)"></x-mark-icon>
     </labels-list>

@@ -20,7 +20,7 @@ function change() {
 </script>
 
 <template>
-  <div class="wrapper relative">
+  <div class="beaturify-area-wrapper relative">
     <textarea
       class="form-textarea w-full rounded-md border border-gray-300 focus:border-gray-400 focus:ring-gray-100"
       v-model.trim="model"

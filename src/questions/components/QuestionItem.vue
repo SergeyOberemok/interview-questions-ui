@@ -13,7 +13,7 @@ let isOpened = ref(false)
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="question-item-wrapper">
     <div class="header flex justify-between items-center">
       <div class="flex">
         <h3 class="me-3">{{ question.description }}</h3>

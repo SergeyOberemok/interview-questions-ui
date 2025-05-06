@@ -33,7 +33,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="answer-form-wrapper">
     <h5 class="mb-3">
       <slot name="title"></slot>
     </h5>

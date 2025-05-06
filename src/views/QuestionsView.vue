@@ -3,7 +3,7 @@ import Questions from '@/questions/Questions.vue'
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="questions-view-wrapper">
     <questions></questions>
   </div>
 </template>
