@@ -1,4 +1,4 @@
-import { applicationJsonHeader } from '@/core/constants'
+import { applicationJsonHeader } from '@/common/constants'
 
 export class HttpRepository {
   constructor(baseUrl) {

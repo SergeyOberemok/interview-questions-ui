@@ -1,8 +1,8 @@
 <script setup>
-import { FwbPagination } from 'flowbite-vue'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import { FwbPagination } from 'flowbite-vue'
 
-import { PAGINATION } from '@/core/constants'
+import { PAGINATION } from '@/common/constants'
 import QuestionItem from './QuestionItem.vue'
 
 const currentPage = defineModel({ default: 1 })

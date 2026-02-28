@@ -1,4 +1,5 @@
 <script setup>
+import { TrashIcon } from '@heroicons/vue/24/outline'
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 
 const canvas = useTemplateRef('canvas')
@@ -51,18 +52,21 @@ watch(model, (image) => image && drawModel(), { once: true })
 </script>
 
 <template>
-  <div class="canvas-painter-wrapper">
-    <canvas
-      id="painter"
-      class="border border-gray-300 rounded-md shadow-sm"
-      @mousedown="startPainting"
-      @mouseup="stopPainting"
-      @mousemove="isPainting && draw($event)"
-      ref="canvas"
-    ></canvas>
-
-    <button type="button" class="border border-gray-300 rounded-md shadow-sm px-3" @click="clear">
-      Clear
-    </button>
+  <div class="flex">
+    <div class="relative">
+      <canvas
+        id="painter"
+        class="border border-gray-300 rounded-md shadow-sm border-1"
+        @mousedown="startPainting"
+        @mouseup="stopPainting"
+        @mousemove="isPainting && draw($event)"
+        ref="canvas"
+        width="500"
+        height="200"
+      ></canvas>
+      <button type="button" class="absolute top-2 right-2" @click="clear">
+        <trash-icon class="size-4"></trash-icon>
+      </button>
+    </div>
   </div>
 </template>

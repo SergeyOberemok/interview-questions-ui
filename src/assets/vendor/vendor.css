@@ -1,2 +1,4 @@
-@import './tailwind.css';
-@import './prism.css';
+@import './tailwind';
+@import './prism';
+@import './flowbite';
+@import './tailwind-forms';

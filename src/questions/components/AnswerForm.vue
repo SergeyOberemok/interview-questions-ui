@@ -1,8 +1,9 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 
-import BeautifyArea from '@/core/components/BeautifyArea.vue'
-import { LANGUAGES, LANGUAGE_DEFAULT } from '@/core/constants'
+import BeautifyArea from '@/common/components/BeautifyArea.vue'
+import LanguageTypes from '@/common/components/LanguageTypes.vue'
+import { LANGUAGE_DEFAULT } from '@/common/constants'
 import { Answer } from '../shared'
 
 const { answer } = defineProps({
@@ -55,6 +56,11 @@ watchEffect(() => {
       </div>
 
       <div class="flex flex-col mb-3">
+        <label for="type">Type</label>
+        <language-types v-model="model.type"></language-types>
+      </div>
+
+      <div class="flex flex-col mb-3">
         <label for="note">Note</label>
         <textarea
           name="note"
@@ -64,32 +70,15 @@ watchEffect(() => {
         ></textarea>
       </div>
 
-      <div class="flex justify-between items-end">
-        <div class="flex flex-col">
-          <label for="type">Type</label>
-          <select
-            name="type"
-            id="type"
-            class="form-select w-32 rounded-md border border-gray-300 focus:border-gray-400 focus:ring-gray-100"
-            v-model="model.type"
+      <div class="buttons flex justify-end">
+        <slot name="buttons">
+          <button
+            type="submit"
+            class="rounded-md bg-blue-500 px-3 py-1 shadow-sm text-white hover:bg-blue-400"
           >
-            <option value="plain" selected>Text</option>
-            <option :value="type" v-for="[type, language] in Object.entries(LANGUAGES)">
-              {{ language }}
-            </option>
-          </select>
-        </div>
-
-        <div class="buttons">
-          <slot name="buttons">
-            <button
-              type="submit"
-              class="rounded-md bg-blue-500 px-3 py-1 shadow-sm text-white hover:bg-blue-400"
-            >
-              <slot name="button">Submit</slot>
-            </button>
-          </slot>
-        </div>
+            <slot name="button">Submit</slot>
+          </button>
+        </slot>
       </div>
     </form>
   </div>

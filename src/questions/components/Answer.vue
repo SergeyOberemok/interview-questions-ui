@@ -1,5 +1,5 @@
 <script setup>
-import CodeSnippet from '@/core/components/CodeSnippet.vue'
+import CodeSnippet from '@/common/components/CodeSnippet.vue';
 
 const { answer } = defineProps({
   answer: { required: true },

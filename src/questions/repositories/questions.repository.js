@@ -1,4 +1,4 @@
-import { HttpRepository } from '@/core/repositories/http.repository'
+import { HttpRepository } from '@/common/repositories/http.repository'
 import { Question } from '@/questions/shared'
 import { identity, pickBy } from 'lodash-es'
 
