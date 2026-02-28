@@ -1,5 +1,5 @@
 <script setup>
-import Search from '@/core/components/Search.vue'
+import Search from '@/common/components/Search.vue'
 import { debounce } from 'lodash-es'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref, watch } from 'vue'

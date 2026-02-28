@@ -1,8 +1,8 @@
 <script setup>
 import { CursorArrowRaysIcon } from '@heroicons/vue/24/outline'
-import { beautify } from '../utils/beautify.function'
 import { computed } from 'vue'
 import { BEAUTIFY_LANGUAGES } from '../constants'
+import { beautify } from '../utils/beautify.function'
 
 const model = defineModel({
   required: true,
@@ -14,18 +14,19 @@ const { type } = defineProps({
 
 const isActive = computed(() => BEAUTIFY_LANGUAGES.some((language) => language === type))
 
-function change() {
-  model.value = beautify(model.value, type)
+async function change() {
+  model.value = await beautify(model.value, type)
 }
 </script>
 
 <template>
-  <div class="beaturify-area-wrapper relative">
+  <div class="relative">
     <textarea
       class="form-textarea w-full rounded-md border border-gray-300 focus:border-gray-400 focus:ring-gray-100"
       v-model.trim="model"
       rows="4"
     ></textarea>
+
     <button
       type="button"
       @click="change"

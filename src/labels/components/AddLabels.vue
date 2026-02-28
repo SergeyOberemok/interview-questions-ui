@@ -1,8 +1,8 @@
 <script setup>
-import { splitIntoParts } from '@/core/utils'
-import EditableLabelsList from './EditableLabelsList.vue'
-import AddLabel from './AddLabel.vue'
+import { splitIntoParts } from '@/common/utils'
 import { Label } from '../shared'
+import AddLabel from './AddLabel.vue'
+import EditableLabelsList from './EditableLabelsList.vue'
 
 const labels = defineModel({ default: [] })
 

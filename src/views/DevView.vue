@@ -1,9 +1,14 @@
 <script setup>
-import CanvasPainter from '@/core/components/CanvasPainter.vue'
+import LanguageTypes from '@/common/components/LanguageTypes.vue';
+import { ref } from 'vue';
+
+const languageType = ref('')
 </script>
 
 <template>
-  <div class="dev-view-wrapper container mx-auto">
-    <canvas-painter></canvas-painter>
+  <div class="container mx-auto">
+    <language-types v-model="languageType"></language-types>
+
+    <div class="mt-3">Selected language type: {{ languageType }}</div>
   </div>
 </template>

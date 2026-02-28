@@ -1,10 +1,10 @@
 <script setup>
-import { toRaw } from 'vue'
-import { removeFalsyItems } from '@/core/utils'
+import CanvasPainter from '@/common/components/CanvasPainter.vue'
+import { removeFalsyItems } from '@/common/utils'
 import AddLabels from '@/labels/components/AddLabels.vue'
+import { toRaw } from 'vue'
 import { Question } from '../shared'
 import AddAnswers from './AddAnswers.vue'
-import CanvasPainter from '@/core/components/CanvasPainter.vue'
 
 const question = defineModel({ default: new Question() })
 const emit = defineEmits(['edited', 'cancelled'])
@@ -42,11 +42,11 @@ async function submitForm() {
           <add-answers v-model="question.answers" class="w-full"></add-answers>
         </div>
 
-        <div class="mb-3">
-          <canvas-painter v-model="question.image"></canvas-painter>
-        </div>
+        <div class="grid grid-flow-col auto-rows-min grid-cols-2 gap-3">
+          <div>
+            <canvas-painter v-model="question.image"></canvas-painter>
+          </div>
 
-        <div class="grid grid-cols-2 gap-3">
           <div class="flex flex-col">
             <label for="notes">Notes</label>
             <textarea
@@ -57,7 +57,7 @@ async function submitForm() {
             ></textarea>
           </div>
 
-          <div class="flex justify-end items-end">
+          <div class="flex justify-end items-end row-span-2">
             <button
               type="submit"
               class="w-24 p-1 rounded-md bg-blue-500 shadow-sm text-white hover:bg-blue-600 me-2"

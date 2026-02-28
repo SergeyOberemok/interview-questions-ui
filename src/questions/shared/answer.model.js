@@ -1,4 +1,4 @@
-import { hashCode } from '@/core/utils'
+import { hashCode } from '@/common/utils'
 import { faker } from '@faker-js/faker'
 
 export class Answer {

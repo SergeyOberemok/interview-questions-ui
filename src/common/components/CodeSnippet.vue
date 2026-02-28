@@ -8,7 +8,7 @@ import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-sass'
 import { onMounted, onUpdated, watch } from 'vue'
 
-import { LANGUAGE_DEFAULT } from '@/core/constants'
+import { LANGUAGE_DEFAULT } from '@/common/constants'
 
 const props = defineProps({
   lang: {

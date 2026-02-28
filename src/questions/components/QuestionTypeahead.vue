@@ -1,9 +1,9 @@
 <script setup>
-import Combobox from '@/core/components/Combobox.vue'
-import { ArrowPathIcon } from '@heroicons/vue/16/solid'
-import { ref, shallowRef, watch } from 'vue'
+import Combobox from '@/common/components/Combobox.vue'
 import LabelsList from '@/labels/components/LabelsList.vue'
 import { QuestionsRepository } from '@/questions/repositories/questions.repository'
+import { ArrowPathIcon } from '@heroicons/vue/16/solid'
+import { ref, shallowRef, watch } from 'vue'
 
 const model = defineModel({ type: String, required: true })
 const emit = defineEmits(['selected'])

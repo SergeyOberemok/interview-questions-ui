@@ -1,4 +1,4 @@
-import { PAGINATION } from '@/core/constants'
+import { PAGINATION } from '@/common/constants'
 import { QuestionsRepository } from '@/questions/repositories/questions.repository'
 import { usePageStore, useQuestionsStore, useSearchStore } from '@/questions/stores'
 

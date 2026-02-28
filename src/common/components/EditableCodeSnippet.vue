@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-import { LANGUAGE_DEFAULT, LANGUAGES } from '@/core/constants'
+import { LANGUAGE_DEFAULT, LANGUAGES } from '@/common/constants'
 import CodeSnippet from './CodeSnippet.vue'
 
 const props = defineProps({

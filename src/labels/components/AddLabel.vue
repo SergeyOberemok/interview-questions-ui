@@ -1,5 +1,5 @@
 <script setup>
-import Combobox from '@/core/components/Combobox.vue'
+import Combobox from '@/common/components/Combobox.vue'
 import { ArrowPathIcon } from '@heroicons/vue/16/solid'
 import { ref, shallowRef, watch } from 'vue'
 
