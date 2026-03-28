@@ -16,7 +16,7 @@ let isOpened = ref(false)
   <div class="question-item-wrapper">
     <div class="header flex justify-between items-center">
       <div class="flex">
-        <h3 class="me-3">{{ question.description }}</h3>
+        <h3 class="me-4">{{ question.description }}</h3>
 
         <labels-list :labels="question.labels"></labels-list>
       </div>
@@ -33,13 +33,13 @@ let isOpened = ref(false)
     </div>
 
     <div class="content pt-2" v-show="isOpened">
-      <answers-list :answers="question.answers" class="mb-1"></answers-list>
+      <answers-list :answers="question.answers" class="mb-2"></answers-list>
 
       <div v-if="question.image">
-        <img :src="question.image" />
+        <img :src="question.image" class="mb-2" />
       </div>
 
-      <div v-if="question.notes" class="mb-3">{{ question.notes }}</div>
+      <div v-if="question.notes" class="text-xs">{{ question.notes }}</div>
     </div>
   </div>
 </template>

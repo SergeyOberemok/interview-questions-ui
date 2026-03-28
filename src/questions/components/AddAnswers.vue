@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import AddAnswer from './AddAnswer.vue'
-import UpdateAnswer from './UpdateAnswer.vue'
-import EditableAnswersList from './EditableAnswersList.vue'
-import { omit } from 'lodash-es'
 import { Answer } from '../shared'
+import AddAnswer from './AddAnswer.vue'
+import EditableAnswersList from './EditableAnswersList.vue'
+import UpdateAnswer from './UpdateAnswer.vue'
 
 const answers = defineModel({ type: Array, default: [] })
 
@@ -34,7 +33,7 @@ function reset() {
 </script>
 
 <template>
-  <div class="add-answers-wrapper grid grid-cols-2 gap-3">
+  <div class="add-answers-wrapper grid grid-cols-2 gap-4">
     <editable-answers-list v-model="answers" @selected="selectAnswer"></editable-answers-list>
 
     <template v-if="!selectedAnswer">

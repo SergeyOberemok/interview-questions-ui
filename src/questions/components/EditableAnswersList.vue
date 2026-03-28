@@ -1,7 +1,7 @@
 <script setup>
+import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 import { Bars2Icon, XMarkIcon } from '@heroicons/vue/24/solid'
 import { useSortable } from '@vueuse/integrations/useSortable'
-import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 import Answer from './Answer.vue'
 
 const answers = defineModel({
@@ -23,12 +23,12 @@ function remove(index) {
 
 <template>
   <div class="editable-answers-list-wrapper">
-    <h3 class="mb-1" v-if="answers.length > 0">Answers</h3>
+    <h3 class="mb-2" v-if="answers.length > 0">Answers</h3>
     <span v-else>Answers are empty</span>
 
     <div class="answers-container">
-      <template v-for="(answer, index) in answers" :key="answer.hash()" class="mb-3">
-        <answer :answer="answer" class="mb-3">
+      <template v-for="(answer, index) in answers" :key="answer.hash()" class="mb-4">
+        <answer :answer="answer" class="mb-4">
           <pencil-square-icon
             class="size-4 cursor-pointer me-1"
             @click="emit('selected', answer)"

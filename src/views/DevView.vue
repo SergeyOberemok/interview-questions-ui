@@ -9,6 +9,6 @@ const languageType = ref('')
   <div class="container mx-auto">
     <language-types v-model="languageType"></language-types>
 
-    <div class="mt-3">Selected language type: {{ languageType }}</div>
+    <div class="mt-4">Selected language type: {{ languageType }}</div>
   </div>
 </template>

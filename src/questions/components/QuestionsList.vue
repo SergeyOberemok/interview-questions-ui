@@ -24,7 +24,7 @@ const emit = defineEmits(['onEdit'])
     <div v-if="!questions.length">Empty</div>
 
     <div v-for="question in questions" :key="question.id">
-      <question-item :question="question" class="mb-3">
+      <question-item :question="question" class="mb-4">
         <template v-slot:icons>
           <trash-icon
             class="size-5 cursor-pointer me-2"

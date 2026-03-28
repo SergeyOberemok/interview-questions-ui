@@ -52,12 +52,12 @@ watch(model, (title) => !title && (questions.value = []))
       @selected="emit('selected', $event)"
     >
       <template #right-icon>
-        <arrow-path-icon v-if="isLoading" class="size-3 animate-spi"></arrow-path-icon>
+        <arrow-path-icon v-if="isLoading" class="size-4 animate-spi"></arrow-path-icon>
       </template>
 
       <template v-slot="slotProps">
         <div class="flex">
-          <span class="me-3">{{ slotProps.item.description }}</span>
+          <span class="me-4">{{ slotProps.item.description }}</span>
           <labels-list :labels="slotProps.item.labels"></labels-list>
         </div>
       </template>

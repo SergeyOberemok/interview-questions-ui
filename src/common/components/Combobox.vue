@@ -1,7 +1,7 @@
 <script setup>
+import { EyeSlashIcon, XMarkIcon } from '@heroicons/vue/16/solid'
 import { debounce } from 'lodash-es'
 import { computed, ref } from 'vue'
-import { XMarkIcon, EyeSlashIcon } from '@heroicons/vue/16/solid'
 
 const isSearching = ref(false)
 const isActive = computed(() => items?.length > 0 && isSearching.value === true)
@@ -34,8 +34,8 @@ function emitSelected(item) {
         v-on:keydown.enter.prevent="emitSelected(model)"
       />
 
-      <div class="absolute top-1/2 end-3 -translate-y-1/2 flex">
-        <eye-slash-icon v-if="isSearching && items.length" class="size-3 cursor-pointer" @click="isSearching = false"></eye-slash-icon>
+      <div class="absolute top-1/2 end-4 -translate-y-1/2 flex">
+        <eye-slash-icon v-if="isSearching && items.length" class="size-4 cursor-pointer" @click="isSearching = false"></eye-slash-icon>
 
         <slot name="right-icon"></slot>
 
@@ -54,7 +54,7 @@ function emitSelected(item) {
       <div
         v-for="(item, index) in remappedItems"
         :key="item"
-        class="w-full py-2 px-3 text-sm text-gray-800 hover:bg-gray-50 rounded-md focus:outline-none focus:bg-gray-100 cursor-pointer"
+        class="w-full py-2 px-4 text-sm text-gray-800 hover:bg-gray-50 rounded-md focus:outline-none focus:bg-gray-100 cursor-pointer"
         :tabindex="index"
         @click="emitSelected(item)"
       >

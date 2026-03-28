@@ -43,7 +43,7 @@ watch(label, (label) => !label && (items.value = []))
       placeholder="New label"
     >
       <template v-if="isLoading" v-slot:right-icon>
-        <arrow-path-icon class="size-3 animate-spin"></arrow-path-icon>
+        <arrow-path-icon class="size-4 animate-spin"></arrow-path-icon>
       </template>
     </combobox>
   </div>

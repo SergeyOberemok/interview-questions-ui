@@ -49,15 +49,15 @@ function navigateToEditQuestion(id) {
 
 <template>
   <div class="container mx-auto">
-    <h1 class="mb-3 text-xl">Questions</h1>
+    <h1 class="mb-4 text-xl">Questions</h1>
 
-    <search v-model="search" :is-loading="isLoading" @changed="updateSearch" class="mb-3"></search>
+    <search v-model="search" :is-loading="isLoading" @changed="updateSearch" class="mb-4"></search>
 
     <questions-list
       :questions="questionsStore.questions"
       :total="questionsStore.totalCount"
       v-model="page"
-      class="mb-3"
+      class="mb-4"
       @on-edit="navigateToEditQuestion"
       @on-delete="removeQuestion"
     ></questions-list>

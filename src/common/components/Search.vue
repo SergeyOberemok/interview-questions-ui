@@ -1,7 +1,6 @@
 <script setup>
+import { ArrowPathIcon, XMarkIcon } from '@heroicons/vue/16/solid'
 import { debounce } from 'lodash-es'
-import { XMarkIcon } from '@heroicons/vue/16/solid'
-import { ArrowPathIcon } from '@heroicons/vue/16/solid'
 
 const search = defineModel({ type: String, default: '' })
 defineProps({
@@ -27,9 +26,9 @@ const searchTypeahead = debounce(() => {
       @input="searchTypeahead"
     />
 
-    <div class="absolute top-1/2 end-3 -translate-y-1/2 flex">
+    <div class="absolute top-1/2 end-4 -translate-y-1/2 flex">
       <template v-if="isLoading">
-        <arrow-path-icon class="size-3 animate-spin"></arrow-path-icon>
+        <arrow-path-icon class="size-4 animate-spin"></arrow-path-icon>
       </template>
 
       <x-mark-icon

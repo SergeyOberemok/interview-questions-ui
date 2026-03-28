@@ -8,7 +8,7 @@ const { answer } = defineProps({
 
 <template>
   <div class="answer-wrapper">
-    <div class="flex justify-between mb-1">
+    <div class="flex justify-between mb-2">
       <div>{{ answer.title }}</div>
 
       <div class="flex">
@@ -16,7 +16,7 @@ const { answer } = defineProps({
       </div>
     </div>
 
-    <code-snippet :lang="answer.type" :value="answer.answer" class="mb-1">{{
+    <code-snippet :lang="answer.type" :value="answer.answer" class="mb-2">{{
       answer.answer
     }}</code-snippet>
 

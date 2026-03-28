@@ -35,12 +35,12 @@ watchEffect(() => {
 
 <template>
   <div class="answer-form-wrapper">
-    <h5 class="mb-3">
+    <h5 class="mb-4">
       <slot name="title"></slot>
     </h5>
 
     <form @submit.prevent="submitForm">
-      <div class="mb-3">
+      <div class="mb-4">
         <label for="title">Title</label>
         <input
           type="text"
@@ -50,17 +50,17 @@ watchEffect(() => {
         />
       </div>
 
-      <div class="flex flex-col mb-3">
+      <div class="flex flex-col mb-4">
         <label for="answer">Answer</label>
         <beautify-area v-model="model.answer" :type="model.type"></beautify-area>
       </div>
 
-      <div class="flex flex-col mb-3">
+      <div class="flex flex-col mb-4">
         <label for="type">Type</label>
         <language-types v-model="model.type"></language-types>
       </div>
 
-      <div class="flex flex-col mb-3">
+      <div class="flex flex-col mb-4">
         <label for="note">Note</label>
         <textarea
           name="note"
@@ -74,7 +74,7 @@ watchEffect(() => {
         <slot name="buttons">
           <button
             type="submit"
-            class="rounded-md bg-blue-500 px-3 py-1 shadow-sm text-white hover:bg-blue-400"
+            class="rounded-md bg-blue-500 px-4 py-1 shadow-sm text-white hover:bg-blue-400"
           >
             <slot name="button">Submit</slot>
           </button>

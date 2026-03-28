@@ -18,8 +18,8 @@ async function submitForm() {
 <template>
   <div class="question-form-wrapper">
     <form class="flex flex-col" @submit.prevent="submitForm">
-      <div class="container mx-auto mb-3">
-        <div class="grid grid-cols-2 gap-3 mb-3">
+      <div class="container mx-auto mb-4">
+        <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
             <label for="description">Description</label>
             <slot :question="question">
@@ -38,11 +38,11 @@ async function submitForm() {
           </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-4">
           <add-answers v-model="question.answers" class="w-full"></add-answers>
         </div>
 
-        <div class="grid grid-flow-col auto-rows-min grid-cols-2 gap-3">
+        <div class="grid grid-flow-col auto-rows-min grid-cols-2 gap-4">
           <div>
             <canvas-painter v-model="question.image"></canvas-painter>
           </div>
