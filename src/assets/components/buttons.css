@@ -1,0 +1,3 @@
+.btn {
+  @apply rounded-md bg-blue-500 shadow-sm text-white hover:bg-blue-400 px-4 py-1
+}

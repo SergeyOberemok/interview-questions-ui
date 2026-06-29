@@ -23,7 +23,7 @@ function emitSelected(item) {
 </script>
 
 <template>
-  <div class="combobox-wrapper relative">
+  <div class="relative">
     <div class="relative">
       <input
         class="form-input w-full pe-9 border border-gray-300 rounded-md shadow-sm text-sm focus:border-gray-400 focus:ring-gray-100"
