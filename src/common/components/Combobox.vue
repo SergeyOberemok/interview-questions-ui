@@ -23,7 +23,7 @@ function emitSelected(item) {
 </script>
 
 <template>
-  <div class="combobox-wrapper relative">
+  <div class="relative">
     <div class="relative">
       <input
         class="form-input w-full pe-9 border border-gray-300 rounded-md shadow-sm text-sm focus:border-gray-400 focus:ring-gray-100"
@@ -35,7 +35,11 @@ function emitSelected(item) {
       />
 
       <div class="absolute top-1/2 end-4 -translate-y-1/2 flex">
-        <eye-slash-icon v-if="isSearching && items.length" class="size-4 cursor-pointer" @click="isSearching = false"></eye-slash-icon>
+        <eye-slash-icon
+          v-if="isSearching && items.length"
+          class="size-4 cursor-pointer"
+          @click="isSearching = false"
+        ></eye-slash-icon>
 
         <slot name="right-icon"></slot>
 

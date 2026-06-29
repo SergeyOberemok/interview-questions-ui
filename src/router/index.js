@@ -1,5 +1,5 @@
-import AddQuestion from '@/questions/components/AddQuestion.vue'
-import EditQuestion from '@/questions/components/EditQuestion.vue'
+import AddQuestion from '@/features/questions/components/edit/AddQuestion.vue'
+import EditQuestion from '@/features/questions/components/edit/EditQuestion.vue'
 import QuestionsView from '@/views/QuestionsView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -24,6 +24,11 @@ const router = createRouter({
       path: '/edit-question/:id',
       name: 'edit-question',
       component: EditQuestion,
+    },
+    {
+      path: '/assessment',
+      name: 'assessment',
+      component: () => import('@/views/AssessmentView.vue'),
     },
     {
       path: '/dev',
