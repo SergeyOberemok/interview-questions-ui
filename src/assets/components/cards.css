@@ -1,0 +1,11 @@
+.card {
+  @apply border border-gray-100 rounded-lg shadow-sm bg-gray-50 overflow-hidden;
+}
+
+.card.card-success {
+  @apply border-green-500 bg-green-100 shadow-green-300;
+}
+
+.card.card-danger {
+  @apply border-red-500 bg-red-100 shadow-red-300;
+}

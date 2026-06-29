@@ -1,14 +1,9 @@
 <script setup>
-import LanguageTypes from '@/common/components/LanguageTypes.vue';
-import { ref } from 'vue';
-
-const languageType = ref('')
+import SwipeForImageAnswer from '@/features/inqueries/swipe-for-answer/SwipeForImageAnswer.vue'
 </script>
 
 <template>
   <div class="container mx-auto">
-    <language-types v-model="languageType"></language-types>
-
-    <div class="mt-4">Selected language type: {{ languageType }}</div>
+    <swipe-for-image-answer :question="'2 + 2'" :goal="4"></swipe-for-image-answer>
   </div>
 </template>
