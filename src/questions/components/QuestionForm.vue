@@ -6,7 +6,7 @@ import { toRaw } from 'vue'
 import { Question } from '../shared'
 import AddAnswers from './AddAnswers.vue'
 
-const question = defineModel({ default: new Question() })
+const question = defineModel({ required: true, default: new Question() })
 const emit = defineEmits(['edited', 'cancelled'])
 
 async function submitForm() {
