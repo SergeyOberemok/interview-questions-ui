@@ -17,7 +17,7 @@ onMounted(() => (type.value = props.lang))
 </script>
 
 <template>
-  <div class="editable-code-snippet-wrapper relative">
+  <div class="relative">
     <code-snippet :lang="type"><slot></slot></code-snippet>
 
     <div class="absolute top-4 right-4">

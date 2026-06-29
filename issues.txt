@@ -1,0 +1,30 @@
+1. src/components/questions/components/QuestionTypeahead.vue:4,13,25 — instantiates QuestionsRepository directly and calls fetchQuestions, completely bypassing QuestionsService and questions.store.js. Every
+  other question read/write path goes through the service. Also, its mapper() (line 34-40) reads question.description, but Question model (question.model.js:11) only has definition — dead/undefined field.
+  2. src/components/labels/components/AddLabel.vue:22-25 — calls raw fetch('/api/labels?...') directly in a component, not even using HttpRepository. Labels have no repository/service/store at all (confirmed
+  via grep) — this is the sole data-access point for labels, and it skips the shared error-handling (console.error+rethrow) and header conventions that HttpRepository centralizes for questions.
+  3. Answers/Labels have no repository/service/store layer — by design they're edited as sub-arrays of Question and persisted via QuestionsService.updateQuestion. Internally consistent, but combined with #1/#2
+  above, the "layered pattern" is really only fully honored by the questions feature.
+  4. Assessment feature inverts the dependency direction: assessment.store.js:6 does new AssessmentService() inside the store (store→service), whereas questions.service.js:10 has the service pull in the store
+  (service→store). No repository exists for assessment; AssessmentService talks to socket.js directly. Reasonable given real-time semantics, but it's a structurally different wiring than the documented
+  repo→model→service→store flow, undocumented as an exception.
+  5. src/components/assessment/Assessment.vue:37 calls assessmentStore.prevQuestion(), but assessment.store.js (returned API, lines 48-60) never defines prevQuestion — only nextQuestion. This is a genuine
+  runtime bug (confirmed pre-existing, not part of uncommitted diff via git diff).
+  6. src/components/questions/components/inquery/InqueryWrapper.vue — template (lines 14-20) references isStripped, isHighlighted, isCorrect, assess, stepperRef, none of which are declared in its <script
+  setup> (only question prop exists). It appears copy-pasted from Assessment.vue without adapting scope. Also entirely unreferenced/dead — grep for InqueryWrapper across src found zero importers; it's orphaned
+  new code.
+  7. inquery/QuestionPrompt.vue and inquery/ProbableAnswer.vue are near-duplicates of the deleted src/components/questions/ProbableAnswer.vue/QuestionPrompt.vue (per git status), still built around the old
+  numeric math-assessment domain (question, goal, generateChoices, expression) rather than the actual Question/Answer model (definition, answers[].title). Semantically they don't belong under questions/ — they
+  duplicate assessment's prompt UI, unadapted.
+  8. inquery/InqueryWrapper.vue:2 imports './QuestionPrompt' without the .vue extension — every other component import in the codebase uses the explicit .vue suffix (cosmetic/style inconsistency).
+
+  Cosmetic/isolated
+
+  9. src/components/labels/shared/index.ts — only TS file in an all-JS codebase; it's a 1-line re-export (export * from './label.model') of a plain .js model, so it adds no real typing and is isolated (no
+  other TS/type usage anywhere) — a stray/inconsistent artifact rather than a functional problem.
+
+  Dead code / incomplete work
+
+  10. Assessment.vue:44 — <!-- <summaries :results="results" :is-images-stripped="isStripped"></summaries> --> is commented out and AssessmentSummary.vue is never imported/wired into Assessment.vue despite
+  being newly added; results/isStripped are destructured (line 14) but now otherwise unused.
+  11. inquery/QuestionPrompt.vue:55-59,70,74-78 — three blocks of commented-out number-image/expression-image usage, left in from the copy-paste.
+  12. assessment.store.js:39-44 — bindEvents end-callback uses comma-operator chaining with stray console.log(assessment) / console.log(isPassed) debug statements left in production code.

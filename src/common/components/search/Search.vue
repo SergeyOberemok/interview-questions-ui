@@ -1,0 +1,41 @@
+<script setup>
+import { ArrowPathIcon, XMarkIcon } from '@heroicons/vue/16/solid'
+import { debounce } from 'lodash-es'
+
+const search = defineModel({ type: String, default: '' })
+defineProps({
+  isLoading: {
+    type: Boolean,
+  },
+})
+const emit = defineEmits(['changed'])
+
+const searchTypeahead = debounce(() => {
+  emit('changed', search.value)
+}, 500)
+</script>
+
+<template>
+  <div class="relative">
+    <input
+      type="text"
+      id="search"
+      placeholder="Search"
+      class="ctl w-full pe-9"
+      v-model.trim="search"
+      @input="searchTypeahead"
+    />
+
+    <div class="absolute top-1/2 end-4 -translate-y-1/2 flex">
+      <template v-if="isLoading">
+        <arrow-path-icon class="size-4 animate-spin"></arrow-path-icon>
+      </template>
+
+      <x-mark-icon
+        v-if="search?.length > 0"
+        class="size-4 text-gray-500 cursor-pointer ms-1"
+        @click="((search = ''), emit('changed', ''))"
+      ></x-mark-icon>
+    </div>
+  </div>
+</template>

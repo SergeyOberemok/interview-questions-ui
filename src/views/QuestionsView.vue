@@ -1,9 +1,78 @@
 <script setup>
-import Questions from '@/questions/Questions.vue'
+import Search from '@/common/components/search/Search.vue'
+import { PAGINATION } from '@/common/constants'
+import QuestionsList from '@/features/questions/components/view/QuestionsList.vue'
+import { QuestionsService } from '@/features/questions/services/questions.service'
+import { usePageStore } from '@/stores/questions-paging.store'
+import { useSearchStore } from '@/stores/questions-searching.store'
+import { useQuestionsStore } from '@/stores/questions.store'
+import { FwbPagination } from 'flowbite-vue'
+import { debounce } from 'lodash-es'
+import { storeToRefs } from 'pinia'
+import { onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+
+const isLoading = ref(false)
+const pageStore = usePageStore()
+const { page } = storeToRefs(pageStore)
+const searchStore = useSearchStore()
+const { search } = storeToRefs(searchStore)
+const questionsStore = useQuestionsStore()
+const { totalCount } = storeToRefs(questionsStore)
+const router = useRouter()
+const questionsService = new QuestionsService()
+const fetchQuestionsDebounce = debounce(() => fetchQuestions(), 1000, {
+  leading: true,
+  trailing: false,
+})
+
+onMounted(fetchQuestionsDebounce)
+pageStore.$subscribe(fetchQuestionsDebounce)
+watch(totalCount, fetchQuestionsDebounce)
+
+async function fetchQuestions() {
+  isLoading.value = true
+
+  await questionsService.fetchQuestions()
+
+  isLoading.value = false
+}
+
+async function removeQuestion(id) {
+  await questionsService.removeQuestion(id)
+}
+
+function updateSearch() {
+  ;(questionsStore.$reset(), pageStore.$reset(), fetchQuestions())
+}
+
+function navigateToEditQuestion(id) {
+  router.push({ name: 'edit-question', params: { id } })
+}
 </script>
 
 <template>
-  <div class="questions-view-wrapper">
-    <questions></questions>
+  <div class="container mx-auto">
+    <h1 class="mb-4 text-xl">Questions</h1>
+
+    <search v-model="search" :is-loading="isLoading" @changed="updateSearch" class="mb-4"></search>
+
+    <questions-list
+      :questions="questionsStore.questions"
+      class="mb-4"
+      @on-edit="navigateToEditQuestion"
+      @on-delete="removeQuestion"
+    ></questions-list>
+
+    <div class="flex justify-center">
+      <fwb-pagination
+        v-if="questionsStore.totalCount"
+        v-model="page"
+        :total-items="questionsStore.totalCount"
+        :per-page="PAGINATION.perPage"
+      ></fwb-pagination>
+    </div>
+
+    <div v-if="isLoading">Loading...</div>
   </div>
 </template>

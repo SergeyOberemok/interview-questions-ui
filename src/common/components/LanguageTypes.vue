@@ -1,6 +1,6 @@
 <script setup>
-import { LANGUAGES, LANGUAGE_DEFAULT } from '@/common/constants';
-import { FwbButton } from 'flowbite-vue';
+import { LANGUAGES, LANGUAGE_DEFAULT } from '@/common/constants'
+import { FwbButton } from 'flowbite-vue'
 
 const model = defineModel({ default: LANGUAGE_DEFAULT })
 </script>

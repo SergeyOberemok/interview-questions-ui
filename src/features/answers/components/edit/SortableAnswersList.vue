@@ -1,0 +1,45 @@
+<script setup>
+import { toHash } from '@/common/utils/hash-code.function.js'
+import { PencilSquareIcon } from '@heroicons/vue/24/outline'
+import { Bars2Icon, XMarkIcon } from '@heroicons/vue/24/solid'
+import { useSortable } from '@vueuse/integrations/useSortable'
+import AnswerItem from '../view/AnswerItem.vue'
+
+const answers = defineModel({
+  required: true,
+  default: [],
+  type: Array,
+})
+const emit = defineEmits(['selected'])
+
+useSortable('.answers-container', answers, {
+  handle: '.sortable-handle',
+  animation: 100,
+})
+
+function remove(index) {
+  answers.value = answers.value.filter((_, i) => i !== index)
+}
+</script>
+
+<template>
+  <div>
+    <h3 class="mb-2" v-if="answers.length > 0">Answers</h3>
+    <span v-else>Answers are empty</span>
+
+    <div class="answers-container">
+      <template v-for="(answer, index) in answers" :key="toHash(answer)">
+        <answer-item :answer="answer" class="mb-4">
+          <template #top-right>
+            <PencilSquareIcon
+              class="size-4 cursor-pointer me-1"
+              @click="emit('selected', answer)"
+            />
+            <Bars2Icon class="size-4 cursor-pointer sortable-handle me-1" />
+            <XMarkIcon class="size-4 cursor-pointer" @click="remove(index)" />
+          </template>
+        </answer-item>
+      </template>
+    </div>
+  </div>
+</template>
