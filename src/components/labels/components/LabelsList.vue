@@ -1,5 +1,5 @@
 <script setup>
-import { FwbBadge } from 'flowbite-vue';
+import { FwbBadge } from 'flowbite-vue'
 
 const props = defineProps({
   labels: {

@@ -1,6 +1,6 @@
 <script setup>
-import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline';
-import QuestionItem from './QuestionItem.vue';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/vue/24/outline'
+import QuestionItem from './QuestionItem.vue'
 
 defineProps({
   questions: {

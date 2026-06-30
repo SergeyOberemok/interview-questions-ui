@@ -2,22 +2,22 @@
 import CanvasPainter from '@/common/components/CanvasPainter.vue'
 import { removeFalsyItems } from '@/common/utils'
 import AddLabels from '@/components/labels/components/AddLabels.vue'
+import EditableAnswersList from '@/components/answers/components/edit/EditableAnswersList.vue'
 import { Question } from '@/components/questions/models/question.model.js'
 import { toRaw } from 'vue'
-import AddAnswers from './AddAnswers.vue'
 
 const question = defineModel({ required: true, default: new Question() })
 const emit = defineEmits(['edited', 'cancelled'])
 
-async function submitForm() {
+async function submit() {
   emit('edited', removeFalsyItems(toRaw(question.value)))
-  question.value.reset()
+  question.value = new Question()
 }
 </script>
 
 <template>
   <div>
-    <form class="flex flex-col" @submit.prevent="submitForm">
+    <form class="flex flex-col" @submit.prevent="submit">
       <div class="container mx-auto mb-4">
         <div class="grid grid-cols-2 gap-4 mb-4">
           <div>
@@ -27,19 +27,19 @@ async function submitForm() {
                 type="text"
                 id="description"
                 class="form-input w-full rounded-md border border-gray-300 shadow-sm focus:border-gray-400 focus:ring-gray-100"
-                v-model.trim="question.description"
+                v-model.trim="question.title"
               />
             </slot>
           </div>
 
           <div>
-            <label>Labes</label>
+            <label>Labels</label>
             <add-labels v-model="question.labels"></add-labels>
           </div>
         </div>
 
         <div class="mb-4">
-          <add-answers v-model="question.answers" class="w-full"></add-answers>
+          <editable-answers-list v-model="question.answers" class="w-full"></editable-answers-list>
         </div>
 
         <div class="grid grid-flow-col auto-rows-min grid-cols-2 gap-4">

@@ -1,9 +1,9 @@
 <script setup>
+import { Answer } from '@/components/answers/models/answer.model.js'
 import { ref } from 'vue'
 import AddAnswer from './AddAnswer.vue'
-import EditableAnswersList from './EditableAnswersList.vue'
+import SortableAnswersList from './SortableAnswersList.vue'
 import UpdateAnswer from './UpdateAnswer.vue'
-import { Answer } from '@/components/questions/models/answer.model.js'
 
 const answers = defineModel({ type: Array, default: [] })
 
@@ -34,7 +34,7 @@ function reset() {
 
 <template>
   <div class="grid grid-cols-2 gap-4">
-    <editable-answers-list v-model="answers" @selected="selectAnswer"></editable-answers-list>
+    <sortable-answers-list v-model="answers" @selected="selectAnswer"></sortable-answers-list>
 
     <template v-if="!selectedAnswer">
       <add-answer @added="pushAnswer"></add-answer>

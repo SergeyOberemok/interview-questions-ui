@@ -1,7 +1,7 @@
 <script setup>
-import { XMarkIcon } from '@heroicons/vue/16/solid';
+import { XMarkIcon } from '@heroicons/vue/16/solid'
 
-import LabelsList from './LabelsList.vue';
+import LabelsList from './LabelsList.vue'
 
 defineProps({
   labels: {

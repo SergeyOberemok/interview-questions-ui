@@ -26,6 +26,11 @@ const router = createRouter({
       component: EditQuestion,
     },
     {
+      path: '/assessment',
+      name: 'assessment',
+      component: () => import('@/views/AssessmentView.vue'),
+    },
+    {
       path: '/dev',
       name: 'dev',
       component: () => import('@/views/DevView.vue'),

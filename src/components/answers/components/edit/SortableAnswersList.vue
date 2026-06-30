@@ -1,8 +1,9 @@
 <script setup>
+import { toHash } from '@/common/utils/hash-code.function.js'
 import { PencilSquareIcon } from '@heroicons/vue/24/outline'
 import { Bars2Icon, XMarkIcon } from '@heroicons/vue/24/solid'
 import { useSortable } from '@vueuse/integrations/useSortable'
-import Answer from '../view/AnswerItem.vue'
+import AnswerItem from '../view/AnswerItem.vue'
 
 const answers = defineModel({
   required: true,
@@ -27,15 +28,15 @@ function remove(index) {
     <span v-else>Answers are empty</span>
 
     <div class="answers-container">
-      <template v-for="(answer, index) in answers" :key="answer.hash()">
-        <answer :answer="answer" class="mb-4">
+      <template v-for="(answer, index) in answers" :key="toHash(answer)">
+        <answer-item :answer="answer" class="mb-4">
           <pencil-square-icon
             class="size-4 cursor-pointer me-1"
             @click="emit('selected', answer)"
           ></pencil-square-icon>
           <bars2-icon class="size-4 cursor-pointer sortable-handle me-1"></bars2-icon>
           <x-mark-icon class="size-4 cursor-pointer" @click="remove(index)"></x-mark-icon>
-        </answer>
+        </answer-item>
       </template>
     </div>
   </div>

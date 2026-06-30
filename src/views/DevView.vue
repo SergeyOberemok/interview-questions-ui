@@ -1,6 +1,6 @@
 <script setup>
-import LanguageTypes from '@/common/components/LanguageTypes.vue';
-import { ref } from 'vue';
+import LanguageTypes from '@/common/components/LanguageTypes.vue'
+import { ref } from 'vue'
 
 const languageType = ref('')
 </script>

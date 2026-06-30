@@ -2,7 +2,7 @@
 import BeautifyArea from '@/common/components/BeautifyArea.vue'
 import LanguageTypes from '@/common/components/LanguageTypes.vue'
 import { LANGUAGE_DEFAULT } from '@/common/constants'
-import { Answer } from '@/components/questions/models/answer.model'
+import { Answer } from '@/components/answers/models/answer.model'
 
 const model = defineModel({ default: new Answer({ type: LANGUAGE_DEFAULT }) })
 const emit = defineEmits(['submitted'])
@@ -11,18 +11,10 @@ function reset() {
   model.value = new Answer({ type: LANGUAGE_DEFAULT })
 }
 
-function submitForm() {
-  emit('submitted', model.value)
+function submit() {
+  emit('submitted')
   reset()
 }
-
-// watchEffect(() => {
-//   if (!answer) {
-//     return
-//   }
-
-//   model.value = new Answer(answer)
-// })
 </script>
 
 <template>
@@ -31,7 +23,7 @@ function submitForm() {
       <slot name="title"></slot>
     </h5>
 
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submit">
       <div class="mb-4">
         <label for="title">Title</label>
         <input type="text" id="title" class="w-full ctl" v-model.trim="model.title" />
@@ -39,7 +31,7 @@ function submitForm() {
 
       <div class="flex flex-col mb-4">
         <label for="answer">Answer</label>
-        <beautify-area v-model="model.answer" :type="model.type"></beautify-area>
+        <beautify-area v-model="model.detail" :type="model.type"></beautify-area>
       </div>
 
       <div class="flex flex-col mb-4">

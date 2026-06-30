@@ -1,5 +1,5 @@
 <script setup>
-import CodeSnippet from '@/common/components/CodeSnippet.vue';
+import CodeSnippet from '@/common/components/CodeSnippet.vue'
 
 const { answer } = defineProps({
   answer: { required: true },
@@ -16,8 +16,8 @@ const { answer } = defineProps({
       </div>
     </div>
 
-    <code-snippet :lang="answer.type" :value="answer.answer" class="mb-2">{{
-      answer.answer
+    <code-snippet :lang="answer.type" :value="answer.detail" class="mb-2">{{
+      answer.detail
     }}</code-snippet>
 
     <div v-if="answer.note" class="text-xs">Note: {{ answer.note }}</div>

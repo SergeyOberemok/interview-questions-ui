@@ -1,10 +1,9 @@
 <script setup>
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline'
-import { ref } from 'vue'
-
+import AnswersList from '@/components/answers/components/view/AnswersList.vue'
 import LabelsList from '@/components/labels/components/LabelsList.vue'
 import { Question } from '@/components/questions/models/question.model.js'
-import AnswersList from './AnswersList.vue'
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/outline'
+import { ref } from 'vue'
 
 defineProps({
   question: { type: Question, required: true },
@@ -17,7 +16,7 @@ let isOpened = ref(false)
   <div>
     <div class="header flex justify-between items-center">
       <div class="flex">
-        <h3 class="me-4">{{ question.description }}</h3>
+        <h3 class="me-4">{{ question.definition }}</h3>
 
         <labels-list :labels="question.labels"></labels-list>
       </div>

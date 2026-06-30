@@ -1,8 +1,8 @@
-import { AnswerFactory } from '@/components/questions/models/answer.model.js'
+import { AnswerFactory } from '@/components/answers/models/answer.model.js'
 import EditAnswer from './EditAnswer.vue'
 
 export default {
-  title: 'Components/Questions/Edit/EditAnswer',
+  title: 'Components/Answers/Edit/EditAnswer',
   component: EditAnswer,
 }
 

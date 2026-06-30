@@ -3,8 +3,8 @@ import { Question } from '@/components/questions/models/question.model'
 import { QuestionsService } from '@/components/questions/services/questions.service.js'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import QuestionForm from './QuestionForm.vue'
 import QuestionTypeahead from '../QuestionTypeahead.vue'
+import QuestionForm from './QuestionForm.vue'
 
 const router = useRouter()
 const question = ref(new Question())
@@ -29,7 +29,7 @@ function navigateEdit(question) {
     <question-form v-model="question" @edited="addQuestion" @cancelled="navigateHome">
       <template v-slot="slotProps">
         <question-typeahead
-          v-model="slotProps.question.description"
+          v-model="slotProps.question.definition"
           @selected="navigateEdit"
         ></question-typeahead>
       </template>
