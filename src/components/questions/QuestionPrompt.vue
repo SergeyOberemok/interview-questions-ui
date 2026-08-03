@@ -56,12 +56,8 @@ watch(
       <number-image
         :number="slotProps.number"
         :is-revealed="isImagesStripped"
-        class="h-48 border border-gray-300 rounded-md shadow-sm bg-gray-50 flex justify-center items-center"
-        :class="{
-          'border-2 border-green-300 bg-green-50': isHighlighted && slotProps.number === goal,
-          'border-2 border-red-300 bg-red-50':
-            isHighlighted && !isCorrect && slotProps.number !== goal,
-        }"
+        class="h-48 flex justify-center items-center"
+        
       ></number-image>
     </probable-answer>
 

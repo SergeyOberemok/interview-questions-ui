@@ -8,23 +8,25 @@ export const useAssessmentStore = defineStore('assessment', () => {
   const isStarted = ref(false)
   const isEnded = computed(() => !isStarted.value)
   const question = ref('')
-  const goal = ref()
   const isCorrect = ref(false)
   const results = shallowRef([])
   const isStripped = ref(false)
 
   async function start(quantity) {
     isStarted.value = await assessmentService.start(quantity)
+    await nextQuestion()
+  }
+
+  async function end() {
+    isStarted.value = await assessmentService.end()
   }
 
   async function nextQuestion() {
     if (!isStarted.value) {
       return
     }
-    const { question: q, goal: g } = await assessmentService.nextQuestion()
 
-    question.value = q
-    goal.value = g
+    question.value = await assessmentService.nextQuestion()
   }
 
   async function assess(answer) {
@@ -48,11 +50,11 @@ export const useAssessmentStore = defineStore('assessment', () => {
     isStarted,
     isEnded,
     question,
-    goal,
     results,
     isStripped,
     isCorrect,
     start,
+    end,
     nextQuestion,
     assess,
     bindEvents,

@@ -8,7 +8,7 @@ const range = Array.from(Array(5), (_, i) => (i + 1) * QUANTITY_MULTIPLIER)
 
 <template>
   <div>
-    <select class="ctl w-full px-2 py-1" name="quantity" id="quantity" v-model="quantity">
+    <select class="ctl w-full" name="quantity" id="quantity" v-model="quantity">
       <option v-for="item in range" :key="item" :value="item">{{ item }}</option>
     </select>
   </div>

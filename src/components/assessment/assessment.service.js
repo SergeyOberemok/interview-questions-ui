@@ -24,12 +24,20 @@ export class AssessmentService {
     })
   }
 
+  end() {
+    return new Promise((resolve, reject) => {
+      try {
+        socket.emit('end', () => resolve(false))
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+
   nextQuestion() {
     return new Promise((resolve, reject) => {
       try {
-        socket.emit('question', {}, (question, goal) => {
-          resolve({ question, goal })
-        })
+        socket.emit('question', {}, (question) => resolve(question))
       } catch (error) {
         reject(error)
       }

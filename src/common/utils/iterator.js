@@ -1,5 +1,5 @@
 export function makeIterator(arr) {
-  let index = 0
+  let index = -1
 
   return {
     next() {
@@ -7,8 +7,19 @@ export function makeIterator(arr) {
         return { done: true }
       }
 
-      const value = arr[index]
       index++
+      const value = arr[index]
+
+      return { value, done: false }
+    },
+
+    prev() {
+      if (index <= 0) {
+        return { done: true }
+      }
+
+      index--
+      const value = arr[index]
 
       return { value, done: false }
     },

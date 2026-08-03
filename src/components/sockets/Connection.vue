@@ -5,7 +5,7 @@ import ConnectionState from '@/components/sockets/ConnectionState.vue'
 
 <template>
   <div>
-    <h3 class="font-bold mb-1">Connection</h3>
+    <h3 class="font-bold mb-2">Connection</h3>
 
     <div class="flex justify-between">
       <connection-state></connection-state>

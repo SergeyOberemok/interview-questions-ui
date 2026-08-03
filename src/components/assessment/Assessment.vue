@@ -10,7 +10,7 @@ const TIMEOUT = 1500
 
 const assessmentQuantity = ref(ASSESSMENT_QUANTITY)
 const assessmentStore = useAssessmentStore()
-const { isStarted, question, goal, isStripped, isCorrect, results } = storeToRefs(assessmentStore)
+const { isStarted, question, isStripped, isCorrect, results } = storeToRefs(assessmentStore)
 const steps = ref([])
 const isHighlighted = ref(false)
 const isFinished = ref(false)
@@ -20,10 +20,6 @@ onMounted(() => assessmentStore.bindEvents())
 
 function initSteps() {
   steps.value = [...Array.from(Array(assessmentQuantity.value), () => 'prompt'), 'summary']
-}
-
-async function nextQuestion() {
-  await assessmentStore.nextQuestion()
 }
 
 async function assess(answer) {
@@ -50,6 +46,9 @@ watch(isFinished, (isFinished) => isFinished && reset())
       class="mb-4"
       v-model="assessmentQuantity"
       @started="async () => await assessmentStore.start(assessmentQuantity)"
+      @ended="async () => await assessmentStore.end()"
+      @next="async () => await assessmentStore.nextQuestion()"
+      @prev="async () => console.log('prev')"
       @stripped="isStripped = $event"
     ></assessment-controls>
 

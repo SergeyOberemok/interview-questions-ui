@@ -13,6 +13,7 @@ const { correct } = defineProps({
     required: true,
     default: 0,
   },
+  isHighlighted: Boolean,
 })
 const emit = defineEmits(['chosen'])
 defineExpose({ choices, reset })
@@ -35,8 +36,13 @@ watch(
       :key="`${index}${choice}`"
       @click="((isCorrectChosen = choice === correct), emit('chosen', choice))"
       type="button"
+      class="border border-gray-300 rounded-md shadow-sm bg-gray-50"
+      :class="{
+        'border-2 border-green-300 bg-green-50': isHighlighted && isCorrectChosen,
+        'border-2 border-red-300 bg-red-50': isHighlighted && !isCorrectChosen,
+      }"
     >
-      <slot :number="choice"></slot>
+      <slot :number="choice">{{ choice }}</slot>
     </button>
   </div>
 </template>

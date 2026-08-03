@@ -12,10 +12,11 @@ const { steps } = defineProps({
     default: () => [],
   },
 })
-const emit = defineEmits(['next', 'complete'])
+const emit = defineEmits(['next', 'prev', 'complete'])
 defineExpose({
   currentStep,
   next: goNext,
+  prev: goPrev,
 })
 
 onMounted(() => initSteps(steps))
@@ -29,8 +30,12 @@ function initSteps(steps) {
   goNext()
 }
 
-function goNext() {
-  const { value, done } = iterator.next()
+function goToStep(step) {
+  if (!['next', 'prev'].includes(step)) {
+    return
+  }
+
+  const { value, done } = iterator[step]()
 
   if (done) {
     emit('complete', done)
@@ -40,7 +45,15 @@ function goNext() {
   }
 
   currentStep.value = value
-  emit('next', currentStep.value)
+  emit(step, currentStep.value)
+}
+
+function goNext() {
+  goToStep('next')
+}
+
+function goPrev() {
+  goToStep('prev')
 }
 
 function reset() {
@@ -56,23 +69,6 @@ watch(() => steps, initSteps)
 
     <div class="mb-3">
       <slot></slot>
-    </div>
-
-    <div class="flex justify-between">
-      <button
-        @click="console.log('prev')"
-        type="button"
-        class="border border-gray-300 rounded-md shadow-sm px-3 py-1"
-      >
-        Previous
-      </button>
-      <button
-        @click="goNext"
-        type="button"
-        class="border border-gray-300 rounded-md shadow-sm px-3 py-1"
-      >
-        Next
-      </button>
     </div>
   </div>
 </template>

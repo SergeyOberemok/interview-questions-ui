@@ -8,6 +8,15 @@ const { isConnected } = storeToRefs(socketConnectionStore)
 
 <template>
   <div>
-    <p>State: {{ isConnected }}</p>
+    <p>
+      <span>State: </span>
+      <span
+        :class="{
+          'text-green-700': isConnected,
+          'text-red-500': !isConnected,
+        }"
+        >{{ isConnected ? 'Connected' : 'Disconnected' }}</span
+      >
+    </p>
   </div>
 </template>

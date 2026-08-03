@@ -6,7 +6,10 @@ export default {
   component: AssessmentControls,
   args: {
     onStarted: fn(),
+    onEnded: fn(),
     onStripped: fn(),
+    onNext: fn(),
+    onPrev: fn(),
     'onUpdate:modelValue': fn(),
   },
 }

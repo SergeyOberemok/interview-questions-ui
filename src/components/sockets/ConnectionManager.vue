@@ -1,7 +1,9 @@
 <script setup>
 import { useSocketConnectionStore } from '@/stores/socket-connection.store'
+import { storeToRefs } from 'pinia'
 
 const socketConnectionStore = useSocketConnectionStore()
+const { isConnected } = storeToRefs(socketConnectionStore)
 
 function connect() {
   socketConnectionStore.connect()
@@ -14,7 +16,7 @@ function disconnect() {
 
 <template>
   <div class="flex">
-    <button type="button" @click="connect()" class="me-2 cursor-pointer">Connect</button>
-    <button type="button" @click="disconnect()" class="cursor-pointer">Disconnect</button>
+    <button v-if="!isConnected" type="button" @click="connect()" class="btn">Connect</button>
+    <button v-else type="button" @click="disconnect()" class="btn">Disconnect</button>
   </div>
 </template>
