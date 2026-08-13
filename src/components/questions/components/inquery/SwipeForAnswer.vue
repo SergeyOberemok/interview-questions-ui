@@ -1,41 +1,38 @@
 <script setup>
+import LeftRightSwipe from '@/common/components/inqueries/LeftRightSwipe.vue'
+import ProbableAnswer from '@/common/components/inqueries/ProbableAnswer.vue'
 import { computed, useTemplateRef, watch } from 'vue'
-
-import ExpressionImage from '@/common/components/ExpressionImage.vue'
-import LeftRightSwipe from '@/common/components/LeftRightSwipe.vue'
-import NumberImage from '@/common/components/NumberImage.vue'
-import ProbableAnswer from './ProbableAnswer.vue'
 
 const probableAnswerRef = useTemplateRef('probableAnswerRef')
 const questionRef = useTemplateRef('questionRef')
-const expression = computed(() => `${question} = ${goal}`)
+const goal = computed(() => (isCorrectChosen ? choices.slice(-1) : choices[0]))
+const expression = computed(() => `${question}` + (isHighlighted ? ` = ${goal.value}` : ``))
 
-const { question, goal, isHighlighted } = defineProps({
+const { question, choices, isHighlighted, isCorrectChosen } = defineProps({
   question: {
     type: String,
     required: true,
   },
-  goal: {
-    type: Number,
+  choices: {
+    type: Array,
     required: true,
-    default: 0,
+    default: () => [],
   },
-  isImagesStripped: Boolean,
   isHighlighted: Boolean,
-  isCorrect: Boolean,
+  isCorrectChosen: Boolean,
 })
 const emit = defineEmits(['answered'])
 
 function assessChoice(choice) {
-  const choices = probableAnswerRef.value.choices
   const answer = (choice === 'right' ? choices.slice(-1) : choices)[0]
 
+  probableAnswerRef.value.setChoice(answer)
   emit('answered', answer)
 }
 
 function reset() {
-  probableAnswerRef.value.reset()
   questionRef.value.reset()
+  probableAnswerRef.value.setChoice(null)
 }
 
 watch(
@@ -47,39 +44,41 @@ watch(
 <template>
   <div class="flex flex-col">
     <probable-answer
-      :correct="goal"
+      ref="probableAnswerRef"
+      :choices="choices"
+      :is-highlighted="isHighlighted"
+      :is-correct-chosen="isCorrectChosen"
       @chosen="emit('answered', $event)"
       class="mb-3"
-      ref="probableAnswerRef"
       v-slot="slotProps"
     >
-      <number-image
+      <slot :number="slotProps.number"></slot>
+      <!-- <number-image
         :number="slotProps.number"
         :is-revealed="isImagesStripped"
         class="h-48 flex justify-center items-center"
-        
-      ></number-image>
+      ></number-image> -->
     </probable-answer>
 
     <div class="relative">
       <left-right-swipe
+        :is-highlighted="isHighlighted"
+        :is-correct-chosen="isCorrectChosen"
         @moved="assessChoice"
-        class="h-64 border border-gray-300 rounded-md shadow-sm bg-gray-50"
-        :class="{
-          'bg-green-50 border-green-300': isHighlighted && isCorrect,
-          'bg-red-50 border-red-300': isHighlighted && !isCorrect,
-        }"
+        class="h-64"
         ref="questionRef"
       >
-        <expression-image :expression="question" :is-revealed="isImagesStripped"></expression-image>
+        <!-- <expression-image :expression="question" :is-revealed="isImagesStripped"></expression-image> -->
+
+        <div>{{ expression }}</div>
       </left-right-swipe>
 
       <template v-if="isHighlighted">
-        <expression-image
+        <!-- <expression-image
           :expression="expression"
           :is-revealed="isImagesStripped"
           class="absolute inset-0"
-        ></expression-image>
+        ></expression-image> -->
       </template>
     </div>
   </div>

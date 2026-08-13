@@ -27,7 +27,8 @@ export class AssessmentService {
   end() {
     return new Promise((resolve, reject) => {
       try {
-        socket.emit('end', () => resolve(false))
+        socket.emit('end')
+        resolve(false)
       } catch (e) {
         reject(e)
       }

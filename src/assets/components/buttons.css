@@ -9,3 +9,17 @@
 .btn.btn-secondary {
   @apply bg-gray-300 hover:bg-gray-200;
 }
+
+.btn.btn-success {
+  @apply bg-green-50 hover:bg-green-100;
+}
+.btn.btn-success.highlighted {
+  @apply border-2 border-green-300;
+}
+
+.btn.btn-danger {
+  @apply bg-red-50 hover:bg-red-100;
+}
+.btn.btn-danger.highlighted {
+  @apply border-2 border-red-300;
+}

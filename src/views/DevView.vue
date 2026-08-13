@@ -1,14 +1,16 @@
 <script setup>
-import LanguageTypes from '@/common/components/LanguageTypes.vue'
-import { ref } from 'vue'
-
-const languageType = ref('')
+import NumberImage from '@/common/components/NumberImage.vue'
+import SwipeForAnswer from '@/components/questions/components/inquery/SwipeForAnswer.vue'
 </script>
 
 <template>
   <div class="container mx-auto">
-    <language-types v-model="languageType"></language-types>
-
-    <div class="mt-4">Selected language type: {{ languageType }}</div>
+    <swipe-for-answer :question="'2+2'" :choices="[2, 3]" v-slot="slotProps">
+      <number-image
+        :number="slotProps.number"
+        :is-revealed="isImagesStripped"
+        class="h-48 flex justify-center items-center"
+      ></number-image>
+    </swipe-for-answer>
   </div>
 </template>

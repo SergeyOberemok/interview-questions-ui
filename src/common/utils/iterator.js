@@ -3,22 +3,24 @@ export function makeIterator(arr) {
 
   return {
     next() {
+      index++
+
       if (index >= arr.length) {
         return { done: true }
       }
 
-      index++
       const value = arr[index]
 
       return { value, done: false }
     },
 
     prev() {
-      if (index <= 0) {
+      index--
+
+      if (index < 0) {
         return { done: true }
       }
 
-      index--
       const value = arr[index]
 
       return { value, done: false }

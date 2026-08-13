@@ -14,7 +14,6 @@ export const useAssessmentStore = defineStore('assessment', () => {
 
   async function start(quantity) {
     isStarted.value = await assessmentService.start(quantity)
-    await nextQuestion()
   }
 
   async function end() {

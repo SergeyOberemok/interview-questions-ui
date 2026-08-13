@@ -53,9 +53,9 @@
     "vite-plugin-vue-devtools": "^8.1.2",
     "vitest": "^4.1.9",
     "vue-eslint-parser": "^10.4.1",
-    "storybook": "^10.5.5",
-    "@storybook/vue3-vite": "^10.5.5",
-    "eslint-plugin-storybook": "^10.5.5"
+    "storybook": "^10.5.7",
+    "@storybook/vue3-vite": "^10.5.7",
+    "eslint-plugin-storybook": "^10.5.7"
   },
   "engines": {
     "node": "^22.18.0 || >=24.12.0"
