@@ -1,5 +1,5 @@
-import AddQuestion from '@/components/questions/components/edit/AddQuestion.vue'
-import EditQuestion from '@/components/questions/components/edit/EditQuestion.vue'
+import AddQuestion from '@/features/questions/components/edit/AddQuestion.vue'
+import EditQuestion from '@/features/questions/components/edit/EditQuestion.vue'
 import QuestionsView from '@/views/QuestionsView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 

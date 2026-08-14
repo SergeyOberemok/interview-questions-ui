@@ -1,0 +1,3 @@
+.card {
+  @apply border border-gray-100 rounded-md shadow-sm bg-gray-50;
+}

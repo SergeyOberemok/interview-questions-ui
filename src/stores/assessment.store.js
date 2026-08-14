@@ -1,4 +1,4 @@
-import { AssessmentService } from '@/components/assessment/assessment.service'
+import { AssessmentService } from '@/features/assessment/assessment.service'
 import { defineStore } from 'pinia'
 import { computed, ref, shallowRef } from 'vue'
 

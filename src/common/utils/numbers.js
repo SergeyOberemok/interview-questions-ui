@@ -1,4 +1,4 @@
-import { shuffle } from 'lodash-es'
+import { sample, shuffle } from 'lodash-es'
 
 export function generateRangeNear(number, length = 4, allowNegative = false) {
   number = number ? number : 0
@@ -13,16 +13,14 @@ export function generateRangeNear(number, length = 4, allowNegative = false) {
   return arr.map((i) => i - middle)
 }
 
-export function pickRandom(numbers) {
-  const randomIndex = Math.floor(Math.random() * numbers.length)
-
-  return numbers[randomIndex]
+function generateRandomNear(correctOne) {
+  return sample(generateRangeNear(correctOne).filter((i) => i != correctOne))
 }
 
-export function generateChoices(correctOne) {
-  const random = pickRandom(generateRangeNear(correctOne).filter((i) => i != correctOne))
+export function generateChoices(correctOne, length = 2) {
+  const choices = Array.from(Array(length - 1), () => generateRandomNear(correctOne))
 
-  return shuffle([correctOne, random])
+  return shuffle([correctOne, ...choices])
 }
 
 export function toDigits(number) {

@@ -1,6 +1,6 @@
 <script setup>
-import Assessment from '@/components/assessment/Assessment.vue'
-import Connection from '@/components/sockets/Connection.vue'
+import Assessment from '@/features/assessment/Assessment.vue'
+import Connection from '@/features/sockets/Connection.vue'
 import { useSocketConnectionStore } from '@/stores/socket-connection.store'
 import { onMounted } from 'vue'
 

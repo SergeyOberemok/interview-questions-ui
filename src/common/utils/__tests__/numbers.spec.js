@@ -1,12 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import {
-  generateChoices,
-  generateRangeNear,
-  pickRandom,
-  splitByNumbers,
-  toDigits,
-} from '../numbers'
+import { generateChoices, generateRangeNear, splitByNumbers, toDigits } from '../numbers'
 
 describe('Numbers', () => {
   it('generateRangeNear', () => {
@@ -27,16 +21,6 @@ describe('Numbers', () => {
     expect(result).toBeTruthy()
     expect(result).toContain(number)
     expect(result.some((i) => i < 0)).toBeTruthy()
-  })
-
-  it('pickRandom', () => {
-    const length = 5
-    const arr = Array.from(Array(length), (_, i) => i)
-
-    const result = pickRandom(arr)
-
-    expect(arr).toContain(result)
-    expect(arr.indexOf(result)).toBeLessThanOrEqual(length)
   })
 
   it('generateChoices', () => {

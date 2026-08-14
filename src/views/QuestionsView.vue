@@ -1,8 +1,8 @@
 <script setup>
 import Search from '@/common/components/Search.vue'
 import { PAGINATION } from '@/common/constants'
-import QuestionsList from '@/components/questions/components/view/QuestionsList.vue'
-import { QuestionsService } from '@/components/questions/services/questions.service'
+import QuestionsList from '@/features/questions/components/view/QuestionsList.vue'
+import { QuestionsService } from '@/features/questions/services/questions.service'
 import { usePageStore } from '@/stores/questions-paging.store'
 import { useSearchStore } from '@/stores/questions-searching.store'
 import { useQuestionsStore } from '@/stores/questions.store'
