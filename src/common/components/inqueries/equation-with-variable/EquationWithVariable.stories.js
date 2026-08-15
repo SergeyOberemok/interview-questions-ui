@@ -12,3 +12,13 @@ export const Default = {
     operation: '+',
   },
 }
+
+export const Highlighted = {
+  args: {
+    question: [2, 2],
+    goal: 4,
+    operation: '+',
+    isHighlighted: true,
+    isCorrectChosen: true,
+  },
+}

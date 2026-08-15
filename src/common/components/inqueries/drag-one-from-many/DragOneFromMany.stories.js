@@ -25,3 +25,12 @@ export const Default = {
     choices: [1, 2, 3],
   },
 }
+
+export const Highlighted = {
+  render: Template,
+  args: {
+    choices: [1, 2, 3],
+    isHighlighted: true,
+    isCorrectChosen: true,
+  },
+}

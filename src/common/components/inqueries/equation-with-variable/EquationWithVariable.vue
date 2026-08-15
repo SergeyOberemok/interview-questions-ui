@@ -1,31 +1,28 @@
 <script setup>
-import { compact, flatten, sample, zip } from 'lodash-es'
 import { computed } from 'vue'
-import Variable from './variable'
 
-const { question, goal, operation } = defineProps({
-  question: { type: Array, required: true },
+const { question, goal, isHighlighted, isCorrectChosen } = defineProps({
+  question: { type: String, required: true },
   goal: { type: Number, required: true },
-  operation: { type: String, required: true },
+  isHighlighted: Boolean,
+  isCorrectChosen: Boolean,
 })
 
-const variables = computed(() => question.concat(goal).map((value) => new Variable(value)))
-const expression = computed(() => compact(flatten(zip(variables.value, [operation, '=']))))
-const randomVariable = computed(() => sample(variables.value))
+const expression = computed(() => `${question} = ${goal}`)
 </script>
 
 <template>
   <div class="flex justify-between items-center">
-    <div v-for="(item, index) in expression" :key="index">
-      <div v-if="item instanceof Variable" class="card flex justify-center items-center size-24">
-        <template v-if="item === randomVariable">
-          <span>?</span>
-        </template>
-        <template v-else>
-          <span>{{ item }}</span>
-        </template>
+    <div v-for="(item, index) in expression.split(' ')" :key="index">
+      <div
+        class="card flex justify-center items-center size-24"
+        :class="{
+          'card-success': isHighlighted && isCorrectChosen,
+          'card-danger': isHighlighted && !isCorrectChosen,
+        }"
+      >
+        {{ item }}
       </div>
-      <span v-else>{{ item }}</span>
     </div>
   </div>
 </template>

@@ -38,7 +38,9 @@ async function assess(answer) {
       ref="stepperRef"
       class="mb-4"
     >
-      <template #prompt>{{ question }}</template>
+      <template #prompt>
+        <inquery-wrapper :question="question" @answered="assess"></inquery-wrapper>
+      </template>
       <template #summary>
         Summary
         <!-- <summaries :results="results" :is-images-stripped="isStripped"></summaries> -->

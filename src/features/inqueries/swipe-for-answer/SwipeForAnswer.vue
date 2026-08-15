@@ -1,30 +1,30 @@
 <script setup>
 import LeftRightSwipe from '@/common/components/inqueries/left-right-swipe/LeftRightSwipe.vue'
 import ProbableAnswer from '@/common/components/inqueries/probable-answer/ProbableAnswer.vue'
+import { generateChoices } from '@/common/utils/numbers'
 import { computed, useTemplateRef, watch } from 'vue'
 
-const probableAnswerRef = useTemplateRef('probableAnswerRef')
-const questionRef = useTemplateRef('questionRef')
-const goal = computed(() => (isCorrectChosen ? choices.slice(-1) : choices[0]))
-const expression = computed(() => `${question}` + (isHighlighted ? ` = ${goal.value}` : ``))
-
-const { question, choices, isHighlighted, isCorrectChosen } = defineProps({
+const { question, goal, isHighlighted, isCorrectChosen } = defineProps({
   question: {
     type: String,
     required: true,
   },
-  choices: {
-    type: Array,
+  goal: {
+    type: Number,
     required: true,
-    default: () => [],
   },
   isHighlighted: Boolean,
   isCorrectChosen: Boolean,
 })
 const emit = defineEmits(['answered'])
 
+const probableAnswerRef = useTemplateRef('probableAnswerRef')
+const questionRef = useTemplateRef('questionRef')
+const expression = computed(() => `${question}` + (isHighlighted ? ` = ${goal}` : ``))
+const choices = computed(() => generateChoices(goal))
+
 function assessChoice(choice) {
-  const answer = (choice === 'right' ? choices.slice(-1) : choices)[0]
+  const answer = (choice === 'right' ? choices.value.slice(-1) : choices.value)[0]
 
   probableAnswerRef.value.setChoice(answer)
   emit('answered', answer)

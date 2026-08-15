@@ -2,7 +2,7 @@ import { fn } from 'storybook/test'
 import PutMissingInOrder from './PutMissingInOrder.vue'
 
 export default {
-  title: 'Features/Questions/Inqueries/PutMissingInOrder',
+  title: 'Features/Inqueries/PutMissingInOrder',
   component: PutMissingInOrder,
   args: {
     onAnswered: fn(),
@@ -11,8 +11,16 @@ export default {
 
 export const Default = {
   args: {
-    question: [2, 2],
+    question: 'x + 2',
     goal: 4,
-    operation: '+',
+  },
+}
+
+export const Highlighted = {
+  args: {
+    question: 'x + 2',
+    goal: 4,
+    isHighlighted: true,
+    isCorrectChosen: true,
   },
 }

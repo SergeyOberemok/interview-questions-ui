@@ -1,15 +1,15 @@
 <script setup>
-import ExpressionImage from '@/common/components/ExpressionImage.vue'
-import NumberImage from '@/common/components/NumberImage.vue'
+import ExpressionImage from '@/common/components/number-image/ExpressionImage.vue'
+import NumberImage from '@/common/components/number-image/NumberImage.vue'
 import SwipeForAnswer from './SwipeForAnswer.vue'
 
-const { question, choices, isImagesStripped } = defineProps({
+const { question, goal, isImagesStripped } = defineProps({
   question: {
     type: String,
     required: true,
   },
-  choices: {
-    type: Array,
+  goal: {
+    type: Number,
     required: true,
   },
   isImagesStripped: {
@@ -21,7 +21,7 @@ const { question, choices, isImagesStripped } = defineProps({
 
 <template>
   <div>
-    <swipe-for-answer :question="question" :choices="choices">
+    <swipe-for-answer :question="question" :goal="goal">
       <template v-slot:probable-answer="slotProps">
         <number-image
           :number="slotProps.number"

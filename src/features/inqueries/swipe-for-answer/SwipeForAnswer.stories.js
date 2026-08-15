@@ -1,9 +1,8 @@
-import { generateChoices } from '@/common/utils/numbers.js'
 import { fn } from 'storybook/test'
 import SwipeForAnswer from './SwipeForAnswer.vue'
 
 export default {
-  title: 'Features/Questions/Inqueries/SwipeForAnswer',
+  title: 'Features/Inqueries/SwipeForAnswer',
   component: SwipeForAnswer,
   args: {
     onAnswered: fn(),
@@ -13,14 +12,14 @@ export default {
 export const Default = {
   args: {
     question: '2 + 2',
-    choices: generateChoices(4),
+    goal: 4,
   },
 }
 
 export const Highlighted = {
   args: {
     question: '2 + 2',
-    choices: generateChoices(4),
+    goal: 4,
     isHighlighted: true,
     isCorrectChosen: true,
   },

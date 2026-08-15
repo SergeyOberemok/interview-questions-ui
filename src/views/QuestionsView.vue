@@ -1,5 +1,5 @@
 <script setup>
-import Search from '@/common/components/Search.vue'
+import Search from '@/common/components/search/Search.vue'
 import { PAGINATION } from '@/common/constants'
 import QuestionsList from '@/features/questions/components/view/QuestionsList.vue'
 import { QuestionsService } from '@/features/questions/services/questions.service'
