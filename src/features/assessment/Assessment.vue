@@ -1,9 +1,10 @@
 <script setup>
-import Stepper from '@/common/components/Stepper.vue'
+import Stepper from '@/common/components/stepper/Stepper.vue'
 import { useAssessmentStore } from '@/stores/assessment.store'
 import { promiseTimeout } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref, useTemplateRef } from 'vue'
+import InqueryWrapper from '../inqueries/inquiry-wrapper/InqueryWrapper.vue'
 import AssessmentControls from './components/AssessmentControls.vue'
 
 const ASSESSMENT_QUANTITY = +import.meta.env.VITE_ASSESSMENT_QUANTITY || 5
@@ -11,7 +12,7 @@ const TIMEOUT = 1500
 
 const assessmentQuantity = ref(ASSESSMENT_QUANTITY)
 const assessmentStore = useAssessmentStore()
-const { isStarted, question, isStripped, results } = storeToRefs(assessmentStore)
+const { isStarted, question, goal, isStripped, results } = storeToRefs(assessmentStore)
 const isHighlighted = ref(false)
 const stepperRef = useTemplateRef('stepperRef')
 
@@ -39,7 +40,8 @@ async function assess(answer) {
       class="mb-4"
     >
       <template #prompt>
-        <inquery-wrapper :question="question" @answered="assess"></inquery-wrapper>
+        {{ goal }}
+        <inquery-wrapper :question="question" :args="{ goal }" @answered="assess"></inquery-wrapper>
       </template>
       <template #summary>
         Summary

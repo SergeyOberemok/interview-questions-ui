@@ -35,10 +35,10 @@ export class AssessmentService {
     })
   }
 
-  nextQuestion() {
+  nextQuestion(direction = 'next') {
     return new Promise((resolve, reject) => {
       try {
-        socket.emit('question', {}, (question) => resolve(question))
+        socket.emit('question', { direction }, (question) => resolve(question))
       } catch (error) {
         reject(error)
       }
@@ -49,6 +49,16 @@ export class AssessmentService {
     return new Promise((resolve, reject) => {
       try {
         socket.emit('answer', answer, (target, expected, received, isCorrect) => resolve(isCorrect))
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
+
+  currentGoal() {
+    return new Promise((resolve, reject) => {
+      try {
+        socket.emit('goal', {}, (goal) => resolve(goal))
       } catch (error) {
         reject(error)
       }
