@@ -1,23 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import { generateChoices } from '@/common/utils/numbers'
+import { ref, watch } from 'vue'
 
 const selectedChoice = ref()
+const choices = ref([])
 
-const { choices, isHighlighted, isCorrectChosen } = defineProps({
-  choices: {
-    type: Array,
+const { goal, isHighlighted, isCorrectChosen } = defineProps({
+  goal: {
+    type: Number,
     required: true,
-    default: () => [],
   },
   isHighlighted: Boolean,
   isCorrectChosen: Boolean,
 })
 const emit = defineEmits(['chosen'])
-defineExpose({ setChoice: (choice) => (selectedChoice.value = choice) })
+defineExpose({ setChoice: (choice) => (selectedChoice.value = choice), choices })
 
-function isChosen(choice) {
-  return selectedChoice.value === choice
-}
+watch(
+  () => goal,
+  (value) => (choices.value = generateChoices(value)),
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -29,10 +32,8 @@ function isChosen(choice) {
       type="button"
       class="btn bg-gray-50"
       :class="{
-        'btn-success highlighted':
-          isHighlighted &&
-          ((isCorrectChosen && isChosen(choice)) || (!isCorrectChosen && !isChosen(choice))),
-        'btn-danger highlighted': isHighlighted && !isCorrectChosen && isChosen(choice),
+        'btn-success highlighted': isHighlighted && choice === goal,
+        'btn-danger highlighted': isHighlighted && !isCorrectChosen && choice !== goal,
       }"
     >
       <slot :number="choice">{{ choice }}</slot>

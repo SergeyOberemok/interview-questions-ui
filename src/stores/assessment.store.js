@@ -12,9 +12,14 @@ export const useAssessmentStore = defineStore('assessment', () => {
   const isCorrect = ref(false)
   const results = shallowRef([])
   const isStripped = ref(false)
+  const currentIndex = ref(-1)
+  const history = ref([])
+  const isAnswered = computed(() => history.value[currentIndex.value]?.answer !== undefined)
 
   async function start(quantity) {
     isStarted.value = await assessmentService.start(quantity)
+    currentIndex.value = -1
+    history.value = []
   }
 
   async function end() {
@@ -26,24 +31,42 @@ export const useAssessmentStore = defineStore('assessment', () => {
       return
     }
 
-    question.value = await assessmentService.nextQuestion(direction)
-    isCorrect.value = false
+    const nextIndex = currentIndex.value + (direction === 'next' ? 1 : -1)
+    if (nextIndex < 0) {
+      return
+    }
+
+    const cached = history.value[nextIndex]
+    if (cached) {
+      question.value = cached.question
+      goal.value = cached.goal
+      isCorrect.value = cached.isCorrect ?? false
+    } else {
+      question.value = await assessmentService.nextQuestion(direction)
+      await acquireGoal()
+      isCorrect.value = false
+      history.value[nextIndex] = { question: question.value, goal: goal.value }
+    }
+    currentIndex.value = nextIndex
   }
 
   async function nextQuestion() {
     await obtainQuestion('next')
-    await acquireGoal()
   }
 
   async function prevQuestion() {
     await obtainQuestion('prev')
-    await acquireGoal()
   }
 
   async function assess(answer) {
     const result = await assessmentService.assess(answer)
 
     isCorrect.value = result
+    history.value[currentIndex.value] = {
+      ...history.value[currentIndex.value],
+      answer,
+      isCorrect: result,
+    }
   }
 
   async function acquireGoal() {
@@ -54,12 +77,10 @@ export const useAssessmentStore = defineStore('assessment', () => {
 
   function bindEvents() {
     assessmentService.bindEvents({
-      end: ({ assessment, results: resultRecords, isPassed }) => (
-        console.log(assessment),
-        (isStarted.value = false),
-        (results.value = resultRecords),
-        console.log(isPassed)
-      ),
+      end: (results) => {
+        isStarted.value = false
+        results.value = results
+      },
     })
   }
 
@@ -71,6 +92,9 @@ export const useAssessmentStore = defineStore('assessment', () => {
     results,
     isStripped,
     isCorrect,
+    currentIndex,
+    history,
+    isAnswered,
     start,
     end,
     nextQuestion,

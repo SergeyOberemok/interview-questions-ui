@@ -1,7 +1,6 @@
 <script setup>
 import LeftRightSwipe from '@/common/components/inqueries/left-right-swipe/LeftRightSwipe.vue'
 import ProbableAnswer from '@/common/components/inqueries/probable-answer/ProbableAnswer.vue'
-import { generateChoices } from '@/common/utils/numbers'
 import { computed, useTemplateRef, watch } from 'vue'
 
 const { question, goal, isHighlighted, isCorrectChosen } = defineProps({
@@ -21,7 +20,7 @@ const emit = defineEmits(['answered'])
 const probableAnswerRef = useTemplateRef('probableAnswerRef')
 const questionRef = useTemplateRef('questionRef')
 const expression = computed(() => `${question}` + (isHighlighted ? ` = ${goal}` : ``))
-const choices = computed(() => generateChoices(goal))
+const choices = computed(() => probableAnswerRef.value.choices)
 
 function assessChoice(choice) {
   const answer = (choice === 'right' ? choices.value.slice(-1) : choices.value)[0]
@@ -40,7 +39,7 @@ watch(
   <div class="flex flex-col">
     <probable-answer
       ref="probableAnswerRef"
-      :choices="choices"
+      :goal="goal"
       :is-highlighted="isHighlighted"
       :is-correct-chosen="isCorrectChosen"
       @chosen="emit('answered', $event)"

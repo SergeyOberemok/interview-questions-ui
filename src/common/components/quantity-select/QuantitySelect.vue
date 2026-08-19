@@ -1,5 +1,5 @@
 <script setup>
-const QUANTITY_MULTIPLIER = 5
+const QUANTITY_MULTIPLIER = 2
 
 const quantity = defineModel({ required: true, type: Number, default: QUANTITY_MULTIPLIER })
 

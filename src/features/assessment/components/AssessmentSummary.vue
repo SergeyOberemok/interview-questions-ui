@@ -1,15 +1,12 @@
 <script setup>
+import { map } from 'lodash-es'
 import { computed } from 'vue'
 
-import ExpressionImage from '@/common/components/ExpressionImage.vue'
-import NumberImage from '@/common/components/NumberImage.vue'
-
-const { results, isImagesStripped: isStripped } = defineProps({
-  results: Array,
-  isImagesStripped: Boolean,
+const { results } = defineProps({
+  results: { type: Array, required: true },
 })
 
-const finalResult = computed(() => results?.map((params) => params[3]).every((result) => result))
+const finalResult = computed(() => map(results, 1).every(Boolean))
 </script>
 
 <template>
@@ -18,21 +15,13 @@ const finalResult = computed(() => results?.map((params) => params[3]).every((re
       <thead>
         <tr class="text-left">
           <th>Question</th>
-          <th>Goal</th>
-          <th>Answer</th>
           <th>Result</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="([question, goal, answer, result], i) in results" :key="`${question}${i}`">
+        <tr v-for="([question, result], i) in results" :key="`${question}${i}`">
           <td>
-            <expression-image :expression="question" :is-revealed="isStripped"></expression-image>
-          </td>
-          <td>
-            <number-image :number="goal" :is-revealed="isStripped"></number-image>
-          </td>
-          <td :class="{ 'text-green-500': goal === answer, 'text-red-500': goal !== answer }">
-            <number-image :number="answer" :is-revealed="isStripped"></number-image>
+            <slot name="expression" :question="question">{{ question }}</slot>
           </td>
           <td :class="{ 'text-green-500': result, 'text-red-500': !result }">{{ result }}</td>
         </tr>

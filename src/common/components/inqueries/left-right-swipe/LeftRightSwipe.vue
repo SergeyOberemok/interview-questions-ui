@@ -60,8 +60,8 @@ function reset() {
       class="card w-full flex justify-center items-center absolute top-0 left-0 bottom-2"
       :class="{
         'transition-all duration-200 ease-linear': isSwiping,
-        'bg-green-50 border-green-300': isHighlighted && isCorrectChosen,
-        'bg-red-50 border-red-300': isHighlighted && !isCorrectChosen,
+        'card-success': isHighlighted && isCorrectChosen,
+        'card-danger': isHighlighted && !isCorrectChosen,
       }"
       :style="{ left, opacity }"
     >

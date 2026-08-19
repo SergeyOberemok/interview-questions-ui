@@ -1,4 +1,5 @@
 <script setup>
+import ExpressionImage from '@/common/components/number-image/ExpressionImage.vue'
 import Stepper from '@/common/components/stepper/Stepper.vue'
 import { useAssessmentStore } from '@/stores/assessment.store'
 import { promiseTimeout } from '@vueuse/core'
@@ -6,6 +7,7 @@ import { storeToRefs } from 'pinia'
 import { onMounted, ref, useTemplateRef } from 'vue'
 import InqueryWrapper from '../inqueries/inquiry-wrapper/InqueryWrapper.vue'
 import AssessmentControls from './components/AssessmentControls.vue'
+import AssessmentSummary from './components/AssessmentSummary.vue'
 
 const ASSESSMENT_QUANTITY = +import.meta.env.VITE_ASSESSMENT_QUANTITY || 5
 const TIMEOUT = 1500
@@ -19,18 +21,14 @@ const {
   isCorrect: isCorrectChosen,
   isStripped,
   results,
+  isAnswered,
 } = storeToRefs(assessmentStore)
-const isHighlighted = ref(false)
 const stepperRef = useTemplateRef('stepperRef')
 
 onMounted(() => assessmentStore.bindEvents())
 
 async function assess(answer) {
-  await assessmentStore.assess(answer)
-
-  isHighlighted.value = true
-
-  return promiseTimeout(TIMEOUT).then(() => (isHighlighted.value = false))
+  return assessmentStore.assess(answer).then(() => promiseTimeout(TIMEOUT))
 }
 </script>
 
@@ -49,13 +47,20 @@ async function assess(answer) {
       <template #prompt>
         <inquery-wrapper
           :question="question"
-          :args="{ goal, isHighlighted, isCorrectChosen }"
+          :args="{ goal, isHighlighted: isAnswered, isCorrectChosen }"
           @answered="(answer) => assess(answer).then(() => stepperRef.next())"
         ></inquery-wrapper>
       </template>
       <template #summary>
         Summary
-        <!-- <summaries :results="results" :is-images-stripped="isStripped"></summaries> -->
+        <assessment-summary :results="results">
+          <template v-slot:expression="slotProps">
+            <expression-image
+              :expression="slotProps.question"
+              :is-revealed="isStripped"
+            ></expression-image>
+          </template>
+        </assessment-summary>
       </template>
     </stepper>
 
