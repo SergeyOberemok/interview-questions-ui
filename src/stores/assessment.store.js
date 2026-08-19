@@ -27,6 +27,7 @@ export const useAssessmentStore = defineStore('assessment', () => {
     }
 
     question.value = await assessmentService.nextQuestion(direction)
+    isCorrect.value = false
   }
 
   async function nextQuestion() {

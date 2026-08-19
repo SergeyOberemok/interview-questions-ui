@@ -30,14 +30,9 @@ function assessChoice(choice) {
   emit('answered', answer)
 }
 
-function reset() {
-  questionRef.value.reset()
-  probableAnswerRef.value.setChoice(null)
-}
-
 watch(
   () => isHighlighted,
-  (value) => !value && reset(),
+  (value) => (value ? questionRef.value.reset() : probableAnswerRef.value.setChoice(null)),
 )
 </script>
 

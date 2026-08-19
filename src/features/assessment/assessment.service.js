@@ -48,7 +48,7 @@ export class AssessmentService {
   assess(answer) {
     return new Promise((resolve, reject) => {
       try {
-        socket.emit('answer', answer, (target, expected, received, isCorrect) => resolve(isCorrect))
+        socket.emit('answer', answer, (isCorrect) => resolve(isCorrect))
       } catch (error) {
         reject(error)
       }

@@ -12,7 +12,14 @@ const TIMEOUT = 1500
 
 const assessmentQuantity = ref(ASSESSMENT_QUANTITY)
 const assessmentStore = useAssessmentStore()
-const { isStarted, question, goal, isStripped, results } = storeToRefs(assessmentStore)
+const {
+  isStarted,
+  question,
+  goal,
+  isCorrect: isCorrectChosen,
+  isStripped,
+  results,
+} = storeToRefs(assessmentStore)
 const isHighlighted = ref(false)
 const stepperRef = useTemplateRef('stepperRef')
 
@@ -40,8 +47,11 @@ async function assess(answer) {
       class="mb-4"
     >
       <template #prompt>
-        {{ goal }}
-        <inquery-wrapper :question="question" :args="{ goal }" @answered="assess"></inquery-wrapper>
+        <inquery-wrapper
+          :question="question"
+          :args="{ goal, isHighlighted, isCorrectChosen }"
+          @answered="(answer) => assess(answer).then(() => stepperRef.next())"
+        ></inquery-wrapper>
       </template>
       <template #summary>
         Summary
