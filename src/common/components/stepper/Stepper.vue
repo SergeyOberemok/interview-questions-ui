@@ -13,7 +13,7 @@ const { stepsCount } = defineProps({
     required: true,
   },
 })
-const emit = defineEmits(['next', 'prev', 'complete'])
+const emit = defineEmits(['next', 'prev', 'completed'])
 defineExpose({
   currentStep,
   next: goNext,
@@ -27,10 +27,7 @@ function initSteps(count) {
     return
   }
 
-  steps.value = [
-    ...Array.from(Array(count), (_, i) => ({ id: i, name: 'prompt' })),
-    { id: count, name: 'summary' },
-  ]
+  steps.value = Array.from(Array(count), (_, i) => ({ id: i, name: 'prompt' }))
   iterator = makeIterator(steps.value)
   goNext()
 }
@@ -43,7 +40,7 @@ function goToStep(step) {
   const { value, done } = iterator[step]()
 
   if (done) {
-    emit('complete', done)
+    emit('completed', done)
     reset()
 
     return
@@ -68,8 +65,6 @@ function reset() {
 }
 
 watch(() => stepsCount, initSteps)
-// watch(isStarted, (isStarted) => isStarted && initSteps())
-// watch(isFinished, (isFinished) => isFinished && reset())
 </script>
 
 <template>

@@ -30,7 +30,7 @@ export const useAssessmentStore = defineStore('assessment', () => {
     if (!isStarted.value) {
       return
     }
-
+    question.value = await assessmentService.nextQuestion(direction)
     const nextIndex = currentIndex.value + (direction === 'next' ? 1 : -1)
     if (nextIndex < 0) {
       return
@@ -38,11 +38,9 @@ export const useAssessmentStore = defineStore('assessment', () => {
 
     const cached = history.value[nextIndex]
     if (cached) {
-      question.value = cached.question
       goal.value = cached.goal
       isCorrect.value = cached.isCorrect ?? false
     } else {
-      question.value = await assessmentService.nextQuestion(direction)
       await acquireGoal()
       isCorrect.value = false
       history.value[nextIndex] = { question: question.value, goal: goal.value }
@@ -78,6 +76,7 @@ export const useAssessmentStore = defineStore('assessment', () => {
   function bindEvents() {
     assessmentService.bindEvents({
       end: (results) => {
+        console.log('Assessment ended', results)
         isStarted.value = false
         results.value = results
       },

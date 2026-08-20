@@ -34,13 +34,17 @@ async function assess(answer) {
 
 <template>
   <div class="flex flex-col">
-    <h1 class="text-2xl font-bold mb-4">Assessment</h1>
+    <h1 class="text-2xl font-bold mb-4">
+      <span>Assessment</span>
+      <span v-if="!isStarted && results.length > 0">Summary</span>
+    </h1>
 
     <stepper
       v-if="isStarted"
       :steps-count="assessmentQuantity"
       @next="async () => await assessmentStore.nextQuestion()"
       @prev="async () => await assessmentStore.prevQuestion()"
+      @completed="() => assessmentStore.end()"
       ref="stepperRef"
       class="mb-4"
     >
@@ -51,18 +55,18 @@ async function assess(answer) {
           @answered="(answer) => assess(answer).then(() => stepperRef.next())"
         ></inquery-wrapper>
       </template>
-      <template #summary>
-        Summary
-        <assessment-summary :results="results">
-          <template v-slot:expression="slotProps">
-            <expression-image
-              :expression="slotProps.question"
-              :is-revealed="isStripped"
-            ></expression-image>
-          </template>
-        </assessment-summary>
-      </template>
     </stepper>
+
+    <template v-else-if="results.length > 0">
+      <assessment-summary :results="results">
+        <template v-slot:expression="slotProps">
+          <expression-image
+            :expression="slotProps.question"
+            :is-revealed="isStripped"
+          ></expression-image>
+        </template>
+      </assessment-summary>
+    </template>
 
     <assessment-controls
       v-model="assessmentQuantity"
