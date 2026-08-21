@@ -11,15 +11,19 @@ export const useAssessmentStore = defineStore('assessment', () => {
   const goal = ref(0)
   const isCorrect = ref(false)
   const results = shallowRef([])
-  const isStripped = ref(false)
-  const currentIndex = ref(-1)
-  const history = ref([])
-  const isAnswered = computed(() => history.value[currentIndex.value]?.answer !== undefined)
+  const history = ref({})
+  const isAnswered = computed(() => history.value[question.value?.id]?.answer !== undefined)
+  const resultsWithAnswers = computed(() =>
+    results.value.map((result) => ({
+      ...result,
+      answer: history.value[result.id]?.answer,
+    })),
+  )
 
   async function start(quantity) {
     isStarted.value = await assessmentService.start(quantity)
-    currentIndex.value = -1
-    history.value = []
+    history.value = {}
+    results.value = []
   }
 
   async function end() {
@@ -30,22 +34,24 @@ export const useAssessmentStore = defineStore('assessment', () => {
     if (!isStarted.value) {
       return
     }
-    question.value = await assessmentService.nextQuestion(direction)
-    const nextIndex = currentIndex.value + (direction === 'next' ? 1 : -1)
-    if (nextIndex < 0) {
+
+    const nextQuestion = await assessmentService.nextQuestion(direction)
+
+    if (!isStarted.value || !nextQuestion) {
       return
     }
 
-    const cached = history.value[nextIndex]
+    question.value = nextQuestion
+
+    const cached = history.value[question.value.id]
     if (cached) {
       goal.value = cached.goal
       isCorrect.value = cached.isCorrect ?? false
     } else {
       await acquireGoal()
       isCorrect.value = false
-      history.value[nextIndex] = { question: question.value, goal: goal.value }
+      history.value[question.value.id] = { goal: goal.value }
     }
-    currentIndex.value = nextIndex
   }
 
   async function nextQuestion() {
@@ -57,14 +63,16 @@ export const useAssessmentStore = defineStore('assessment', () => {
   }
 
   async function assess(answer) {
+    const id = question.value.id
+    history.value[id] = {
+      ...history.value[id],
+      answer,
+    }
+
     const result = await assessmentService.assess(answer)
 
     isCorrect.value = result
-    history.value[currentIndex.value] = {
-      ...history.value[currentIndex.value],
-      answer,
-      isCorrect: result,
-    }
+    history.value[id].isCorrect = result
   }
 
   async function acquireGoal() {
@@ -75,10 +83,9 @@ export const useAssessmentStore = defineStore('assessment', () => {
 
   function bindEvents() {
     assessmentService.bindEvents({
-      end: (results) => {
-        console.log('Assessment ended', results)
+      end: (value) => {
         isStarted.value = false
-        results.value = results
+        results.value = value
       },
     })
   }
@@ -89,9 +96,8 @@ export const useAssessmentStore = defineStore('assessment', () => {
     question,
     goal,
     results,
-    isStripped,
+    resultsWithAnswers,
     isCorrect,
-    currentIndex,
     history,
     isAnswered,
     start,

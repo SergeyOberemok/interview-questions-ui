@@ -3,7 +3,7 @@ import ExpressionImage from '@/common/components/number-image/ExpressionImage.vu
 import NumberImage from '@/common/components/number-image/NumberImage.vue'
 import SwipeForAnswer from './SwipeForAnswer.vue'
 
-const { question, goal, isImagesStripped } = defineProps({
+const { question, goal, isHighlighted, isCorrectChosen, isImagesStripped } = defineProps({
   question: {
     type: String,
     required: true,
@@ -12,16 +12,22 @@ const { question, goal, isImagesStripped } = defineProps({
     type: Number,
     required: true,
   },
-  isImagesStripped: {
-    type: Boolean,
-    default: false,
-  },
+  isHighlighted: Boolean,
+  isCorrectChosen: Boolean,
+  isImagesStripped: Boolean,
 })
+const emit = defineEmits(['answered'])
 </script>
 
 <template>
   <div>
-    <swipe-for-answer :question="question" :goal="goal">
+    <swipe-for-answer
+      :question="question"
+      :goal="goal"
+      :is-highlighted="isHighlighted"
+      :is-correct-chosen="isCorrectChosen"
+      @answered="emit('answered', $event)"
+    >
       <template v-slot:probable-answer="slotProps">
         <number-image
           :number="slotProps.number"

@@ -6,10 +6,16 @@ import QuantitySelect from '@/common/components/quantity-select/QuantitySelect.v
 const quantity = defineModel({
   type: Number,
 })
-const emit = defineEmits(['started', 'ended', 'stripped', 'next', 'prev'])
+const emit = defineEmits(['started', 'ended', 'next', 'prev'])
+defineExpose({
+  reset,
+})
 
-const isImagesStripped = ref(false)
 const isStarted = ref(false)
+
+function reset() {
+  isStarted.value = false
+}
 </script>
 
 <template>
@@ -24,13 +30,7 @@ const isStarted = ref(false)
     <template v-else>
       <button @click="emit('prev')" type="button" class="btn">Previous</button>
 
-      <button
-        type="button"
-        @click="((isImagesStripped = !isImagesStripped), emit('stripped', isImagesStripped))"
-        class="btn"
-      >
-        {{ isImagesStripped ? 'Hinder' : 'Strip' }}
-      </button>
+      <slot></slot>
       <button @click="(emit('ended'), (isStarted = false))" type="button" class="btn">End</button>
 
       <button @click="emit('next')" type="button" class="btn">Next</button>

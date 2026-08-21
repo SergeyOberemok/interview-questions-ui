@@ -1,10 +1,10 @@
 import PutMissingInOrder from '../put-missing-in-order/PutMissingInOrder.vue'
-import SwipeForAnswer from '../swipe-for-answer/SwipeForAnswer.vue'
+import SwipeForImageAnswer from '../swipe-for-answer/SwipeForImageAnswer.vue'
 
 export function createInqueryComponent(type) {
   switch (type) {
     case 'calculation':
-      return SwipeForAnswer
+      return SwipeForImageAnswer
     case 'equation':
       return PutMissingInOrder
   }

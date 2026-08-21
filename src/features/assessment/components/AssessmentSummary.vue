@@ -6,24 +6,30 @@ const { results } = defineProps({
   results: { type: Array, required: true },
 })
 
-const finalResult = computed(() => map(results, 1).every(Boolean))
+const finalResult = computed(() => map(results, 'result').every(Boolean))
 </script>
 
 <template>
   <div>
-    <table class="table-auto w-full mb-3">
+    <table class="table-auto w-full mb-2 border-separate border-spacing-y-2">
       <thead>
         <tr class="text-left">
           <th>Question</th>
-          <th>Result</th>
+          <th>Answer</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="([question, result], i) in results" :key="`${question}${i}`">
+        <tr
+          v-for="{ id, question, answer, result } in results"
+          :key="id"
+          :class="{ 'text-green-500': result, 'text-red-500': !result }"
+        >
           <td>
-            <slot name="expression" :question="question">{{ question }}</slot>
+            <slot name="expression" :question="question" :is-correct="result">{{ question }}</slot>
           </td>
-          <td :class="{ 'text-green-500': result, 'text-red-500': !result }">{{ result }}</td>
+          <td>
+            <slot name="image" :answer="answer" :is-correct="result">{{ answer }}</slot>
+          </td>
         </tr>
       </tbody>
     </table>

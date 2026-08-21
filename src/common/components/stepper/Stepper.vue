@@ -13,7 +13,7 @@ const { stepsCount } = defineProps({
     required: true,
   },
 })
-const emit = defineEmits(['next', 'prev', 'completed'])
+const emit = defineEmits(['next', 'prev'])
 defineExpose({
   currentStep,
   next: goNext,
@@ -40,7 +40,6 @@ function goToStep(step) {
   const { value, done } = iterator[step]()
 
   if (done) {
-    emit('completed', done)
     reset()
 
     return
@@ -69,8 +68,6 @@ watch(() => stepsCount, initSteps)
 
 <template>
   <div>
-    <h5 class="mb-2">Step {{ activeIndex }}</h5>
-
     <template v-for="step in steps" :key="step.id">
       <div v-if="$slots[step.name] && step === currentStep">
         <slot :name="step.name">{{ step.name }}</slot>
