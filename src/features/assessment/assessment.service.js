@@ -1,10 +1,6 @@
 import { socket } from '@/socket'
 
 export class AssessmentService {
-  constructor() {
-    this.bindEvents()
-  }
-
   bindEvents(params = {}) {
     for (const key in params) {
       if (Object.prototype.hasOwnProperty.call(params, key)) {

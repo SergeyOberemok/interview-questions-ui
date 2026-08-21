@@ -20,10 +20,25 @@ export const useAssessmentStore = defineStore('assessment', () => {
     })),
   )
 
+  function cacheGoal(id, goalValue) {
+    history.value[id] = { ...history.value[id], goal: goalValue }
+  }
+
+  function cacheAnswer(id, answer) {
+    history.value[id] = { ...history.value[id], answer }
+  }
+
+  function cacheCorrectness(id, correct) {
+    history.value[id] = { ...history.value[id], isCorrect: correct }
+  }
+
   async function start(quantity) {
     isStarted.value = await assessmentService.start(quantity)
     history.value = {}
     results.value = []
+    question.value = {}
+    goal.value = 0
+    isCorrect.value = false
   }
 
   async function end() {
@@ -48,9 +63,9 @@ export const useAssessmentStore = defineStore('assessment', () => {
       goal.value = cached.goal
       isCorrect.value = cached.isCorrect ?? false
     } else {
-      await acquireGoal()
+      goal.value = await acquireGoal()
       isCorrect.value = false
-      history.value[question.value.id] = { goal: goal.value }
+      cacheGoal(question.value.id, goal.value)
     }
   }
 
@@ -64,21 +79,17 @@ export const useAssessmentStore = defineStore('assessment', () => {
 
   async function assess(answer) {
     const id = question.value.id
-    history.value[id] = {
-      ...history.value[id],
-      answer,
-    }
+    cacheAnswer(id, answer)
 
     const result = await assessmentService.assess(answer)
 
     isCorrect.value = result
-    history.value[id].isCorrect = result
+    cacheCorrectness(id, result)
   }
 
   async function acquireGoal() {
-    const result = await assessmentService.currentGoal()
-
-    goal.value = result
+    goal.value = await assessmentService.currentGoal()
+    return goal.value
   }
 
   function bindEvents() {
@@ -98,7 +109,6 @@ export const useAssessmentStore = defineStore('assessment', () => {
     results,
     resultsWithAnswers,
     isCorrect,
-    history,
     isAnswered,
     start,
     end,

@@ -35,23 +35,25 @@ Path alias `@` maps to `src/` (configured in both `vite.config.js` and `jsconfig
 
 ## Architecture
 
-Feature folders under `src/components/<feature>/` generally follow a layered pattern — keep this pattern when adding features:
+Feature folders under `src/features/<feature>/` generally follow a layered pattern — keep this pattern when adding features:
 
 - `repositories/*.repository.js` — talks to the REST API via the shared `HttpRepository` (`src/common/repositories/http.repository.js`, thin `fetch` wrapper with `get`/`post`/`put`/`delete`), maps raw JSON into a model class.
 - `models/*.model.js` — plain classes representing domain entities (e.g. `Question`, `Label`).
 - `services/*.service.js` or `<feature>.service.js` — orchestrates repository calls and Pinia store updates; components should call services/stores rather than repositories directly.
-- `components/` — split into `edit/` (create/update forms) and `view/` (read-only display) subfolders, e.g. `src/components/questions/components/edit` vs `.../view`.
+- `components/` — split into `edit/` (create/update forms) and `view/` (read-only display) subfolders, e.g. `src/features/questions/components/edit` vs `.../view`.
 - Stories: co-located `*.stories.js` files next to the component they document (Storybook, `@storybook/vue3-vite`).
 
 State (`src/stores/*.store.js`) uses Pinia's setup-store syntax (`defineStore('name', () => { ... })`) with `ref`/`shallowRef`/`computed`, exposing plain functions instead of `actions`/`getters` objects. Stores often instantiate a service directly (e.g. `assessment.store.js` creates `new AssessmentService()`) rather than having the component own the service.
 
-The **assessment (quiz) flow** is real-time over Socket.IO rather than REST: `src/socket.js` creates the shared `io()` client, `AssessmentService` (`src/components/assessment/assessment.service.js`) wraps `socket.emit`/`socket.on` calls (`start`, `end`, `question`, `answer`) in promises, and `assessment.store.js` binds to those events via `bindEvents()`. `src/components/sockets/*` handles connection state UI separately.
+The **assessment (quiz) flow** is real-time over Socket.IO rather than REST: `src/socket.js` creates the shared `io()` client, `AssessmentService` (`src/features/assessment/assessment.service.js`) wraps `socket.emit`/`socket.on` calls (`start`, `end`, `question` with a `direction` of `next`/`prev`, `answer`, `goal`) in promises, and `assessment.store.js` binds to the `end` event via `bindEvents()`. The store also caches per-question state in a `history` map keyed by question id (so revisiting a question via `prevQuestion`/`nextQuestion` restores its prior goal/answer instead of re-fetching) and exposes `resultsWithAnswers` (results joined with the recorded answer from `history`). `src/features/sockets/*` handles connection state UI separately.
+
+Each assessment question renders through a small factory/plugin system rather than one hardcoded UI: `Assessment.vue` renders `InqueryWrapper.vue` (`src/features/inqueries/inquiry-wrapper/`), which passes `question.type` into `InqueryFactory.vue`, which looks up the concrete answer-input component via `createInqueryComponent(type)` (`inquery-component.factory.js`) — currently `'calculation'` → `SwipeForImageAnswer` and `'equation'` → `PutMissingInOrder` (both under `src/features/inqueries/`). Add a new question type by adding a case to that factory and a new component. These feature-level inquiry components compose generic, reusable UI primitives from `src/common/components/inqueries/` (`DragOneFromMany`, `EquationWithVariable`, `LeftRightSwipe`, `ProbableAnswer`) — keep that split: feature-specific answer/scoring logic lives under `features/inqueries/`, generic interaction widgets live under `common/components/inqueries/`.
 
 The **questions list flow** is plain REST via `QuestionsRepository` → `QuestionsService` → `questions.store.js`, with separate stores for paging (`questions-paging.store.js`) and search (`questions-searching.store.js`) that `QuestionsService` reads from directly.
 
 Routes (`src/router/index.js`) are mostly eagerly imported except `assessment`, `dev`, and `about`, which are lazy-loaded via dynamic `import()`.
 
-Shared/reusable UI primitives (not feature-specific) live in `src/common/components/`; feature-specific components live under `src/components/<feature>/components/`.
+Shared/reusable UI primitives (not feature-specific) live in `src/common/components/`, each in its own subfolder (e.g. `stepper/`, `search/`, `quantity-select/`, `number-image/`, `inqueries/`); feature-specific components live under `src/features/<feature>/components/`.
 
 ## Linting
 

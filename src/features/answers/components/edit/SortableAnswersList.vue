@@ -30,12 +30,14 @@ function remove(index) {
     <div class="answers-container">
       <template v-for="(answer, index) in answers" :key="toHash(answer)">
         <answer-item :answer="answer" class="mb-4">
-          <pencil-square-icon
-            class="size-4 cursor-pointer me-1"
-            @click="emit('selected', answer)"
-          ></pencil-square-icon>
-          <bars2-icon class="size-4 cursor-pointer sortable-handle me-1"></bars2-icon>
-          <x-mark-icon class="size-4 cursor-pointer" @click="remove(index)"></x-mark-icon>
+          <template #top-right>
+            <PencilSquareIcon
+              class="size-4 cursor-pointer me-1"
+              @click="emit('selected', answer)"
+            />
+            <Bars2Icon class="size-4 cursor-pointer sortable-handle me-1" />
+            <XMarkIcon class="size-4 cursor-pointer" @click="remove(index)" />
+          </template>
         </answer-item>
       </template>
     </div>
