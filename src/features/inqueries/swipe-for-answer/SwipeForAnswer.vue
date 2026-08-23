@@ -54,7 +54,6 @@ watch(
         :is-highlighted="isHighlighted"
         :is-correct-chosen="isCorrectChosen"
         @moved="assessChoice"
-        class="h-48"
         ref="questionRef"
       >
         <slot name="swipe-expression" :expression="question">{{ expression }}</slot>

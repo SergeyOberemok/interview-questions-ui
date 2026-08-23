@@ -35,7 +35,7 @@ function onSwipe() {
 
 function onSwipeEnd() {
   if (containerWidth.value && Math.abs(lengthX.value) / containerWidth.value >= 0.4) {
-    left.value = `${(lengthX.value / lengthX.value) * 100}%`
+    left.value = direction.value === 'right' ? '100%' : '-100%'
     opacity.value = 0
 
     emit('moved', direction.value)
@@ -57,13 +57,13 @@ function reset() {
   >
     <div
       ref="targetRef"
-      class="card w-full flex justify-center items-center absolute top-0 left-0 bottom-2"
+      class="card w-full flex justify-center items-center"
       :class="{
         'transition-all duration-200 ease-linear': isSwiping,
         'card-success': isHighlighted && isCorrectChosen,
         'card-danger': isHighlighted && !isCorrectChosen,
       }"
-      :style="{ left, opacity }"
+      :style="{ transform: `translateX(${left})`, opacity }"
     >
       <slot>Content</slot>
     </div>

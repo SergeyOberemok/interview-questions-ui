@@ -11,6 +11,7 @@ const { question, goal, isHighlighted, isCorrectChosen, isImagesStripped } = def
   goal: {
     type: Number,
     required: true,
+    default: 0,
   },
   isHighlighted: Boolean,
   isCorrectChosen: Boolean,
@@ -29,11 +30,7 @@ const emit = defineEmits(['answered'])
       @answered="emit('answered', $event)"
     >
       <template v-slot:probable-answer="slotProps">
-        <number-image
-          :number="slotProps.number"
-          :is-revealed="isImagesStripped"
-          class="h-48 flex justify-center items-center"
-        ></number-image>
+        <number-image :number="slotProps.number" :is-revealed="isImagesStripped"></number-image>
       </template>
       <template v-slot:swipe-expression="slotProps">
         <expression-image

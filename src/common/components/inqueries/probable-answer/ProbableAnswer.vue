@@ -9,6 +9,7 @@ const { goal, isHighlighted, isCorrectChosen } = defineProps({
   goal: {
     type: Number,
     required: true,
+    default: 0,
   },
   isHighlighted: Boolean,
   isCorrectChosen: Boolean,
@@ -30,10 +31,10 @@ watch(
       :key="`${index}${choice}`"
       @click="((selectedChoice = choice), emit('chosen', choice))"
       type="button"
-      class="btn bg-gray-50"
+      class="card"
       :class="{
-        'btn-success highlighted': isHighlighted && choice === goal,
-        'btn-danger highlighted': isHighlighted && !isCorrectChosen && choice !== goal,
+        'card-success': isHighlighted && choice === goal,
+        'card-danger': isHighlighted && !isCorrectChosen && choice !== goal,
       }"
     >
       <slot :number="choice">{{ choice }}</slot>
