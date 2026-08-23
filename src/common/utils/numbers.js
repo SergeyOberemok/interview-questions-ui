@@ -35,5 +35,6 @@ export function splitByNumbers(expression) {
   return expression
     .split(/(\d+)/)
     .filter(Boolean)
+    .map((i) => i.trim())
     .map((i) => (isFinite(+i) ? +i : i))
 }

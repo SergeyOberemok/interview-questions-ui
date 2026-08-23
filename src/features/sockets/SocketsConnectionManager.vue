@@ -1,16 +1,16 @@
 <script setup>
-import { useSocketConnectionStore } from '@/stores/socket-connection.store'
+import { useSocketsConnectionStore } from '@/stores/sockets-connection.store'
 import { storeToRefs } from 'pinia'
 
-const socketConnectionStore = useSocketConnectionStore()
-const { isConnected } = storeToRefs(socketConnectionStore)
+const socketsConnectionStore = useSocketsConnectionStore()
+const { isConnected } = storeToRefs(socketsConnectionStore)
 
 function connect() {
-  socketConnectionStore.connect()
+  socketsConnectionStore.connect()
 }
 
 function disconnect() {
-  socketConnectionStore.disconnect()
+  socketsConnectionStore.disconnect()
 }
 </script>
 

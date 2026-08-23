@@ -47,8 +47,8 @@ watch(isEnded, (ended) => {
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <h1 class="text-2xl font-bold mb-4">
+  <div class="flex flex-col gap-4">
+    <h1 class="text-2xl font-bold">
       <span>Assessment</span>
       <span v-if="!isStarted && !isPausing && results.length > 0">Summary</span>
     </h1>
@@ -59,7 +59,6 @@ watch(isEnded, (ended) => {
       @next="async () => await assessmentStore.nextQuestion()"
       @prev="async () => await assessmentStore.prevQuestion()"
       ref="stepperRef"
-      class="mb-4"
     >
       <template #prompt>
         <inquery-wrapper
@@ -71,7 +70,7 @@ watch(isEnded, (ended) => {
     </stepper>
 
     <template v-else-if="results.length > 0">
-      <assessment-summary :results="resultsWithAnswers" class="mb-4">
+      <assessment-summary :results="resultsWithAnswers">
         <template v-slot:expression="slotProps">
           <expression-image
             :expression="slotProps.question"

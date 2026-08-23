@@ -3,6 +3,7 @@ import { isNumber } from 'lodash-es'
 import { computed } from 'vue'
 import { splitByNumbers } from '../../utils/numbers'
 import NumberImage from './NumberImage.vue'
+import OperationImage from './OperationImage.vue'
 
 const { expression, isRevealed } = defineProps({
   expression: String,
@@ -18,6 +19,11 @@ const expressionParts = computed(() => splitByNumbers(expression))
       <template v-if="isNumber(part) && !isRevealed">
         <number-image :number="part"></number-image>
       </template>
+
+      <template v-else-if="['+', '-', '*', '/'].includes(part) && !isRevealed">
+        <operation-image :operation="part"></operation-image>
+      </template>
+
       <div v-else>{{ part }}</div>
     </template>
   </div>

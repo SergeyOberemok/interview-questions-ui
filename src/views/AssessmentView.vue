@@ -1,11 +1,10 @@
 <script setup>
 import Assessment from '@/features/assessment/Assessment.vue'
-import Connection from '@/features/sockets/Connection.vue'
-import { useSocketConnectionStore } from '@/stores/socket-connection.store'
+import { useSocketsConnectionStore } from '@/stores/sockets-connection.store'
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
 
-const socketConnectionStore = useSocketConnectionStore()
+const socketConnectionStore = useSocketsConnectionStore()
 const { isConnected } = storeToRefs(socketConnectionStore)
 
 onMounted(() => {
@@ -14,8 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="container mx-auto">
-    <connection></connection>
+  <div class="container mx-auto pb-8">
     <assessment v-if="isConnected"></assessment>
   </div>
 </template>

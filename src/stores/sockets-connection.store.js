@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 import { socket } from '@/socket'
 
-export const useSocketConnectionStore = defineStore('socketConnection', () => {
+export const useSocketsConnectionStore = defineStore('socketsConnection', () => {
   const isConnected = ref(false)
 
   function bindEvents() {
