@@ -4,12 +4,10 @@ import { ref } from 'vue'
 import { socket } from '@/socket'
 
 export const useSocketsConnectionStore = defineStore('socketsConnection', () => {
-  const isConnected = ref(false)
+  const isConnected = ref(socket.connected)
 
-  function bindEvents() {
-    socket.on('connect', () => (isConnected.value = true))
-    socket.on('disconnect', () => (isConnected.value = false))
-  }
+  socket.on('connect', () => (isConnected.value = true))
+  socket.on('disconnect', () => (isConnected.value = false))
 
   function connect() {
     socket.connect()
@@ -19,5 +17,5 @@ export const useSocketsConnectionStore = defineStore('socketsConnection', () => 
     socket.disconnect()
   }
 
-  return { isConnected, bindEvents, connect, disconnect }
+  return { isConnected, connect, disconnect }
 })
